@@ -1,6 +1,7 @@
 package game_characters;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 //TODO: platform, images, shooting, enemies
 abstract public class CharacterBaseClass {
@@ -12,11 +13,18 @@ abstract public class CharacterBaseClass {
     String collisionSide;
     PApplet pApplet;
 
-    CharacterBaseClass(PApplet pApplet) {
-        this.w = 50;
-        this.h = 95;
-        this.x = 400;
-        this.y = 150;
+    //Image variables
+    int currentFrame;
+    boolean facingRight;
+    int frameSequence;
+    int frameOffset;
+    PImage[] mouseSpriteImages;
+
+    CharacterBaseClass(int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages) {
+        this.w = characterWidth;
+        this.h = characterHeight;
+        this.x = 60;
+        this.y = 130;
         this.vx = 0;
         this.vy = 0;
         this.acc_x = 0;
@@ -34,16 +42,24 @@ abstract public class CharacterBaseClass {
 
         this.collisionSide = "";
         this.pApplet = pApplet;
+
+        this.mouseSpriteImages = mouseSpriteImages;
+        currentFrame = 0;
+        facingRight = true;
+        frameSequence = 3; //number of frames in each animation sequence
+        frameOffset = 0;
     }
 
     public void update(boolean left, boolean right, boolean up, boolean down, boolean space) {
         if (left && !right && isOnGround) {
             acc_x = -0.2f;
             friction = 1;
+            facingRight = false;
         }
         if (right && !left && isOnGround) {
             acc_x = 0.2f;
             friction = 1;
+            facingRight = true;
         }
         if (!left && !right) {
             acc_x = 0;
@@ -149,11 +165,37 @@ abstract public class CharacterBaseClass {
         } else if (collisionSide.trim().equalsIgnoreCase("left") && vx <= 0) {
             vx = 0;
         }
+
+        if(!collisionSide.trim().equalsIgnoreCase("bottom") && vy > 0) {
+            isOnGround = false;
+        }
     }
 
     public void display() {
-        pApplet.fill(0, 255, 0, 128);
-        pApplet.rect(x, y, w, h);
+        //pApplet.fill(0, 255, 0, 128);
+        //pApplet.rect(x, y, w, h);
+        if (facingRight) {
+            if (PApplet.abs(vx) > 0.3) {
+                //facing right and moving
+                pApplet.image(mouseSpriteImages[currentFrame + 3], x, y-27);
+            } else {
+                //facing right and not moving
+                pApplet.image(mouseSpriteImages[3], x, y-27);
+            }
+        } else {
+            if (PApplet.abs(vx) > 0.3) {
+                //facing left and moving
+                pApplet.image(mouseSpriteImages[currentFrame], x, y-27);
+            } else {
+                //facing left and not moving
+                pApplet.image(mouseSpriteImages[0], x, y-27);
+            }
+        }
+        if (isOnGround) {
+            currentFrame = (currentFrame + 1) % frameSequence;
+        } else {
+            currentFrame = 0;
+        }
     }
 
     public float getVx() {
