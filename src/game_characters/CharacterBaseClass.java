@@ -3,6 +3,8 @@ package game_characters;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import static constants.Constants.*;
+
 //TODO: platform, images, shooting, enemies
 abstract public class CharacterBaseClass {
     float w, h, x, y, vx, vy, acc_x, acc_y, speedLimit;
@@ -29,14 +31,14 @@ abstract public class CharacterBaseClass {
         this.vy = 0;
         this.acc_x = 0;
         this.acc_y = 0;
-        this.speedLimit = 6;
+        this.speedLimit = PLAYER_SPEED_LIMIT;
         this.isOnGround = false;
-        this.jumpForce = -10f;
+        this.jumpForce = PLAYER_JUMP_FORCE;
 
         //environment values
-        this.friction = 0.96f;
-        this.bounce = -0.7f;
-        this.gravity = 0.3f;
+        this.friction = PLAYER_FRICTION;
+        this.bounce = PLAYER_BOUNCE;
+        this.gravity = PLAYER_GRAVITY;
         this.halfWidth = w / 2;
         this.halfHeight = h / 2;
 
@@ -166,36 +168,14 @@ abstract public class CharacterBaseClass {
             vx = 0;
         }
 
-        if(!collisionSide.trim().equalsIgnoreCase("bottom") && vy > 0) {
+        if (!collisionSide.trim().equalsIgnoreCase("bottom") && vy > 0) {
             isOnGround = false;
         }
     }
 
     public void display() {
-        //pApplet.fill(0, 255, 0, 128);
-        //pApplet.rect(x, y, w, h);
-        if (facingRight) {
-            if (PApplet.abs(vx) > 0.3) {
-                //facing right and moving
-                pApplet.image(mouseSpriteImages[currentFrame + 3], x, y-27);
-            } else {
-                //facing right and not moving
-                pApplet.image(mouseSpriteImages[3], x, y-27);
-            }
-        } else {
-            if (PApplet.abs(vx) > 0.3) {
-                //facing left and moving
-                pApplet.image(mouseSpriteImages[currentFrame], x, y-27);
-            } else {
-                //facing left and not moving
-                pApplet.image(mouseSpriteImages[0], x, y-27);
-            }
-        }
-        if (isOnGround) {
-            currentFrame = (currentFrame + 1) % frameSequence;
-        } else {
-            currentFrame = 0;
-        }
+        pApplet.fill(0, 255, 0, 128);
+        pApplet.rect(x, y, w, h);
     }
 
     public float getVx() {

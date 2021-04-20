@@ -6,14 +6,14 @@ import processing.core.PImage;
 import static constants.Constants.PLATFORM_HEIGHT;
 import static constants.Constants.PLATFORM_WIDTH;
 
-public class StandardPlatform extends PlatformBaseClass {
+public class UnstablePlatform extends PlatformBaseClass {
     PImage[] platformSpriteImages;
 
-    public StandardPlatform(PApplet pApplet, float x, float y, float w, float h, String typeof) {
+    public UnstablePlatform(PApplet pApplet, float x, float y, float w, float h, String typeof) {
         super(pApplet, x, y, w, h, typeof);
         platformSpriteImages = new PImage[3];
         for (int i = 0; i < 3; ++i) {
-            PImage img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
+            PImage img = pApplet.loadImage("unstable_platform" + PApplet.nf(i + 1, 4) + ".png");
             img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
             platformSpriteImages[i] = img;
         }

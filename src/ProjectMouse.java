@@ -1,5 +1,7 @@
 import game_characters.PlayerMouseCharacter;
+import platform.PlatformBaseClass;
 import platform.StandardPlatform;
+import platform.UnstablePlatform;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -11,7 +13,7 @@ public class ProjectMouse extends PApplet {
 
     boolean left, right, up, down, space;
     PlayerMouseCharacter player;
-    ArrayList<StandardPlatform> platformArray;
+    ArrayList<PlatformBaseClass> platformArray;
     int frames;
     PImage[] mouseSpriteImages;
     PImage[] platformSpriteImages;
@@ -43,22 +45,15 @@ public class ProjectMouse extends PApplet {
             mouseSpriteImages[i] = img;
         }
 
-        platformSpriteImages = new PImage[3];
-        for (int i = 0; i < 3; ++i) {
-            PImage img = loadImage("platform" + nf(i + 1, 4) + ".png");
-            img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
-            platformSpriteImages[i] = img;
-        }
-
         player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
         platformArray = new ArrayList<>();
-        platformArray.add(new StandardPlatform(platformSpriteImages, this, 20,
+        platformArray.add(new StandardPlatform(this, 20,
                 560, PLATFORM_WIDTH * 2, PLATFORM_HEIGHT, "safe"));
-        platformArray.add(new StandardPlatform(platformSpriteImages, this, 210,
+        platformArray.add(new StandardPlatform(this, 210,
                 460, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
-        platformArray.add(new StandardPlatform(platformSpriteImages, this, 490,
+        platformArray.add(new StandardPlatform(this, 490,
                 460, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
-        platformArray.add(new StandardPlatform(platformSpriteImages, this, 350,
+        platformArray.add(new UnstablePlatform(this, 350,
                 360, PLATFORM_WIDTH * 5, PLATFORM_HEIGHT, "safe"));
     }
 
@@ -69,7 +64,7 @@ public class ProjectMouse extends PApplet {
         rectangleCollision(player, platformArray);
         player.display();
 
-        for (StandardPlatform platform : platformArray) {
+        for (PlatformBaseClass platform : platformArray) {
             platform.display();
         }
 
@@ -77,14 +72,14 @@ public class ProjectMouse extends PApplet {
         displayPositionData();
     }
 
-    void rectangleCollision(PlayerMouseCharacter r1, ArrayList<StandardPlatform> platformList) {
+    void rectangleCollision(PlayerMouseCharacter r1, ArrayList<PlatformBaseClass> platformList) {
         //Disable if the player cannot pass through platforms,
         //if enabled, the player can pass from below the platform
 //        if (r1.getVy() < 0) {
 //            return "none";
 //        }
         String nonNoneCollision = "none";
-        for (StandardPlatform r2 : platformList) {
+        for (PlatformBaseClass r2 : platformList) {
             float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
             float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
 
@@ -148,8 +143,9 @@ public class ProjectMouse extends PApplet {
                 up = true;
             if (keyCode == DOWN)
                 down = true;
-            if (keyCode == TAB)
-                space = true;
+        }
+        if(key == ' ') {
+            up = true;
         }
     }
 
@@ -160,12 +156,13 @@ public class ProjectMouse extends PApplet {
                 left = false;
             if (keyCode == RIGHT)
                 right = false;
-            if (keyCode == UP)
+            if (keyCode == UP || keyCode == TAB)
                 up = false;
             if (keyCode == DOWN)
                 down = false;
-            if (keyCode == TAB)
-                space = false;
+        }
+        if(key == ' ') {
+            up = false;
         }
     }
 }

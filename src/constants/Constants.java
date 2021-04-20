@@ -5,4 +5,10 @@ final public class Constants {
     public static final int PLATFORM_HEIGHT = 40;
     public static final int PLAYER_WIDTH = 60;
     public static final int PLAYER_HEIGHT = 75;
+
+    public static final float PLAYER_JUMP_FORCE = -10f;
+    public static final float PLAYER_SPEED_LIMIT = 6f;
+    public static final float PLAYER_FRICTION = 0.96f;
+    public static final float PLAYER_BOUNCE = -0.7f;
+    public static final float PLAYER_GRAVITY = 0.3f;
 }
