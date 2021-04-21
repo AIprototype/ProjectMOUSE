@@ -1,5 +1,6 @@
 package game_characters;
 
+import camera_classes.FrameObject;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -52,7 +53,7 @@ abstract public class CharacterBaseClass {
         frameOffset = 0;
     }
 
-    public void update(boolean left, boolean right, boolean up, boolean down, boolean space) {
+    public void update(boolean left, boolean right, boolean up, boolean down, boolean space, FrameObject gameWorld) {
         if (left && !right && isOnGround) {
             acc_x = -0.2f;
             friction = 1;
@@ -117,23 +118,29 @@ abstract public class CharacterBaseClass {
         }
 
         //move the character
-        x += vx;
-        y += vy;
+        //x += vx;
+        //y += vy;
 
-        checkBoundaries();
+        //move the character, updated method considering camera movements and extended game world
+        x = Math.max(0, Math.min(x + vx, gameWorld.getW() - w));
+        y = Math.max(0, Math.min(y + vy, gameWorld.getH() - h));
+
+        checkBoundaries(gameWorld);
         checkPlatforms();
     }
 
-    void checkBoundaries() {
+    void checkBoundaries(FrameObject gameWorld) {
         //left
         if (x < 0) {
             vx *= bounce;
             x = 0;
+            facingRight = !facingRight;
         }
         //right
-        if (x + w > pApplet.width) {
+        if (x >= gameWorld.getW() - w) {
             vx *= bounce;
-            x = pApplet.width - w;
+            x = gameWorld.getW() - w;
+            facingRight = !facingRight;
         }
         //top
         if (y < 0) {
@@ -141,14 +148,14 @@ abstract public class CharacterBaseClass {
             y = 0;
         }
         //bottom
-        if (y + h > pApplet.height) {
+        if (y >= gameWorld.getH() - h) {
             if (vy < 1) {
                 isOnGround = true; //if the vertical velocity is smaller than 1, then it is on ground
                 vy = 0;
             } else {
                 vy *= bounce / 2; //smaller bounce for floor
             }
-            y = pApplet.height - h;
+            y = gameWorld.getH() - h;
         }
     }
 

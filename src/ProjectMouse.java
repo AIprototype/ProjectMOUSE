@@ -1,3 +1,5 @@
+import camera_classes.FrameObject;
+import camera_classes.ImageObject;
 import game_characters.PlayerMouseCharacter;
 import platform.PlatformBaseClass;
 import platform.StandardPlatform;
@@ -16,7 +18,9 @@ public class ProjectMouse extends PApplet {
     ArrayList<PlatformBaseClass> platformArray;
     int frames;
     PImage[] mouseSpriteImages;
-    PImage[] platformSpriteImages;
+    FrameObject camera, gameWorld;
+    ImageObject backImage;
+    PImage bgImage;
 
     public static void main(String[] args) {
         PApplet.main("ProjectMouse");
@@ -36,6 +40,14 @@ public class ProjectMouse extends PApplet {
         down = false;
         space = false;
 
+        //background image & camera
+        bgImage = loadImage("background.jpg");
+        backImage = new ImageObject(this, 1024, 768, 0, 0, bgImage);
+        gameWorld = new FrameObject(0, 0, backImage.getW() * 3, backImage.getH());
+        camera = new FrameObject(0, 0, width, height);
+        camera.setX((gameWorld.getX() + gameWorld.getW() / 2) - camera.getW() / 2);
+        camera.setY((gameWorld.getY() + gameWorld.getH() / 2) - camera.getH() / 2);
+
         //mouse images
         frames = 6;
         mouseSpriteImages = new PImage[frames];
@@ -48,19 +60,42 @@ public class ProjectMouse extends PApplet {
         player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
         platformArray = new ArrayList<>();
         platformArray.add(new StandardPlatform(this, 20,
-                560, PLATFORM_WIDTH * 2, PLATFORM_HEIGHT, "safe"));
+                630, PLATFORM_WIDTH * 2, PLATFORM_HEIGHT, "safe"));
         platformArray.add(new StandardPlatform(this, 210,
-                460, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
+                490, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
         platformArray.add(new StandardPlatform(this, 490,
                 460, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
-        platformArray.add(new UnstablePlatform(this, 350,
+        platformArray.add(new UnstablePlatform(this, 700,
                 360, PLATFORM_WIDTH * 5, PLATFORM_HEIGHT, "safe"));
     }
 
     @Override
     public void draw() {
-        background(0);
-        player.update(left, right, up, down, space);
+        //background(0);
+        player.update(left, right, up, down, space, gameWorld);
+
+        //Move the camera
+        camera.setX(floor(player.getX() + player.getHalfWidth() - (camera.getW() / 2)));
+        camera.setY(floor(player.getY() + player.getHalfHeight() - (camera.getH() / 2)));
+        //keeping camera within  game world boundaries
+        if (camera.getX() < gameWorld.getX()) {
+            camera.setX(gameWorld.getX());
+        }
+        if (camera.getY() < gameWorld.getY()) {
+            camera.setY(gameWorld.getY());
+        }
+        if ((camera.getX() + camera.getW()) > (gameWorld.getX() + gameWorld.getW())) {
+            camera.setX(gameWorld.getX() + gameWorld.getW() - camera.getW());
+        }
+        if ((camera.getY() + camera.getH()) > gameWorld.getH()) {
+            camera.setY(gameWorld.getH() - camera.getH());
+        }
+
+        //push stores the original state
+        pushMatrix();
+        translate(-camera.getX(), -camera.getY());
+        backImage.display();
+
         rectangleCollision(player, platformArray);
         player.display();
 
@@ -68,7 +103,12 @@ public class ProjectMouse extends PApplet {
             platform.display();
         }
 
+        //the push and pop isolates the translation done
+        //pops out the original stored state
+        popMatrix();
+
         //for getting details on screen
+        //doesnt move with the screen as it is after popMatrix()
         displayPositionData();
     }
 
@@ -144,7 +184,7 @@ public class ProjectMouse extends PApplet {
             if (keyCode == DOWN)
                 down = true;
         }
-        if(key == ' ') {
+        if (key == ' ') {
             up = true;
         }
     }
@@ -161,7 +201,7 @@ public class ProjectMouse extends PApplet {
             if (keyCode == DOWN)
                 down = false;
         }
-        if(key == ' ') {
+        if (key == ' ') {
             up = false;
         }
     }

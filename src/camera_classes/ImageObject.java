@@ -26,4 +26,20 @@ public class ImageObject {
         pApplet.image(img, x + w, y);
         pApplet.image(img, x + 2 * w, y);
     }
+
+    public float getW() {
+        return w;
+    }
+
+    public float getH() {
+        return h;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 }
