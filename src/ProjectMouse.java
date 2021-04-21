@@ -1,9 +1,11 @@
 import camera_classes.FrameObject;
 import camera_classes.ImageObject;
+import custom_exceptions.PlatformDimensionException;
 import game_characters.PlayerMouseCharacter;
 import platform.PlatformBaseClass;
 import platform.StandardPlatform;
 import platform.UnstablePlatform;
+import platform.WallSeparationPlatform;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -22,6 +24,11 @@ public class ProjectMouse extends PApplet {
     ImageObject backImage;
     PImage bgImage;
 
+    //Platform sprite images
+    PImage[] standardPlatformImages;
+    PImage[] unstablePlatformImages;
+    PImage[] wallSeparationPlatformImages;
+
     public static void main(String[] args) {
         PApplet.main("ProjectMouse");
         System.out.println("Welcome to Project MOUSE !!");
@@ -29,7 +36,7 @@ public class ProjectMouse extends PApplet {
 
     @Override
     public void settings() {
-        size(1300, 800);
+        size(PLATFORM_WIDTH * MAX_X_GRID, PLATFORM_HEIGHT * MAX_Y_GRID);
     }
 
     @Override
@@ -40,9 +47,28 @@ public class ProjectMouse extends PApplet {
         down = false;
         space = false;
 
+        //loading platform sprites
+        standardPlatformImages = new PImage[3];
+        unstablePlatformImages = new PImage[3];
+        wallSeparationPlatformImages = new PImage[4];
+        for (int i = 0; i < 3; ++i) {
+            PImage std_img = loadImage("platform" + nf(i + 1, 4) + ".png");
+            PImage uns_img = loadImage("unstable_platform" + nf(i + 1, 4) + ".png");
+            std_img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
+            uns_img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
+            standardPlatformImages[i] = std_img;
+            unstablePlatformImages[i] = uns_img;
+        }
+        for (int i = 0; i < 4; ++i) {
+            String fileName = "wall_platform" + nf(i + 1, 4) + ".png";
+            PImage img = loadImage(fileName);
+            img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
+            wallSeparationPlatformImages[i] = img;
+        }
+
         //background image & camera
         bgImage = loadImage("background.jpg");
-        backImage = new ImageObject(this, 2880, 800, 0, 0, bgImage);
+        backImage = new ImageObject(this, 2880, PLATFORM_HEIGHT * 19, 0, 0, bgImage);
         gameWorld = new FrameObject(0, 0, backImage.getW() * 2, backImage.getH());
         camera = new FrameObject(0, 0, width, height);
         camera.setX((gameWorld.getX() + gameWorld.getW() / 2) - camera.getW() / 2);
@@ -59,16 +85,29 @@ public class ProjectMouse extends PApplet {
 
         player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
         platformArray = new ArrayList<>();
-        platformArray.add(new StandardPlatform(this, 20,
-                662, PLATFORM_WIDTH * 2, PLATFORM_HEIGHT, "safe"));
-        platformArray.add(new StandardPlatform(this, 210,
-                510, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
-        platformArray.add(new StandardPlatform(this, 490,
-                460, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
-        platformArray.add(new UnstablePlatform(this, 700,
-                360, PLATFORM_WIDTH * 5, PLATFORM_HEIGHT, "safe"));
-        platformArray.add(new UnstablePlatform(this, 1100,
-                430, PLATFORM_WIDTH * 5, PLATFORM_HEIGHT, "safe"));
+        platformArray.add(new StandardPlatform(standardPlatformImages, this,
+                PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
+                2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new StandardPlatform(standardPlatformImages, this,
+                4 * PLATFORM_WIDTH, 15 * PLATFORM_HEIGHT,
+                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new StandardPlatform(standardPlatformImages, this,
+                9 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
+                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new UnstablePlatform(unstablePlatformImages, this,
+                12 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new UnstablePlatform(unstablePlatformImages, this,
+                20 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new WallSeparationPlatform(wallSeparationPlatformImages, this,
+                PLATFORM_WIDTH * 28, PLATFORM_HEIGHT*5,
+                "safe"));
     }
 
     @Override
@@ -102,7 +141,11 @@ public class ProjectMouse extends PApplet {
         player.display();
 
         for (PlatformBaseClass platform : platformArray) {
-            platform.display();
+            try {
+                platform.display();
+            } catch (PlatformDimensionException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         //the push and pop isolates the translation done
@@ -122,46 +165,51 @@ public class ProjectMouse extends PApplet {
 //        }
         String nonNoneCollision = "none";
         for (PlatformBaseClass r2 : platformList) {
-            float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
-            float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
+            if (!r2.isPlatformDestroyed()) {
+                float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
+                float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
 
-            float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();
-            float combinedHalfHeights = r1.getHalfHeight() + r2.getHalfHeight();
+                float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();
+                float combinedHalfHeights = r1.getHalfHeight() + r2.getHalfHeight();
 
-            if (abs(dx) < combinedHalfWidths) {
-                //Collision happened on the x axis
-                //now check y axis
-                if (abs(dy) < combinedHalfHeights) {
-                    //Collision detected
-                    //determine the overlap on each axis
-                    float overlapX = combinedHalfWidths - abs(dx);
-                    float overlapY = combinedHalfHeights - abs(dy);
-                    //collision happened on the axis with the smallest overlap
-                    if (overlapX >= overlapY) {
-                        if (dy > 0) {
-                            //move the rectangle back to cover up the overlap
-                            //before calling its display to prevent drawing
-                            //object inside each other
-                            r1.setY(r1.getY() + overlapY);
-                            nonNoneCollision = "top";
+                if (abs(dx) < combinedHalfWidths) {
+                    //Collision happened on the x axis
+                    //now check y axis
+                    if (abs(dy) < combinedHalfHeights) {
+                        //Collision detected
+                        //determine the overlap on each axis
+                        float overlapX = combinedHalfWidths - abs(dx);
+                        float overlapY = combinedHalfHeights - abs(dy);
+                        //collision happened on the axis with the smallest overlap
+                        if (overlapX >= overlapY) {
+                            if (dy > 0) {
+                                //move the rectangle back to cover up the overlap
+                                //before calling its display to prevent drawing
+                                //object inside each other
+                                r1.setY(r1.getY() + overlapY);
+                                nonNoneCollision = "top";
+                            } else {
+                                //player is on top of platform,
+                                //inform the platform class there is a player on top
+                                r2.setPlayerOnPlatform(true);
+                                r1.setY(r1.getY() - overlapY);
+                                nonNoneCollision = "bottom";
+                            }
                         } else {
-                            r1.setY(r1.getY() - overlapY);
-                            nonNoneCollision = "bottom";
+                            if (dx > 0) {
+                                r1.setX(r1.getX() + overlapX);
+                                nonNoneCollision = "left";
+                            } else {
+                                r1.setX(r1.getX() - overlapX);
+                                nonNoneCollision = "right";
+                            }
                         }
                     } else {
-                        if (dx > 0) {
-                            r1.setX(r1.getX() + overlapX);
-                            nonNoneCollision = "left";
-                        } else {
-                            r1.setX(r1.getX() - overlapX);
-                            nonNoneCollision = "right";
-                        }
+                        //collision failed on the y axis
                     }
                 } else {
-                    //collision failed on the y axis
+                    //collision failed on the x axis
                 }
-            } else {
-                //collision failed on the x axis
             }
             r1.setCollisionSide(nonNoneCollision);
         }

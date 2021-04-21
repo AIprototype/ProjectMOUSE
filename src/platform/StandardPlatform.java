@@ -1,26 +1,21 @@
 package platform;
 
+import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import static constants.Constants.PLATFORM_HEIGHT;
 import static constants.Constants.PLATFORM_WIDTH;
 
 public class StandardPlatform extends PlatformBaseClass {
-    PImage[] platformSpriteImages;
-
-    public StandardPlatform(PApplet pApplet, float x, float y, float w, float h, String typeof) {
-        super(pApplet, x, y, w, h, typeof);
-        platformSpriteImages = new PImage[3];
-        for (int i = 0; i < 3; ++i) {
-            PImage img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
-            img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
-            platformSpriteImages[i] = img;
-        }
+    public StandardPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
+        super(platformSpriteImages, pApplet, x, y, w, h, typeof);
     }
 
     @Override
-    public void display() {
+    public void display() throws PlatformDimensionException {
+        if(w/PLATFORM_WIDTH < 2){
+            throw new PlatformDimensionException("StandardPlatforms: \nWidth = (N * PLATFORM_WIDTH) \nHeight = (PLATFORM_HEIGHT)");
+        }
         int platformComponents = (int) (w / PLATFORM_WIDTH);
         if (platformComponents >= 2) {
             if (platformComponents == 2) {

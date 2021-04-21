@@ -11,4 +11,7 @@ final public class Constants {
     public static final float PLAYER_FRICTION = 0.96f;
     public static final float PLAYER_BOUNCE = -0.7f;
     public static final float PLAYER_GRAVITY = 0.3f;
+
+    public static final int MAX_X_GRID = 22;
+    public static final int MAX_Y_GRID = 19;
 }
