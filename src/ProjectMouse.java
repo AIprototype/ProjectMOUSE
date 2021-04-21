@@ -69,7 +69,8 @@ public class ProjectMouse extends PApplet {
 
         //Initialise the GameEngine
         gameEngine = new GameEngine(this);
-        platformArray = gameEngine.getPlatformArray();
+        //get level 1 platforms
+        platformArray = gameEngine.createLevelOnePlatforms();
         isLoading = false;
     }
 

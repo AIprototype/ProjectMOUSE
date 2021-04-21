@@ -39,10 +39,9 @@ public class GameEngine {
             img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
             wallSeparationPlatformImages[i] = img;
         }
-        createPlatforms();
     }
 
-    void createPlatforms() {
+    public ArrayList<PlatformBaseClass> createLevelOnePlatforms() {
         platformArray.add(new StandardPlatform(standardPlatformImages, pApplet,
                 PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
                 2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
@@ -85,9 +84,26 @@ public class GameEngine {
                 2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                 "safe"));
         platformArray.add(new StandardPlatform(standardPlatformImages, pApplet,
-                41 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
+                43 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
                 "safe"));
+        platformArray.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                48 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                44 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
+                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                48 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
+                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new StandardPlatform(standardPlatformImages, pApplet,
+                43 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
+                3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
+                "safe"));
+        return platformArray;
     }
 
     public ArrayList<PlatformBaseClass> getPlatformArray() {
