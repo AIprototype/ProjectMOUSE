@@ -12,9 +12,15 @@ final public class Constants {
     public static final float PLAYER_BOUNCE = -0.7f;
     public static final float PLAYER_GRAVITY = 0.3f;
 
-    public static final int MAX_X_GRID = 22;
-    public static final int MAX_Y_GRID = 19;
+    public static final int CAM_MAX_X_GRID = 22;
+    public static final int CAM_MAX_Y_GRID = 20;
+
+    public static final int BG_IMAGE_MAX_X_GRID = 52;
+    public static final int BG_IMAGE_MAX_Y_GRID = 20;
+
+    public static final int GAME_MAX_X_GRID = 2*52;
+    public static final int GAME_MAX_Y_GRID = 20;
 
     public static final int TIME_FOR_UNSTABLE_TO_DESTROY = 1500;
-    public static final int TIME_FOR_UNSTABLE_TO_RECONSTRUCT = 1000;
+    public static final int TIME_FOR_UNSTABLE_TO_RECONSTRUCT = 1500;
 }

@@ -3,9 +3,6 @@ import camera_classes.ImageObject;
 import custom_exceptions.PlatformDimensionException;
 import game_characters.PlayerMouseCharacter;
 import platform.PlatformBaseClass;
-import platform.StandardPlatform;
-import platform.UnstablePlatform;
-import platform.WallSeparationPlatform;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -24,6 +21,7 @@ public class ProjectMouse extends PApplet {
     ImageObject backImage;
     PImage bgImage;
     GameEngine gameEngine;
+    boolean isLoading;
 
     public static void main(String[] args) {
         PApplet.main("ProjectMouse");
@@ -32,11 +30,18 @@ public class ProjectMouse extends PApplet {
 
     @Override
     public void settings() {
-        size(PLATFORM_WIDTH * MAX_X_GRID, PLATFORM_HEIGHT * MAX_Y_GRID);
+        size(PLATFORM_WIDTH * CAM_MAX_X_GRID, PLATFORM_HEIGHT * CAM_MAX_Y_GRID);
     }
 
     @Override
     public void setup() {
+        thread("resetGame");
+    }
+
+    public void resetGame() {
+        //called in thread
+        isLoading = true;
+
         left = false;
         right = false;
         up = false;
@@ -45,8 +50,8 @@ public class ProjectMouse extends PApplet {
 
         //background image & camera
         bgImage = loadImage("background.jpg");
-        backImage = new ImageObject(this, 2880, PLATFORM_HEIGHT * 19, 0, 0, bgImage);
-        gameWorld = new FrameObject(0, 0, backImage.getW() * 2, backImage.getH());
+        backImage = new ImageObject(this, PLATFORM_WIDTH * BG_IMAGE_MAX_X_GRID, PLATFORM_HEIGHT * BG_IMAGE_MAX_X_GRID, 0, 0, bgImage);
+        gameWorld = new FrameObject(0, 0, PLATFORM_WIDTH * GAME_MAX_X_GRID, PLATFORM_HEIGHT * GAME_MAX_Y_GRID);
         camera = new FrameObject(0, 0, width, height);
         camera.setX((gameWorld.getX() + gameWorld.getW() / 2) - camera.getW() / 2);
         camera.setY((gameWorld.getY() + gameWorld.getH() / 2) - camera.getH() / 2);
@@ -65,53 +70,60 @@ public class ProjectMouse extends PApplet {
         //Initialise the GameEngine
         gameEngine = new GameEngine(this);
         platformArray = gameEngine.getPlatformArray();
+        isLoading = false;
     }
 
     @Override
     public void draw() {
         //background(0);
-        player.update(left, right, up, down, space, gameWorld);
+        if(isLoading) {
+            background(0);
+            textSize(25);
+            text("Loading...", width/2 - 50, height/2);
+        } else {
+            player.update(left, right, up, down, space, gameWorld);
 
-        //Move the camera
-        camera.setX(floor(player.getX() + player.getHalfWidth() - (camera.getW() / 2)));
-        camera.setY(floor(player.getY() + player.getHalfHeight() - (camera.getH() / 2)));
-        //keeping camera within  game world boundaries
-        if (camera.getX() < gameWorld.getX()) {
-            camera.setX(gameWorld.getX());
-        }
-        if (camera.getY() < gameWorld.getY()) {
-            camera.setY(gameWorld.getY());
-        }
-        if ((camera.getX() + camera.getW()) > (gameWorld.getX() + gameWorld.getW())) {
-            camera.setX(gameWorld.getX() + gameWorld.getW() - camera.getW());
-        }
-        if ((camera.getY() + camera.getH()) > gameWorld.getH()) {
-            camera.setY(gameWorld.getH() - camera.getH());
-        }
-
-        //push stores the original state
-        pushMatrix();
-        translate(-camera.getX(), -camera.getY());
-        backImage.display();
-
-        rectangleCollision(player, platformArray);
-        player.display();
-
-        for (PlatformBaseClass platform : platformArray) {
-            try {
-                platform.display();
-            } catch (PlatformDimensionException e) {
-                System.out.println(e.getMessage());
+            //Move the camera
+            camera.setX(floor(player.getX() + player.getHalfWidth() - (camera.getW() / 2)));
+            camera.setY(floor(player.getY() + player.getHalfHeight() - (camera.getH() / 2)));
+            //keeping camera within  game world boundaries
+            if (camera.getX() < gameWorld.getX()) {
+                camera.setX(gameWorld.getX());
             }
+            if (camera.getY() < gameWorld.getY()) {
+                camera.setY(gameWorld.getY());
+            }
+            if ((camera.getX() + camera.getW()) > (gameWorld.getX() + gameWorld.getW())) {
+                camera.setX(gameWorld.getX() + gameWorld.getW() - camera.getW());
+            }
+            if ((camera.getY() + camera.getH()) > gameWorld.getH()) {
+                camera.setY(gameWorld.getH() - camera.getH());
+            }
+
+            //push stores the original state
+            pushMatrix();
+            translate(-camera.getX(), -camera.getY());
+            backImage.display();
+
+            rectangleCollision(player, platformArray);
+            player.display();
+
+            for (PlatformBaseClass platform : platformArray) {
+                try {
+                    platform.display();
+                } catch (PlatformDimensionException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
+            //the push and pop isolates the translation done
+            //pops out the original stored state
+            popMatrix();
+
+            //for getting details on screen
+            //doesnt move with the screen as it is after popMatrix()
+            displayPositionData();
         }
-
-        //the push and pop isolates the translation done
-        //pops out the original stored state
-        popMatrix();
-
-        //for getting details on screen
-        //doesnt move with the screen as it is after popMatrix()
-        displayPositionData();
     }
 
     void rectangleCollision(PlayerMouseCharacter r1, ArrayList<PlatformBaseClass> platformList) {
@@ -196,6 +208,9 @@ public class ProjectMouse extends PApplet {
         }
         if (key == ' ') {
             up = true;
+        }
+        if(key == '`') {
+            thread("resetGame");
         }
     }
 

@@ -11,7 +11,7 @@ public class WallSeparationPlatform extends PlatformBaseClass {
     public WallSeparationPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, String typeof) {
         //Height from ground can be calculated using,
         //(MAX_Y_GRID - (int)y/PLATFORM_HEIGHT) * PLATFORM_HEIGHT
-        super(platformSpriteImages, pApplet, x, y, 2 * PLATFORM_WIDTH, (MAX_Y_GRID - (int)y/PLATFORM_HEIGHT) * PLATFORM_HEIGHT, typeof);
+        super(platformSpriteImages, pApplet, x, y, 2 * PLATFORM_WIDTH, (CAM_MAX_Y_GRID - (int)y/PLATFORM_HEIGHT) * PLATFORM_HEIGHT, typeof);
     }
 
     @Override

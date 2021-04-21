@@ -74,6 +74,20 @@ public class GameEngine {
         platformArray.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                 PLATFORM_WIDTH * 28, PLATFORM_HEIGHT*5,
                 "safe"));
+        platformArray.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                PLATFORM_WIDTH * 30, PLATFORM_HEIGHT*17,
+                "safe"));
+        platformArray.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                PLATFORM_WIDTH * 35, PLATFORM_HEIGHT*14,
+                "safe"));
+        platformArray.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                37 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                "safe"));
+        platformArray.add(new StandardPlatform(standardPlatformImages, pApplet,
+                41 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
+                3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
+                "safe"));
     }
 
     public ArrayList<PlatformBaseClass> getPlatformArray() {
