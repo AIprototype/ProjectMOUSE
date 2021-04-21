@@ -29,7 +29,7 @@ public class ProjectMouse extends PApplet {
 
     @Override
     public void settings() {
-        size(1000, 600);
+        size(1300, 800);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class ProjectMouse extends PApplet {
 
         //background image & camera
         bgImage = loadImage("background.jpg");
-        backImage = new ImageObject(this, 1024, 768, 0, 0, bgImage);
-        gameWorld = new FrameObject(0, 0, backImage.getW() * 3, backImage.getH());
+        backImage = new ImageObject(this, 2880, 800, 0, 0, bgImage);
+        gameWorld = new FrameObject(0, 0, backImage.getW() * 2, backImage.getH());
         camera = new FrameObject(0, 0, width, height);
         camera.setX((gameWorld.getX() + gameWorld.getW() / 2) - camera.getW() / 2);
         camera.setY((gameWorld.getY() + gameWorld.getH() / 2) - camera.getH() / 2);
@@ -60,13 +60,15 @@ public class ProjectMouse extends PApplet {
         player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
         platformArray = new ArrayList<>();
         platformArray.add(new StandardPlatform(this, 20,
-                630, PLATFORM_WIDTH * 2, PLATFORM_HEIGHT, "safe"));
+                662, PLATFORM_WIDTH * 2, PLATFORM_HEIGHT, "safe"));
         platformArray.add(new StandardPlatform(this, 210,
-                490, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
+                510, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
         platformArray.add(new StandardPlatform(this, 490,
                 460, PLATFORM_WIDTH * 3, PLATFORM_HEIGHT, "safe"));
         platformArray.add(new UnstablePlatform(this, 700,
                 360, PLATFORM_WIDTH * 5, PLATFORM_HEIGHT, "safe"));
+        platformArray.add(new UnstablePlatform(this, 1100,
+                430, PLATFORM_WIDTH * 5, PLATFORM_HEIGHT, "safe"));
     }
 
     @Override
