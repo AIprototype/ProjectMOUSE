@@ -14,4 +14,7 @@ final public class Constants {
 
     public static final int MAX_X_GRID = 22;
     public static final int MAX_Y_GRID = 19;
+
+    public static final int TIME_FOR_UNSTABLE_TO_DESTROY = 2000;
+    public static final int TIME_FOR_UNSTABLE_TO_RECONSTRUCT = 1000;
 }

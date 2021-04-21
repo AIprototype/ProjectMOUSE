@@ -19,7 +19,7 @@ public class WallSeparationPlatform extends PlatformBaseClass {
         if (!isPlatformDestroyed) {
             //the y given here should be a multiple of PLATFORM_HEIGHT
             if(y%PLATFORM_HEIGHT != 0){
-                throw new PlatformDimensionException("WallSeparationPlatform: \nY = (N * PLATFORM_HEIGHT)");
+                throw new PlatformDimensionException("WallSeparationPlatform: \nY = (N * PLATFORM_HEIGHT), the height will be auto calculated based on given y");
             }
             int platformHeightComponents = (int) (h / PLATFORM_HEIGHT);
             //draw the width part

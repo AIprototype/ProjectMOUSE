@@ -218,7 +218,10 @@ public class ProjectMouse extends PApplet {
     void displayPositionData() {
         fill(255);
         textSize(15);
-        String s = "\nvx:" + player.getVx() + "  vy:" + player.getVy() + "  \ncollision side:" + player.getCollisionSide();
+        String s = "\nvx:" + player.getVx()
+                + "  vy:" + player.getVy()
+                + "  \ncollision side:" + player.getCollisionSide()
+                + "  \nFPS: " + frameRate;
         text(s, 20, 20);
     }
 

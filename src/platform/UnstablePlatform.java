@@ -4,11 +4,12 @@ import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import static constants.Constants.PLATFORM_WIDTH;
+import static constants.Constants.*;
 
 public class UnstablePlatform extends PlatformBaseClass {
-    float instabilityAcc_x = 0.1f;
-    float instabilityVel_x = 0;
+    float instabilityFwdVel_x = 4f;
+    float instabilityRevVel_x = -4f;
+    boolean isCurrentInstabilityVelFwd = false;
 
     public UnstablePlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
         super(platformSpriteImages, pApplet, x, y, w, h, typeof);
@@ -43,20 +44,26 @@ public class UnstablePlatform extends PlatformBaseClass {
     }
 
     void animatePlatformInstability(){
-        instabilityVel_x += instabilityAcc_x;
-        x += instabilityVel_x;
-        instabilityAcc_x = pApplet.random(-0.1f, 0.1f);
+        if(pApplet.frameCount % 3 == 0) {
+            if(isCurrentInstabilityVelFwd) {
+                x += instabilityFwdVel_x;
+                isCurrentInstabilityVelFwd = false;
+            } else {
+                x += instabilityRevVel_x;
+                isCurrentInstabilityVelFwd = true;
+            }
+        }
     }
 
     void destroyPlatformIfPlayerOnTop(){
         if(isPlayerOnPlatform()){
             animatePlatformInstability();
-            if(pApplet.millis() - timePlayerLandedOnPlatform > 2500) {
+            if(pApplet.millis() - timePlayerLandedOnPlatform > TIME_FOR_UNSTABLE_TO_DESTROY) {
                 setPlatformDestroyed(true);
                 setPlayerOnPlatform(false);
             }
         } else {
-            if(pApplet.millis() - timePlayerLeftThePlatform > 1000) {
+            if(pApplet.millis() - timePlayerLeftThePlatform > TIME_FOR_UNSTABLE_TO_RECONSTRUCT) {
                 x = original_x;
                 setPlatformDestroyed(false);
                 setPlayerOnPlatform(false);
