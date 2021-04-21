@@ -23,11 +23,7 @@ public class ProjectMouse extends PApplet {
     FrameObject camera, gameWorld;
     ImageObject backImage;
     PImage bgImage;
-
-    //Platform sprite images
-    PImage[] standardPlatformImages;
-    PImage[] unstablePlatformImages;
-    PImage[] wallSeparationPlatformImages;
+    GameEngine gameEngine;
 
     public static void main(String[] args) {
         PApplet.main("ProjectMouse");
@@ -47,25 +43,6 @@ public class ProjectMouse extends PApplet {
         down = false;
         space = false;
 
-        //loading platform sprites
-        standardPlatformImages = new PImage[3];
-        unstablePlatformImages = new PImage[3];
-        wallSeparationPlatformImages = new PImage[4];
-        for (int i = 0; i < 3; ++i) {
-            PImage std_img = loadImage("platform" + nf(i + 1, 4) + ".png");
-            PImage uns_img = loadImage("unstable_platform" + nf(i + 1, 4) + ".png");
-            std_img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
-            uns_img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
-            standardPlatformImages[i] = std_img;
-            unstablePlatformImages[i] = uns_img;
-        }
-        for (int i = 0; i < 4; ++i) {
-            String fileName = "wall_platform" + nf(i + 1, 4) + ".png";
-            PImage img = loadImage(fileName);
-            img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
-            wallSeparationPlatformImages[i] = img;
-        }
-
         //background image & camera
         bgImage = loadImage("background.jpg");
         backImage = new ImageObject(this, 2880, PLATFORM_HEIGHT * 19, 0, 0, bgImage);
@@ -84,30 +61,10 @@ public class ProjectMouse extends PApplet {
         }
 
         player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
-        platformArray = new ArrayList<>();
-        platformArray.add(new StandardPlatform(standardPlatformImages, this,
-                PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
-                2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
-        platformArray.add(new StandardPlatform(standardPlatformImages, this,
-                4 * PLATFORM_WIDTH, 15 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
-        platformArray.add(new StandardPlatform(standardPlatformImages, this,
-                9 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
-        platformArray.add(new UnstablePlatform(unstablePlatformImages, this,
-                12 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
-                5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
-        platformArray.add(new UnstablePlatform(unstablePlatformImages, this,
-                20 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
-                5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
-        platformArray.add(new WallSeparationPlatform(wallSeparationPlatformImages, this,
-                PLATFORM_WIDTH * 28, PLATFORM_HEIGHT*5,
-                "safe"));
+
+        //Initialise the GameEngine
+        gameEngine = new GameEngine(this);
+        platformArray = gameEngine.getPlatformArray();
     }
 
     @Override
