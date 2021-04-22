@@ -1,3 +1,4 @@
+import game_characters.ZombieMouseCharacter;
 import in_game_items.CollectableHalloweenPumpkin;
 import in_game_items.InGameItemsBaseClass;
 import platform.PlatformBaseClass;
@@ -9,8 +10,7 @@ import processing.core.PImage;
 
 import java.util.ArrayList;
 
-import static constants.Constants.PLATFORM_HEIGHT;
-import static constants.Constants.PLATFORM_WIDTH;
+import static constants.Constants.*;
 
 public class GameEngine {
     //Platform sprite images
@@ -20,11 +20,13 @@ public class GameEngine {
     PImage[] wallSeparationPlatformImages;
     ArrayList<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
+    ArrayList<ZombieMouseCharacter> enemyArray;
 
     public GameEngine(PApplet pApplet) {
         //loading platform sprites
         this.platformArray = new ArrayList<>();
         this.collectableArray = new ArrayList<>();
+        this.enemyArray = new ArrayList<>();
         this.standardPlatformImages = new PImage[3];
         this.unstablePlatformImages = new PImage[3];
         this.wallSeparationPlatformImages = new PImage[4];
@@ -116,6 +118,32 @@ public class GameEngine {
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
         return collectableArray;
+    }
+
+    public ArrayList<ZombieMouseCharacter> createLevelOneEnemies() throws Exception {
+        if (platformArray.size() > 0) {
+            enemyArray.add(new ZombieMouseCharacter(
+                    platformArray.get((int) pApplet.random(platformArray.size())),
+                    PLAYER_WIDTH,
+                    PLATFORM_HEIGHT,
+                    pApplet,
+                    null));
+            enemyArray.add(new ZombieMouseCharacter(
+                    platformArray.get((int) pApplet.random(platformArray.size())),
+                    PLAYER_WIDTH,
+                    PLATFORM_HEIGHT,
+                    pApplet,
+                    null));
+            enemyArray.add(new ZombieMouseCharacter(
+                    platformArray.get((int) pApplet.random(platformArray.size())),
+                    PLAYER_WIDTH,
+                    PLATFORM_HEIGHT,
+                    pApplet,
+                    null));
+        } else {
+            throw new Exception("Platforms not created !!");
+        }
+        return enemyArray;
     }
 
     public ArrayList<PlatformBaseClass> getPlatformArray() {

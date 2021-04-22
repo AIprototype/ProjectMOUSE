@@ -2,6 +2,7 @@ import camera_classes.FrameObject;
 import camera_classes.ImageObject;
 import custom_exceptions.PlatformDimensionException;
 import game_characters.PlayerMouseCharacter;
+import game_characters.ZombieMouseCharacter;
 import in_game_items.InGameItemsBaseClass;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
@@ -17,6 +18,7 @@ public class ProjectMouse extends PApplet {
     PlayerMouseCharacter player;
     ArrayList<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
+    ArrayList<ZombieMouseCharacter> enemyArray;
     int frames;
     PImage[] mouseSpriteImages;
     FrameObject camera, gameWorld;
@@ -40,7 +42,7 @@ public class ProjectMouse extends PApplet {
         thread("resetGame");
     }
 
-    public void resetGame() {
+    public void resetGame() throws Exception {
         //called in thread
         isLoading = true;
 
@@ -75,6 +77,8 @@ public class ProjectMouse extends PApplet {
         platformArray = gameEngine.createLevelOnePlatforms();
         //get level 1 collectables
         collectableArray = gameEngine.createLevelOneCollectables();
+        //get level 1 enemies
+        enemyArray = gameEngine.createLevelOneEnemies();
         isLoading = false;
     }
 
@@ -125,6 +129,12 @@ public class ProjectMouse extends PApplet {
             //display collectables
             for (InGameItemsBaseClass collectable : collectableArray) {
                 collectable.display();
+            }
+
+            //display enemies
+            for (ZombieMouseCharacter enemy : enemyArray) {
+                enemy.update(left, right, up, down, space, gameWorld);
+                enemy.display();
             }
 
             //the push and pop isolates the translation done
