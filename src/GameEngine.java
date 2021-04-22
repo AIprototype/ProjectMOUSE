@@ -140,6 +140,14 @@ public class GameEngine {
                     PLATFORM_HEIGHT,
                     pApplet,
                     null));
+//            for (PlatformBaseClass platform : platformArray) {
+//                enemyArray.add(new ZombieMouseCharacter(
+//                        platform,
+//                        PLAYER_WIDTH,
+//                        PLATFORM_HEIGHT,
+//                        pApplet,
+//                        null));
+//            }
         } else {
             throw new Exception("Platforms not created !!");
         }

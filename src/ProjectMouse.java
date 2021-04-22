@@ -35,6 +35,7 @@ public class ProjectMouse extends PApplet {
     @Override
     public void settings() {
         size(PLATFORM_WIDTH * CAM_MAX_X_GRID, PLATFORM_HEIGHT * CAM_MAX_Y_GRID);
+        //fullScreen();
     }
 
     @Override
@@ -84,7 +85,7 @@ public class ProjectMouse extends PApplet {
 
     @Override
     public void draw() {
-        //background(0);
+        background(0);
         if (isLoading) {
             background(0);
             textSize(25);
@@ -137,6 +138,16 @@ public class ProjectMouse extends PApplet {
                 enemy.display();
             }
 
+            //Player - Zombie collisions
+            for (ZombieMouseCharacter enemy : enemyArray) {
+                String collisionSide = playerZombieCollision(player, enemy);
+                if (collisionSide.trim().equalsIgnoreCase("top")) {
+                    enemy.deathAnimation();
+                } else {
+                    //enemy dies, but player looses lot of health
+                }
+            }
+
             //the push and pop isolates the translation done
             //pops out the original stored state
             popMatrix();
@@ -155,7 +166,7 @@ public class ProjectMouse extends PApplet {
 //        }
         String nonNoneCollision = "none";
         for (PlatformBaseClass r2 : platformList) {
-            if (!r2.isPlatformDestroyed()) {
+            if (!r2.isPlatformDestroyed() && !r1.isDead()) {
                 float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
                 float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
 
@@ -204,6 +215,80 @@ public class ProjectMouse extends PApplet {
             r1.setCollisionSide(nonNoneCollision);
         }
     }
+
+    String playerZombieCollision(PlayerMouseCharacter r2, ZombieMouseCharacter r1) {
+        String playerHitZombieSide = "";
+        if (!r2.isDead() && !r1.isDead()) {
+            float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
+            float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
+            float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();
+            float combinedHalfHeights = r1.getHalfHeight() + r2.getHalfHeight();
+            if (abs(dx) < combinedHalfWidths) {
+                //Collision happened on the x axis
+                //now check y axis
+                if (abs(dy) < combinedHalfHeights) {
+                    //Collision detected
+                    //determine the overlap on each axis
+                    float overlapX = combinedHalfWidths - abs(dx);
+                    float overlapY = combinedHalfHeights - abs(dy);
+                    //collision happened on the axis with the smallest overlap
+                    if (overlapX >= overlapY) {
+                        if (dy > 0) {
+                            //Zombie on TOP of another platform
+                            playerHitZombieSide = "top";
+                        } else {
+                            playerHitZombieSide = "bottom";
+                        }
+                    } else {
+                        if (dx > 0) {
+                            playerHitZombieSide = "left";
+                        } else {
+                            playerHitZombieSide = "right";
+                        }
+                    }
+                }  //collision failed on the y axis
+            }  //collision failed on the x axis
+        }
+        return playerHitZombieSide;
+    }
+
+//    void zombiePlatformCollision(ZombieMouseCharacter r1, ArrayList<PlatformBaseClass> platformList) {
+//        if (!r1.isDead()) {
+//            for (PlatformBaseClass r2 : platformList) {
+//                if (!r2.isPlatformDestroyed()) {
+//                    float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
+//                    float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
+//                    float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();
+//                    float combinedHalfHeights = r1.getHalfHeight() + r2.getHalfHeight();
+//                    if (abs(dx) < combinedHalfWidths) {
+//                        //Collision happened on the x axis
+//                        //now check y axis
+//                        if (abs(dy) < combinedHalfHeights) {
+//                            //Collision detected
+//                            //determine the overlap on each axis
+//                            float overlapX = combinedHalfWidths - abs(dx);
+//                            float overlapY = combinedHalfHeights - abs(dy);
+//                            //collision happened on the axis with the smallest overlap
+//                            if (overlapX >= overlapY) {
+//                                if (dy > 0) {
+//                                    //move the rectangle back to cover up the overlap
+//                                    //before calling its display to prevent drawing
+//                                    //object inside each other
+//                                    //Zombie on TOP of another platform
+//                                    r1.setY(r1.getY() + overlapY);
+//                                    r1.changeZombiePlatform(r2);
+//                                }
+//                            }
+//                        } else {
+//                            //collision failed on the y axis
+//                        }
+//                    } else {
+//                        //collision failed on the x axis
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     void displayPositionData() {
         fill(255);

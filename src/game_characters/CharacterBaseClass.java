@@ -22,6 +22,7 @@ abstract public class CharacterBaseClass {
     int frameSequence;
     int frameOffset;
     PImage[] mouseSpriteImages;
+    boolean isDead;
 
     CharacterBaseClass(int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages) {
         this.w = characterWidth;
@@ -51,6 +52,7 @@ abstract public class CharacterBaseClass {
         facingRight = true;
         frameSequence = 3; //number of frames in each animation sequence
         frameOffset = 0;
+        isDead = false;
     }
 
     public void update(boolean left, boolean right, boolean up, boolean down, boolean space, FrameObject gameWorld) {
@@ -231,5 +233,9 @@ abstract public class CharacterBaseClass {
 
     public void setCollisionSide(String collisionSide) {
         this.collisionSide = collisionSide;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 }

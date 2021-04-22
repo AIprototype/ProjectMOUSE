@@ -8,6 +8,7 @@ import processing.core.PImage;
 public class ZombieMouseCharacter extends CharacterBaseClass {
     PlatformBaseClass platformWherePlaced;
     float leftEdge, rightEdge, ground;
+    boolean isOnGround;
 
     public ZombieMouseCharacter(PlatformBaseClass platform, int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages) {
         super(characterWidth, characterHeight, pApplet, mouseSpriteImages);
@@ -23,6 +24,7 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
         vy = 0;
         acc_x = 0;
         acc_y = 0;
+        isOnGround = false;
     }
 
     @Override
@@ -39,9 +41,40 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
         x = Math.max(0, Math.min(x + vx, gameWorld.getW() - w));
         y = Math.max(0, Math.min(y + vy, gameWorld.getH() - h));
 
+        if(platformWherePlaced.isPlatformDestroyed()) {
+            ground = pApplet.height + h;
+        } else {
+            ground = platformWherePlaced.getY();
+        }
+
+        if(isDead) {
+            ground = pApplet.height + h;
+        }
+
         checkBoundaries();
     }
 
+    public void deathAnimation() {
+        vy = jumpForce;
+        vx = 0;
+        isDead = true;
+        ground = pApplet.height;
+    }
+
+    public void changeZombiePlatform(PlatformBaseClass platform){
+        this.platformWherePlaced = platform;
+        x = platformWherePlaced.getX() + platformWherePlaced.getW() / 2 - halfWidth;
+        y = platformWherePlaced.getY() - h;
+
+        leftEdge = platformWherePlaced.getX();
+        rightEdge = platformWherePlaced.getX() + platform.getW();
+        ground = platformWherePlaced.getY();
+
+        vx = (pApplet.random(10) < 5) ? -1 : 1;
+        vy = 0;
+        acc_x = 0;
+        acc_y = 0;
+    }
 
     void checkBoundaries() {
         if(x <= leftEdge) {
@@ -62,5 +95,13 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
             }
             y = ground - h;
         }
+    }
+
+    public boolean isOnGround() {
+        return isOnGround;
+    }
+
+    public void setOnGround(boolean onGround) {
+        isOnGround = onGround;
     }
 }

@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: ProjectMouse
+Class-Path: core.jar
+
