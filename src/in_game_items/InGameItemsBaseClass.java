@@ -5,14 +5,12 @@ import processing.core.PImage;
 
 public abstract class InGameItemsBaseClass {
     float x, y, w, h;
-    PImage img;
     float halfWidth, halfHeight;
     PApplet pApplet;
     boolean hasPlayerCollectedItem;
 
-    public InGameItemsBaseClass(PApplet pApplet, PImage img, float x, float y, float w, float h) {
+    public InGameItemsBaseClass(PApplet pApplet, float x, float y, float w, float h) {
         this.pApplet = pApplet;
-        this.img = img;
         this.x = x;
         this.y = y;
         this.w = w;

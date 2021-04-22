@@ -1,3 +1,5 @@
+import in_game_items.CollectableHalloweenPumpkin;
+import in_game_items.InGameItemsBaseClass;
 import platform.PlatformBaseClass;
 import platform.StandardPlatform;
 import platform.UnstablePlatform;
@@ -17,10 +19,12 @@ public class GameEngine {
     PImage[] unstablePlatformImages;
     PImage[] wallSeparationPlatformImages;
     ArrayList<PlatformBaseClass> platformArray;
+    ArrayList<InGameItemsBaseClass> collectableArray;
 
     public GameEngine(PApplet pApplet) {
         //loading platform sprites
         this.platformArray = new ArrayList<>();
+        this.collectableArray = new ArrayList<>();
         this.standardPlatformImages = new PImage[3];
         this.unstablePlatformImages = new PImage[3];
         this.wallSeparationPlatformImages = new PImage[4];
@@ -104,6 +108,14 @@ public class GameEngine {
                 3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
                 "safe"));
         return platformArray;
+    }
+
+    public ArrayList<InGameItemsBaseClass> createLevelOneCollectables() {
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 30, PLATFORM_HEIGHT*16));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
+        return collectableArray;
     }
 
     public ArrayList<PlatformBaseClass> getPlatformArray() {

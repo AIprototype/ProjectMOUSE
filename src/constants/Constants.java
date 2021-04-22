@@ -23,4 +23,7 @@ final public class Constants {
 
     public static final int TIME_FOR_UNSTABLE_TO_DESTROY = 1500;
     public static final int TIME_FOR_UNSTABLE_TO_RECONSTRUCT = 1500;
+
+    public static final int COLLECTABLE_WIDTH = 45;
+    public static final int COLLECTABLE_HEIGHT = 45;
 }

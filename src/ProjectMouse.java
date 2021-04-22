@@ -2,6 +2,7 @@ import camera_classes.FrameObject;
 import camera_classes.ImageObject;
 import custom_exceptions.PlatformDimensionException;
 import game_characters.PlayerMouseCharacter;
+import in_game_items.InGameItemsBaseClass;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -15,6 +16,7 @@ public class ProjectMouse extends PApplet {
     boolean left, right, up, down, space;
     PlayerMouseCharacter player;
     ArrayList<PlatformBaseClass> platformArray;
+    ArrayList<InGameItemsBaseClass> collectableArray;
     int frames;
     PImage[] mouseSpriteImages;
     FrameObject camera, gameWorld;
@@ -50,7 +52,7 @@ public class ProjectMouse extends PApplet {
 
         //background image & camera
         bgImage = loadImage("background.jpg");
-        backImage = new ImageObject(this, PLATFORM_WIDTH * BG_IMAGE_MAX_X_GRID, PLATFORM_HEIGHT * BG_IMAGE_MAX_X_GRID, 0, 0, bgImage);
+        backImage = new ImageObject(this, PLATFORM_WIDTH * BG_IMAGE_MAX_X_GRID, PLATFORM_HEIGHT * BG_IMAGE_MAX_Y_GRID, 0, 0, bgImage);
         gameWorld = new FrameObject(0, 0, PLATFORM_WIDTH * GAME_MAX_X_GRID, PLATFORM_HEIGHT * GAME_MAX_Y_GRID);
         camera = new FrameObject(0, 0, width, height);
         camera.setX((gameWorld.getX() + gameWorld.getW() / 2) - camera.getW() / 2);
@@ -71,16 +73,18 @@ public class ProjectMouse extends PApplet {
         gameEngine = new GameEngine(this);
         //get level 1 platforms
         platformArray = gameEngine.createLevelOnePlatforms();
+        //get level 1 collectables
+        collectableArray = gameEngine.createLevelOneCollectables();
         isLoading = false;
     }
 
     @Override
     public void draw() {
         //background(0);
-        if(isLoading) {
+        if (isLoading) {
             background(0);
             textSize(25);
-            text("Loading...", width/2 - 50, height/2);
+            text("Loading...", width / 2 - 50, height / 2);
         } else {
             player.update(left, right, up, down, space, gameWorld);
 
@@ -109,12 +113,18 @@ public class ProjectMouse extends PApplet {
             rectangleCollision(player, platformArray);
             player.display();
 
+            //display platforms
             for (PlatformBaseClass platform : platformArray) {
                 try {
                     platform.display();
                 } catch (PlatformDimensionException e) {
                     System.out.println(e.getMessage());
                 }
+            }
+
+            //display collectables
+            for (InGameItemsBaseClass collectable : collectableArray) {
+                collectable.display();
             }
 
             //the push and pop isolates the translation done
@@ -210,7 +220,7 @@ public class ProjectMouse extends PApplet {
         if (key == ' ') {
             up = true;
         }
-        if(key == '`') {
+        if (key == '`') {
             thread("resetGame");
         }
     }
