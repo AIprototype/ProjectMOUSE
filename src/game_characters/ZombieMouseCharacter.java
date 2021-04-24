@@ -9,8 +9,15 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
     PlatformBaseClass platformWherePlaced;
     float leftEdge, rightEdge, ground;
     boolean isOnGround;
+    PImage[] walkingLeftSprites;
+    PImage[] walkingRightSprites;
+    PImage[] enemyDeathLeftSprites;
+    PImage[] enemyDeathRightSprites;
+    int deathAnimationCount = 0;
 
-    public ZombieMouseCharacter(PlatformBaseClass platform, int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages) {
+    public ZombieMouseCharacter(PlatformBaseClass platform, int characterWidth, int characterHeight, PApplet pApplet,
+                                PImage[] mouseSpriteImages, PImage[] walkingRightSprites, PImage[] walkingLeftSprites,
+                                PImage[] enemyDeathLeftSprites, PImage[] enemyDeathRightSprites) {
         super(characterWidth, characterHeight, pApplet, mouseSpriteImages);
         platformWherePlaced = platform;
         x = platformWherePlaced.getX() + platformWherePlaced.getW() / 2 - halfWidth;
@@ -25,15 +32,20 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
         acc_x = 0;
         acc_y = 0;
         isOnGround = false;
+
+        this.walkingLeftSprites = walkingLeftSprites;
+        this.walkingRightSprites = walkingRightSprites;
+        this.enemyDeathLeftSprites = enemyDeathLeftSprites;
+        this.enemyDeathRightSprites = enemyDeathRightSprites;
     }
 
     @Override
     public void update(boolean left, boolean right, boolean up, boolean down, boolean space, FrameObject gameWorld) {
         vy += gravity;
-        if(vy > 3 * speedLimit){
+        if (vy > 3 * speedLimit) {
             vy = 3 * speedLimit;
         }
-        if(PApplet.abs(vy) < 0.2) {
+        if (PApplet.abs(vy) < 0.2) {
             vy = 0;
         }
 
@@ -41,27 +53,51 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
         x = Math.max(0, Math.min(x + vx, gameWorld.getW() - w));
         y = Math.max(0, Math.min(y + vy, gameWorld.getH() - h));
 
-        if(platformWherePlaced.isPlatformDestroyed()) {
+        if (platformWherePlaced.isPlatformDestroyed()) {
             ground = pApplet.height + h;
         } else {
             ground = platformWherePlaced.getY();
         }
 
-        if(isDead) {
-            ground = pApplet.height + h;
-        }
+//        if(isDead) {
+//            ground = pApplet.height + h;
+//        }
 
         checkBoundaries();
     }
 
-    public void deathAnimation() {
-        vy = jumpForce;
-        vx = 0;
-        isDead = true;
-        ground = pApplet.height;
+    @Override
+    public void display() {
+        if (!isDead) {
+            if (facingRight) {
+                pApplet.image(walkingRightSprites[pApplet.frameCount % walkingLeftSprites.length], x, y);
+            } else {
+                pApplet.image(walkingLeftSprites[pApplet.frameCount % walkingLeftSprites.length], x, y);
+            }
+        } else if(deathAnimationCount < 4) {
+            ++deathAnimationCount;
+            if (facingRight) {
+                pApplet.image(enemyDeathRightSprites[pApplet.frameCount % enemyDeathRightSprites.length], x, y);
+            } else {
+                pApplet.image(enemyDeathLeftSprites[pApplet.frameCount % enemyDeathLeftSprites.length], x, y);
+            }
+        } else {
+            if (facingRight) {
+                pApplet.image(enemyDeathRightSprites[3], x, y);
+            } else {
+                pApplet.image(enemyDeathLeftSprites[3], x, y);
+            }
+        }
     }
 
-    public void changeZombiePlatform(PlatformBaseClass platform){
+    public void deathAnimation() {
+        vx = 0;
+        ++deathAnimationCount;
+        isDead = true;
+        //ground = pApplet.height;
+    }
+
+    public void changeZombiePlatform(PlatformBaseClass platform) {
         this.platformWherePlaced = platform;
         x = platformWherePlaced.getX() + platformWherePlaced.getW() / 2 - halfWidth;
         y = platformWherePlaced.getY() - h;
@@ -77,31 +113,25 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
     }
 
     void checkBoundaries() {
-        if(x <= leftEdge) {
+        if (x <= leftEdge) {
             vx *= -1;
             x = leftEdge;
+            facingRight = true;
         }
 
-        if(x >= rightEdge - w) {
+        if (x >= rightEdge - w) {
             vx *= -1;
             x = rightEdge - w;
+            facingRight = false;
         }
 
-        if(y >= ground - h) {
-            if(vy < 1) {
+        if (y >= ground - h) {
+            if (vy < 1) {
                 vy = 0;
             } else {
-                vy *= bounce/2;
+                vy *= bounce / 2;
             }
             y = ground - h;
         }
-    }
-
-    public boolean isOnGround() {
-        return isOnGround;
-    }
-
-    public void setOnGround(boolean onGround) {
-        isOnGround = onGround;
     }
 }

@@ -1,10 +1,13 @@
 package constants;
 
 final public class Constants {
-    public static final int PLATFORM_WIDTH = 55;
+    public static final int PLATFORM_WIDTH = 60;
     public static final int PLATFORM_HEIGHT = 40;
     public static final int PLAYER_WIDTH = 60;
     public static final int PLAYER_HEIGHT = 75;
+
+    public static final int ENEMY_WIDTH = 80;
+    public static final int ENEMY_HEIGHT = 35;
 
     public static final float PLAYER_JUMP_FORCE = -10f;
     public static final float PLAYER_SPEED_LIMIT = 6f;
@@ -15,7 +18,7 @@ final public class Constants {
     public static final int CAM_MAX_X_GRID = 22;
     public static final int CAM_MAX_Y_GRID = 20;
 
-    public static final int BG_IMAGE_MAX_X_GRID = 52;
+    public static final int BG_IMAGE_MAX_X_GRID = 45;
     public static final int BG_IMAGE_MAX_Y_GRID = 20;
 
     public static final int GAME_MAX_X_GRID = 2*52;
