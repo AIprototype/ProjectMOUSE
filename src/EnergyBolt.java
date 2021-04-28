@@ -83,13 +83,6 @@ public class EnergyBolt {
 
     public void display() {
         if(inMotion) {
-            if(pApplet.frameCount % 10 == 0) {
-                if(imagePosToDisplay == (energyBolt.length - 1)) {
-                    imagePosToDisplay = 0;
-                } else {
-                    ++imagePosToDisplay;
-                }
-            }
             if(isFacingRight) {
                 //pApplet.fill(255, 0, 0);
                 //pApplet.rect(x, y, w, h);
@@ -99,6 +92,14 @@ public class EnergyBolt {
                 pApplet.pop();
             } else {
                 pApplet.image(energyBolt[imagePosToDisplay], x, y);
+            }
+
+            if(pApplet.frameCount % 10 == 0) {
+                if(imagePosToDisplay == (energyBolt.length - 1)) {
+                    imagePosToDisplay = 0;
+                } else {
+                    ++imagePosToDisplay;
+                }
             }
         }
     }

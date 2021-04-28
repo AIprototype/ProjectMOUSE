@@ -3,14 +3,18 @@ package game_characters;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import static constants.Constants.PLAYER_SPEED_LIMIT;
+
 public class PlayerMouseCharacter extends CharacterBaseClass {
     int facingRightImagePos;
     int facingLeftImagePos;
+    int walkingAnimationSpeedFactor;
 
     public PlayerMouseCharacter(int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages) {
         super(characterWidth, characterHeight, pApplet, mouseSpriteImages);
         this.facingRightImagePos = 3;
         this.facingLeftImagePos = 0;
+        this.walkingAnimationSpeedFactor = 8;
     }
 
     @Override
@@ -36,8 +40,11 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
                 pApplet.image(mouseSpriteImages[0], x, y-27);
             }
         }
+
+        //changing animation speed depending on speed gained by character
+        walkingAnimationSpeedFactor = (int) (walkingAnimationSpeedFactor - PApplet.abs(vx));
         if(isOnGround) {
-            if(pApplet.frameCount % 7 == 0) {
+            if(pApplet.frameCount % walkingAnimationSpeedFactor == 0) {
                 if(facingRightImagePos == 5){
                     facingRightImagePos = 3;
                 } else {
@@ -50,5 +57,10 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
                 }
             }
         }
+        resetAnimationSpeedFactor();
+    }
+
+    void resetAnimationSpeedFactor() {
+        walkingAnimationSpeedFactor = 8;
     }
 }
