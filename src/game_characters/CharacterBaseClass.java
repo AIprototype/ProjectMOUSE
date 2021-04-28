@@ -238,4 +238,8 @@ abstract public class CharacterBaseClass {
     public boolean isDead() {
         return isDead;
     }
+
+    public boolean isFacingRight() {
+        return facingRight;
+    }
 }

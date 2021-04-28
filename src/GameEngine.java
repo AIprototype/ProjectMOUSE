@@ -22,15 +22,18 @@ public class GameEngine {
     PImage[] enemyWalkRight;
     PImage[] enemyDeathLeft;
     PImage[] enemyDeathRight;
+    PImage[] energyBoltRed;
     ArrayList<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
     ArrayList<ZombieMouseCharacter> enemyArray;
+    ArrayList<EnergyBolt> playerEnergyBoltList;
 
     public GameEngine(PApplet pApplet) {
         //loading platform sprites
         this.platformArray = new ArrayList<>();
         this.collectableArray = new ArrayList<>();
         this.enemyArray = new ArrayList<>();
+        this.playerEnergyBoltList = new ArrayList<>();
         this.standardPlatformImages = new PImage[3];
         this.unstablePlatformImages = new PImage[3];
         this.wallSeparationPlatformImages = new PImage[4];
@@ -38,6 +41,7 @@ public class GameEngine {
         this.enemyWalkRight = new PImage[12];
         this.enemyDeathLeft = new PImage[4];
         this.enemyDeathRight = new PImage[4];
+        this.energyBoltRed = new PImage[6];
         this.pApplet = pApplet;
         for (int i = 0; i < 3; ++i) {
             PImage std_img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
@@ -80,6 +84,13 @@ public class GameEngine {
             PImage img = pApplet.loadImage(fileName);
             img.resize(ENEMY_WIDTH, ENEMY_HEIGHT);
             enemyDeathRight[i] = img;
+        }
+        //for energy bolt red
+        for (int i = 0; i < 6; ++i) {
+            String fileName = "energy_bolt_red/bolt" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize((int) (ENERGY_BOLT_WIDTH * 1.5), (int) (ENERGY_BOLT_HEIGHT * 1.5));
+            energyBoltRed[i] = img;
         }
     }
 
@@ -194,6 +205,17 @@ public class GameEngine {
             throw new Exception("Platforms not created !!");
         }
         return enemyArray;
+    }
+
+    public ArrayList<EnergyBolt> createLevelOnePlayerEnergyBolts() {
+        for (int i = 0; i < 2; ++i) {
+            playerEnergyBoltList.add(new EnergyBolt(pApplet, energyBoltRed));
+        }
+        return playerEnergyBoltList;
+    }
+
+    public Timer getEnergyBoltTimerForLevelOne() {
+        return new Timer(pApplet, 200);
     }
 
     public ArrayList<PlatformBaseClass> getPlatformArray() {

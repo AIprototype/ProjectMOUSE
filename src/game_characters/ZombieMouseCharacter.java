@@ -74,25 +74,29 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
             } else {
                 pApplet.image(walkingLeftSprites[pApplet.frameCount % walkingLeftSprites.length], x, y);
             }
-        } else if(deathAnimationCount < 4) {
-            ++deathAnimationCount;
+        } else if (deathAnimationCount < 3) {
+            //slowly incrementing the image to be shown in each frame, 3 because size of death animation is 4
+            if (pApplet.frameCount % 9 == 0) {
+                System.out.println(deathAnimationCount);
+                deathAnimationCount++;
+            }
             if (facingRight) {
-                pApplet.image(enemyDeathRightSprites[pApplet.frameCount % enemyDeathRightSprites.length], x, y);
+                pApplet.image(enemyDeathRightSprites[deathAnimationCount], x, y);
             } else {
-                pApplet.image(enemyDeathLeftSprites[pApplet.frameCount % enemyDeathLeftSprites.length], x, y);
+                pApplet.image(enemyDeathLeftSprites[deathAnimationCount], x, y);
             }
         } else {
-            if (facingRight) {
-                pApplet.image(enemyDeathRightSprites[3], x, y);
-            } else {
-                pApplet.image(enemyDeathLeftSprites[3], x, y);
-            }
+            //no need to show dead body, uncomment below lines if dead body has to be shown
+//            if (facingRight) {
+//                pApplet.image(enemyDeathRightSprites[3], x, y);
+//            } else {
+//                pApplet.image(enemyDeathLeftSprites[3], x, y);
+//            }
         }
     }
 
     public void deathAnimation() {
         vx = 0;
-        ++deathAnimationCount;
         isDead = true;
         //ground = pApplet.height;
     }

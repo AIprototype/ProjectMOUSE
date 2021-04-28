@@ -27,6 +27,10 @@ public class ProjectMouse extends PApplet {
     GameEngine gameEngine;
     boolean isLoading;
 
+    Timer firingTimer;
+    ArrayList<EnergyBolt> energyBoltList;
+    int posOfNextBulletToFire;
+
     public static void main(String[] args) {
         PApplet.main("ProjectMouse");
         System.out.println("Welcome to Project MOUSE !!");
@@ -80,6 +84,13 @@ public class ProjectMouse extends PApplet {
         collectableArray = gameEngine.createLevelOneCollectables();
         //get level 1 enemies
         enemyArray = gameEngine.createLevelOneEnemies();
+        //initialise firing timer
+        firingTimer = gameEngine.getEnergyBoltTimerForLevelOne();
+        firingTimer.start();
+        //initialise energy bolts
+        energyBoltList = gameEngine.createLevelOnePlayerEnergyBolts();
+        posOfNextBulletToFire = 0;
+        //set loading to false
         isLoading = false;
     }
 
@@ -92,6 +103,24 @@ public class ProjectMouse extends PApplet {
             text("Loading...", width / 2 - 50, height / 2);
         } else {
             player.update(left, right, up, down, space, gameWorld);
+
+            //bullets
+            if (space) {
+                if(firingTimer.complete()) {
+                    energyBoltList.get(posOfNextBulletToFire).fire(player);
+                    posOfNextBulletToFire = (posOfNextBulletToFire + 1) % energyBoltList.size();
+                    firingTimer.start();
+                }
+            }
+            for(EnergyBolt bolt : energyBoltList) {
+                bolt.update(camera);
+                for(ZombieMouseCharacter enemy : enemyArray) {
+                    if(!enemy.isDead() && enemyEnergyBoltCollision(bolt, enemy)) {
+                        enemy.deathAnimation();
+                        bolt.reset();
+                    }
+                }
+            }
 
             //Move the camera
             camera.setX(floor(player.getX() + player.getHalfWidth() - (camera.getW() / 2)));
@@ -146,6 +175,11 @@ public class ProjectMouse extends PApplet {
                 } else {
                     //enemy dies, but player looses lot of health
                 }
+            }
+
+            //display energy bolts
+            for(EnergyBolt bolt : energyBoltList) {
+                bolt.display();
             }
 
             //the push and pop isolates the translation done
@@ -252,43 +286,20 @@ public class ProjectMouse extends PApplet {
         return playerHitZombieSide;
     }
 
-//    void zombiePlatformCollision(ZombieMouseCharacter r1, ArrayList<PlatformBaseClass> platformList) {
-//        if (!r1.isDead()) {
-//            for (PlatformBaseClass r2 : platformList) {
-//                if (!r2.isPlatformDestroyed()) {
-//                    float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
-//                    float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
-//                    float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();
-//                    float combinedHalfHeights = r1.getHalfHeight() + r2.getHalfHeight();
-//                    if (abs(dx) < combinedHalfWidths) {
-//                        //Collision happened on the x axis
-//                        //now check y axis
-//                        if (abs(dy) < combinedHalfHeights) {
-//                            //Collision detected
-//                            //determine the overlap on each axis
-//                            float overlapX = combinedHalfWidths - abs(dx);
-//                            float overlapY = combinedHalfHeights - abs(dy);
-//                            //collision happened on the axis with the smallest overlap
-//                            if (overlapX >= overlapY) {
-//                                if (dy > 0) {
-//                                    //move the rectangle back to cover up the overlap
-//                                    //before calling its display to prevent drawing
-//                                    //object inside each other
-//                                    //Zombie on TOP of another platform
-//                                    r1.setY(r1.getY() + overlapY);
-//                                    r1.changeZombiePlatform(r2);
-//                                }
-//                            }
-//                        } else {
-//                            //collision failed on the y axis
-//                        }
-//                    } else {
-//                        //collision failed on the x axis
-//                    }
-//                }
-//            }
-//        }
-//    }
+    boolean enemyEnergyBoltCollision(EnergyBolt r1, ZombieMouseCharacter r2) {
+        float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
+        float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
+        float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();
+        float combinedHalfHeights = r1.getHalfHeight() + r2.getHalfHeight();
+        if (abs(dx) < combinedHalfWidths) {
+            //collision on x-axis
+            if (abs(dy) < combinedHalfHeights) {
+                //collision on y-axis
+                return true;
+            }
+        }
+        return false;
+    }
 
     void displayPositionData() {
         fill(255);
@@ -313,7 +324,7 @@ public class ProjectMouse extends PApplet {
                 down = true;
         }
         if (key == ' ') {
-            up = true;
+            space = true;
         }
         if (key == '`') {
             thread("resetGame");
@@ -327,13 +338,13 @@ public class ProjectMouse extends PApplet {
                 left = false;
             if (keyCode == RIGHT)
                 right = false;
-            if (keyCode == UP || keyCode == TAB)
+            if (keyCode == UP)
                 up = false;
             if (keyCode == DOWN)
                 down = false;
         }
         if (key == ' ') {
-            up = false;
+            space = false;
         }
     }
 }
