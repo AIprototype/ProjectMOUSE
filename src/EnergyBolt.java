@@ -42,7 +42,7 @@ public class EnergyBolt {
     public void fire(CharacterBaseClass firedBy) {
         this.firedBy = firedBy;
         if (!inMotion) {
-            y = firedBy.getY() - firedBy.getH() / 2; //to adjust from where the shot is coming from
+            y = firedBy.getY() - firedBy.getH() / 4; //to adjust from where the shot is coming from
             inMotion = true;
             if (firedBy.isFacingRight()) {
                 isFacingRight = true;
@@ -82,20 +82,20 @@ public class EnergyBolt {
     }
 
     public void display() {
-        if(inMotion) {
-            if(isFacingRight) {
+        if (inMotion) {
+            if (isFacingRight) {
                 //pApplet.fill(255, 0, 0);
                 //pApplet.rect(x, y, w, h);
                 pApplet.push();
-                pApplet.scale(-1,1); // You had it right!
+                pApplet.scale(-1, 1); // You had it right!
                 pApplet.image(energyBolt[imagePosToDisplay], -x - firedBy.getW(), y);
                 pApplet.pop();
             } else {
                 pApplet.image(energyBolt[imagePosToDisplay], x, y);
             }
 
-            if(pApplet.frameCount % 10 == 0) {
-                if(imagePosToDisplay == (energyBolt.length - 1)) {
+            if (pApplet.frameCount % 10 == 0) {
+                if (imagePosToDisplay == (energyBolt.length - 1)) {
                     imagePosToDisplay = 0;
                 } else {
                     ++imagePosToDisplay;
