@@ -30,6 +30,9 @@ final public class Constants {
     public static final int COLLECTABLE_WIDTH = 45;
     public static final int COLLECTABLE_HEIGHT = 45;
 
+    public static final int CONSOLE_PC_WIDTH = 40;
+    public static final int CONSOLE_PC_HEIGHT = 55;
+
     public static final int ENERGY_BOLT_WIDTH = 45;
     public static final int ENERGY_BOLT_HEIGHT = 20;
 }

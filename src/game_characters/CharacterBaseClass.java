@@ -55,7 +55,7 @@ abstract public class CharacterBaseClass {
         isDead = false;
     }
 
-    public void update(boolean left, boolean right, boolean up, boolean down, boolean space, FrameObject gameWorld) {
+    public void update(boolean left, boolean right, boolean up, boolean down, FrameObject gameWorld) {
         if (left && !right && isOnGround) {
             acc_x = -0.2f;
             friction = 1;

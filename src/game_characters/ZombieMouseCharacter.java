@@ -40,7 +40,7 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
     }
 
     @Override
-    public void update(boolean left, boolean right, boolean up, boolean down, boolean space, FrameObject gameWorld) {
+    public void update(boolean left, boolean right, boolean up, boolean down, FrameObject gameWorld) {
         vy += gravity;
         if (vy > 3 * speedLimit) {
             vy = 3 * speedLimit;

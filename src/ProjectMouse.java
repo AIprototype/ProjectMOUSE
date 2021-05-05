@@ -102,11 +102,12 @@ public class ProjectMouse extends PApplet {
             textSize(25);
             text("Loading...", width / 2 - 50, height / 2);
         } else {
-            player.update(left, right, up, down, space, gameWorld);
+            player.update(left, right, up, down, gameWorld);
 
             //bullets
             if (space) {
                 if(firingTimer.complete()) {
+                    System.out.println("Firing");
                     energyBoltList.get(posOfNextBulletToFire).fire(player);
                     posOfNextBulletToFire = (posOfNextBulletToFire + 1) % energyBoltList.size();
                     firingTimer.start();
@@ -145,7 +146,7 @@ public class ProjectMouse extends PApplet {
             backImage.display();
 
             rectangleCollision(player, platformArray);
-            player.display();
+            //player.display();
 
             //display platforms
             for (PlatformBaseClass platform : platformArray) {
@@ -163,7 +164,7 @@ public class ProjectMouse extends PApplet {
 
             //display enemies
             for (ZombieMouseCharacter enemy : enemyArray) {
-                enemy.update(left, right, up, down, space, gameWorld);
+                enemy.update(left, right, up, down, gameWorld);
                 enemy.display();
             }
 
@@ -181,6 +182,9 @@ public class ProjectMouse extends PApplet {
             for(EnergyBolt bolt : energyBoltList) {
                 bolt.display();
             }
+
+            //for showing player on top of everything
+            player.display();
 
             //the push and pop isolates the translation done
             //pops out the original stored state

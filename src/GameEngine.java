@@ -1,5 +1,6 @@
 import game_characters.ZombieMouseCharacter;
 import in_game_items.CollectableHalloweenPumpkin;
+import in_game_items.ConsolePc;
 import in_game_items.InGameItemsBaseClass;
 import platform.PlatformBaseClass;
 import platform.StandardPlatform;
@@ -23,6 +24,7 @@ public class GameEngine {
     PImage[] enemyDeathLeft;
     PImage[] enemyDeathRight;
     PImage[] energyBoltRed;
+    PImage[] consolePcSprites;
     ArrayList<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
     ArrayList<ZombieMouseCharacter> enemyArray;
@@ -42,6 +44,7 @@ public class GameEngine {
         this.enemyDeathLeft = new PImage[4];
         this.enemyDeathRight = new PImage[4];
         this.energyBoltRed = new PImage[6];
+        this.consolePcSprites = new PImage[5];
         this.pApplet = pApplet;
         for (int i = 0; i < 3; ++i) {
             PImage std_img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
@@ -91,6 +94,13 @@ public class GameEngine {
             PImage img = pApplet.loadImage(fileName);
             img.resize((int) (ENERGY_BOLT_WIDTH * 1.5), (int) (ENERGY_BOLT_HEIGHT * 1.5));
             energyBoltRed[i] = img;
+        }
+        //for console pc sprites
+        for (int i=0; i<5; ++i) {
+            String fileName = "console_pc/console_" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(CONSOLE_PC_WIDTH, CONSOLE_PC_HEIGHT);
+            consolePcSprites[i] = img;
         }
     }
 
@@ -164,6 +174,10 @@ public class GameEngine {
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 30, PLATFORM_HEIGHT * 16));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
+        collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
+        collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
+        collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
+        collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
         return collectableArray;
     }
 
