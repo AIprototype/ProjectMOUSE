@@ -3,6 +3,7 @@ import camera_classes.ImageObject;
 import custom_exceptions.PlatformDimensionException;
 import game_characters.PlayerMouseCharacter;
 import game_characters.ZombieMouseCharacter;
+import in_game_items.CloningContainers;
 import in_game_items.InGameItemsBaseClass;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
@@ -115,9 +116,19 @@ public class ProjectMouse extends PApplet {
             }
             for(EnergyBolt bolt : energyBoltList) {
                 bolt.update(camera);
+                //bolt enemy collision
                 for(ZombieMouseCharacter enemy : enemyArray) {
                     if(!enemy.isDead() && enemyEnergyBoltCollision(bolt, enemy)) {
                         enemy.deathAnimation();
+                        bolt.reset();
+                    }
+                }
+                //bolt cloning container collision
+                for(InGameItemsBaseClass item : collectableArray) {
+                    if(item instanceof CloningContainers &&
+                            !((CloningContainers)item).isDestroyed() &&
+                            cloningContainerEnergyBoltCollision(bolt, ((CloningContainers)item))) {
+                        ((CloningContainers)item).setDestroyed(true);
                         bolt.reset();
                     }
                 }
@@ -291,6 +302,21 @@ public class ProjectMouse extends PApplet {
     }
 
     boolean enemyEnergyBoltCollision(EnergyBolt r1, ZombieMouseCharacter r2) {
+        float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
+        float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
+        float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();
+        float combinedHalfHeights = r1.getHalfHeight() + r2.getHalfHeight();
+        if (abs(dx) < combinedHalfWidths) {
+            //collision on x-axis
+            if (abs(dy) < combinedHalfHeights) {
+                //collision on y-axis
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean cloningContainerEnergyBoltCollision(EnergyBolt r1, CloningContainers r2) {
         float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
         float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
         float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();

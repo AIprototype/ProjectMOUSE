@@ -23,4 +23,28 @@ public abstract class InGameItemsBaseClass {
         pApplet.fill(0, 0, 255);
         pApplet.rect(x, y, w, h);
     }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public float getW() {
+        return w;
+    }
+
+    public float getH() {
+        return h;
+    }
+
+    public float getHalfWidth() {
+        return halfWidth;
+    }
+
+    public float getHalfHeight() {
+        return halfHeight;
+    }
 }

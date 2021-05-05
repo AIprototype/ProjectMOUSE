@@ -1,4 +1,5 @@
 import game_characters.ZombieMouseCharacter;
+import in_game_items.CloningContainers;
 import in_game_items.CollectableHalloweenPumpkin;
 import in_game_items.ConsolePc;
 import in_game_items.InGameItemsBaseClass;
@@ -25,6 +26,8 @@ public class GameEngine {
     PImage[] enemyDeathRight;
     PImage[] energyBoltRed;
     PImage[] consolePcSprites;
+    PImage[] cloning_container_normal;
+    PImage[] cloning_container_destroyed;
     ArrayList<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
     ArrayList<ZombieMouseCharacter> enemyArray;
@@ -45,6 +48,8 @@ public class GameEngine {
         this.enemyDeathRight = new PImage[4];
         this.energyBoltRed = new PImage[6];
         this.consolePcSprites = new PImage[5];
+        this.cloning_container_normal = new PImage[11];
+        this.cloning_container_destroyed = new PImage[4];
         this.pApplet = pApplet;
         for (int i = 0; i < 3; ++i) {
             PImage std_img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
@@ -101,6 +106,20 @@ public class GameEngine {
             PImage img = pApplet.loadImage(fileName);
             img.resize(CONSOLE_PC_WIDTH, CONSOLE_PC_HEIGHT);
             consolePcSprites[i] = img;
+        }
+        //for cloning containers normal
+        for (int i=0; i<11; ++i) {
+            String fileName = "cloning_containers/blue_lab_tube_chamber_on_" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(CLONING_CONTAINER_WIDTH, CLONING_CONTAINER_HEIGHT);
+            cloning_container_normal[i] = img;
+        }
+        //for cloning containers destroyed
+        for (int i=0; i<4; ++i) {
+            String fileName = "cloning_containers/blue_lab_tube_chamber_broken_" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(CLONING_CONTAINER_WIDTH, CLONING_CONTAINER_HEIGHT);
+            cloning_container_destroyed[i] = img;
         }
     }
 
@@ -170,14 +189,25 @@ public class GameEngine {
     }
 
     public ArrayList<InGameItemsBaseClass> createLevelOneCollectables() {
+        //halloween collectible
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 30, PLATFORM_HEIGHT * 16));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
+        //console pc
         collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
         collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
         collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
         collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
+        //Cloning container
+        collectableArray.add(new CloningContainers(pApplet,
+                platformArray.get((int) pApplet.random(platformArray.size())),
+                cloning_container_normal,
+                cloning_container_destroyed));
+        collectableArray.add(new CloningContainers(pApplet,
+                platformArray.get((int) pApplet.random(platformArray.size())),
+                cloning_container_normal,
+                cloning_container_destroyed));
         return collectableArray;
     }
 
