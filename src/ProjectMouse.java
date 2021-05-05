@@ -59,7 +59,7 @@ public class ProjectMouse extends PApplet {
         space = false;
 
         //background image & camera
-        bgImage = loadImage("background.jpg");
+        bgImage = loadImage("background.png");
         backImage = new ImageObject(this, PLATFORM_WIDTH * BG_IMAGE_MAX_X_GRID, PLATFORM_HEIGHT * BG_IMAGE_MAX_Y_GRID, 0, 0, bgImage);
         gameWorld = new FrameObject(0, 0, PLATFORM_WIDTH * GAME_MAX_X_GRID, PLATFORM_HEIGHT * GAME_MAX_Y_GRID);
         camera = new FrameObject(0, 0, width, height);
