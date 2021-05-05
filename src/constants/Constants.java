@@ -16,12 +16,12 @@ final public class Constants {
     public static final float PLAYER_GRAVITY = 0.3f;
 
     public static final int CAM_MAX_X_GRID = 22;
-    public static final int CAM_MAX_Y_GRID = 20;
+    public static final int CAM_MAX_Y_GRID = 20; // increase to show more black space above
 
     public static final int BG_IMAGE_MAX_X_GRID = 45;
     public static final int BG_IMAGE_MAX_Y_GRID = 20;
 
-    public static final int GAME_MAX_X_GRID = 2*52;
+    public static final int GAME_MAX_X_GRID = 2*BG_IMAGE_MAX_X_GRID;
     public static final int GAME_MAX_Y_GRID = 20;
 
     public static final int TIME_FOR_UNSTABLE_TO_DESTROY = 1500;
@@ -30,11 +30,14 @@ final public class Constants {
     public static final int COLLECTABLE_WIDTH = 45;
     public static final int COLLECTABLE_HEIGHT = 45;
 
-    public static final int CONSOLE_PC_WIDTH = 40;
-    public static final int CONSOLE_PC_HEIGHT = 55;
+    public static final int CONSOLE_PC_WIDTH = 45;
+    public static final int CONSOLE_PC_HEIGHT = 65;
 
-    public static final int CLONING_CONTAINER_WIDTH = 55;
-    public static final int CLONING_CONTAINER_HEIGHT = 90;
+    public static final int CLONING_CONTAINER_WIDTH = 60;
+    public static final int CLONING_CONTAINER_HEIGHT = 95;
+
+    public static final int ACID_BUBBLE_WIDTH = PLATFORM_WIDTH * 2;
+    public static final int ACID_BUBBLE_HEIGHT = PLATFORM_HEIGHT * 2;
 
     public static final int ENERGY_BOLT_WIDTH = 45;
     public static final int ENERGY_BOLT_HEIGHT = 20;

@@ -3,10 +3,7 @@ import in_game_items.CloningContainers;
 import in_game_items.CollectableHalloweenPumpkin;
 import in_game_items.ConsolePc;
 import in_game_items.InGameItemsBaseClass;
-import platform.PlatformBaseClass;
-import platform.StandardPlatform;
-import platform.UnstablePlatform;
-import platform.WallSeparationPlatform;
+import platform.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -28,6 +25,8 @@ public class GameEngine {
     PImage[] consolePcSprites;
     PImage[] cloning_container_normal;
     PImage[] cloning_container_destroyed;
+    PImage[] acid_bubbling_sprites;
+    PImage[] acid_test_tube_breakage_sprites;
     ArrayList<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
     ArrayList<ZombieMouseCharacter> enemyArray;
@@ -50,6 +49,8 @@ public class GameEngine {
         this.consolePcSprites = new PImage[5];
         this.cloning_container_normal = new PImage[11];
         this.cloning_container_destroyed = new PImage[4];
+        this.acid_bubbling_sprites = new PImage[7];
+        this.acid_test_tube_breakage_sprites = new PImage[20];
         this.pApplet = pApplet;
         for (int i = 0; i < 3; ++i) {
             PImage std_img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
@@ -121,6 +122,20 @@ public class GameEngine {
             img.resize(CLONING_CONTAINER_WIDTH, CLONING_CONTAINER_HEIGHT);
             cloning_container_destroyed[i] = img;
         }
+        //for acid bubbling anim
+        for (int i=0; i<7; ++i) {
+            String fileName = "red_acid_bubling/bubble_" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(ACID_BUBBLE_WIDTH, ACID_BUBBLE_HEIGHT);
+            acid_bubbling_sprites[i] = img;
+        }
+        //for test tube acid breakage
+        for (int i=0; i<20; ++i) {
+            String fileName = "red_test_tube_acid/__red_spill_bubbling_" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(ACID_BUBBLE_WIDTH, ACID_BUBBLE_HEIGHT);
+            acid_test_tube_breakage_sprites[i] = img;
+        }
     }
 
     public ArrayList<PlatformBaseClass> createLevelOnePlatforms() {
@@ -185,6 +200,10 @@ public class GameEngine {
                 43 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
                 "safe"));
+        platformArray.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
+                PLATFORM_WIDTH, (float) (19.5 * PLATFORM_HEIGHT),
+                GAME_MAX_X_GRID * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
+                "death", acid_test_tube_breakage_sprites));
         return platformArray;
     }
 
