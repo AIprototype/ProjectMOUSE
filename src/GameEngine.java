@@ -195,19 +195,21 @@ public class GameEngine {
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
         //console pc
-        collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
-        collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
-        collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
-        collectableArray.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
-        //Cloning container
-        collectableArray.add(new CloningContainers(pApplet,
-                platformArray.get((int) pApplet.random(platformArray.size())),
-                cloning_container_normal,
-                cloning_container_destroyed));
-        collectableArray.add(new CloningContainers(pApplet,
-                platformArray.get((int) pApplet.random(platformArray.size())),
-                cloning_container_normal,
-                cloning_container_destroyed));
+        ArrayList<ConsolePc> consolePcList = new ArrayList<>();
+        consolePcList.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
+        consolePcList.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
+        consolePcList.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
+        consolePcList.add(new ConsolePc(pApplet, platformArray.get((int) pApplet.random(platformArray.size())), consolePcSprites));
+        collectableArray.addAll(consolePcList);
+
+        //Cloning container for every console PC
+        for(ConsolePc pc : consolePcList) {
+            collectableArray.add(new CloningContainers(pApplet,
+                    pc.getPlatformToPlace(),
+                    cloning_container_normal,
+                    cloning_container_destroyed,
+                    pc));
+        }
         return collectableArray;
     }
 

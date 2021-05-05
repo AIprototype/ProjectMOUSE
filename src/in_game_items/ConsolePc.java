@@ -26,6 +26,10 @@ public class ConsolePc extends InGameItemsBaseClass {
         this.currentAnimationPos = 0;
     }
 
+    public PlatformBaseClass getPlatformToPlace() {
+        return platformToPlace;
+    }
+
     @Override
     public void display() {
 
