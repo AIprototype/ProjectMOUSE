@@ -1,6 +1,7 @@
 package game_characters;
 
 import camera_classes.FrameObject;
+import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -180,6 +181,13 @@ abstract public class CharacterBaseClass {
         if (!collisionSide.trim().equalsIgnoreCase("bottom") && vy > 0) {
             isOnGround = false;
         }
+    }
+
+    public void resetCharacterLocation(PlatformBaseClass platform) {
+        this.x = platform.getX();
+        this.y = platform.getY() - this.getH() - 15;
+        this.vx = 0;
+        this.vy = 0;
     }
 
     public void display() {

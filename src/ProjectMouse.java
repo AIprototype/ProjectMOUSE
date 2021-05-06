@@ -79,7 +79,7 @@ public class ProjectMouse extends PApplet {
         player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
 
         //Initialise the GameEngine
-        gameEngine = new GameEngine(this);
+        gameEngine = new GameEngine(this, player);
         //get level 1 platforms
         platformArray = gameEngine.createLevelOnePlatforms();
         //get level 1 collectables
