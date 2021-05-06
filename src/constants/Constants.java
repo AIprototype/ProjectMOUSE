@@ -11,8 +11,8 @@ final public class Constants {
 
     public static final float PLAYER_JUMP_FORCE = -10f;
     public static final float PLAYER_SPEED_LIMIT = 6f;
-    public static final float PLAYER_FRICTION = 0.96f;
-    public static final float PLAYER_BOUNCE = -0.7f;
+    public static final float PLAYER_FRICTION = 0.99f;
+    public static final float PLAYER_BOUNCE = -0.2f;
     public static final float PLAYER_GRAVITY = 0.3f;
 
     public static final int CAM_MAX_X_GRID = 22;
