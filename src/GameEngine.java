@@ -160,74 +160,91 @@ public class GameEngine {
         player.resetCharacterLocation(starterPlatform);
         platforms.add(starterPlatform);
         //rest of the platforms
-        platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                5 * PLATFORM_WIDTH, 15 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe1"));
-        platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                10 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe2"));
-        platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                13 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
-                5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe3"));
-        platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                9 * PLATFORM_WIDTH, 6 * PLATFORM_HEIGHT,
-                4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe4"));
-        platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                4 * PLATFORM_WIDTH, 3 * PLATFORM_HEIGHT,
-                4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe5"));
-        platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                21 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
-                5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe6"));
-        platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                PLATFORM_WIDTH * 29, PLATFORM_HEIGHT * 5,
-                "safe7"));
-        platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                PLATFORM_WIDTH * 31, PLATFORM_HEIGHT * 17,
-                "safe8"));
-        platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                PLATFORM_WIDTH * 36, PLATFORM_HEIGHT * 14,
-                "safe9"));
-        platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                38 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
-                2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe10"));
-        platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                44 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
-                "safe11"));
-        platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                49 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe12"));
-        platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                45 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe13"));
-        platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                49 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe14"));
-        platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                44 * PLATFORM_WIDTH, 3 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
-                "safe15"));
-        platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                55 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
-                3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
-                "safe16"));
-        platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
-                PLATFORM_WIDTH, (float) (19.5 * PLATFORM_HEIGHT),
-                GAME_MAX_X_GRID * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
-                "death0", acid_test_tube_breakage_sprites));
-        //Shuffle for randomness
-        Collections.shuffle(platforms);
-        platformArray.addAll(platforms);
+        try {
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    5 * PLATFORM_WIDTH, 15 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe1"));
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    10 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe2"));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    13 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                    5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe3"));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    9 * PLATFORM_WIDTH, 6 * PLATFORM_HEIGHT,
+                    4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe4"));
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    4 * PLATFORM_WIDTH, 3 * PLATFORM_HEIGHT,
+                    4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe5"));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    21 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
+                    5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe6"));
+            platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                    PLATFORM_WIDTH * 29, PLATFORM_HEIGHT * 5,
+                    "safe7", null));
+            platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                    PLATFORM_WIDTH * 31, PLATFORM_HEIGHT * 17,
+                    "safe8", null));
+            platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                    PLATFORM_WIDTH * 36, PLATFORM_HEIGHT * 14,
+                    "safe9", null));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    38 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                    2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe10"));
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    44 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe11"));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    49 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe12"));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    45 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe13"));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    49 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe14"));
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    44 * PLATFORM_WIDTH, 3 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe15"));
+
+            //Creating a wall climb platform
+            PlatformBaseClass temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
+                    58 * PLATFORM_WIDTH, 11 * PLATFORM_HEIGHT,
+                    4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe16");
+            platforms.add(temp_platform);
+            platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                    PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 4,
+                    "safe17", temp_platform));
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    56 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
+                    6 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe18"));
+
+            //Ground death platform
+            platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
+                    PLATFORM_WIDTH, (float) (19.5 * PLATFORM_HEIGHT),
+                    GAME_MAX_X_GRID * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
+                    "death0", acid_test_tube_breakage_sprites));
+            //Shuffle for randomness
+            Collections.shuffle(platforms);
+            platformArray.addAll(platforms);
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+            System.exit(1);
+        }
         return platformArray;
     }
 
@@ -236,7 +253,7 @@ public class GameEngine {
         if (anyPlatform) {
             PlatformBaseClass platformToPlace = platformArray.poll(); //priority queue, always gives me platform with the least number of items
             if (platformToPlace != null) {
-                if(itemPlacement)
+                if (itemPlacement)
                     platformToPlace.incrementCountOfItemsOnPlatform(); //increment the count cost
                 else
                     platformToPlace.incrementCountOfEnemiesOnPlatform(); //increment by number of enemies on platform
@@ -257,7 +274,7 @@ public class GameEngine {
             }
             //while loop broken, because we found a standard platform with relatively lower item count
             platformArray.addAll(polledPlatforms);
-            if(itemPlacement)
+            if (itemPlacement)
                 platformToPlace.incrementCountOfItemsOnPlatform(); //increment the count cost
             else
                 platformToPlace.incrementCountOfEnemiesOnPlatform(); //increment by number of enemies on platform
@@ -274,7 +291,7 @@ public class GameEngine {
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
         //console pc
         ArrayList<ConsolePc> consolePcList = new ArrayList<>();
-        for(int i=0; i<4; ++i) {
+        for (int i = 0; i < 4; ++i) {
             consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false, true, false), consolePcSprites));
         }
         collectableArray.addAll(consolePcList);
@@ -294,7 +311,7 @@ public class GameEngine {
 
     public ArrayList<ZombieMouseCharacter> createLevelOneEnemies() throws Exception {
         //Normal enemies
-        for(int i=0; i<5; ++i) {
+        for (int i = 0; i < 5; ++i) {
             enemyArray.add(new ZombieMouseCharacter(
                     getPlatformToPlaceItem(true, false, false, true),
                     ENEMY_WIDTH,

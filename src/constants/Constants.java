@@ -1,6 +1,8 @@
 package constants;
 
 final public class Constants {
+    public static final boolean DEBUG_MODE = true;
+
     public static final int PLATFORM_WIDTH = 60;
     public static final int PLATFORM_HEIGHT = 40;
     public static final int PLAYER_WIDTH = 60;

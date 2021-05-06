@@ -4,9 +4,11 @@ import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import static constants.Constants.DEBUG_MODE;
+
 abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass> {
     protected float w, h, x, y;
-    protected final float original_w, original_h, original_x, original_y;
+    protected float original_w, original_h, original_x, original_y;
     protected String typeof;
     protected float halfWidth, halfHeight;
     protected PApplet pApplet;
@@ -40,18 +42,44 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
         this.countOfItemsOnPlatform = 0;
     }
 
+    protected void resetConstructor(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
+        this.pApplet = pApplet;
+        this.x = x;
+        this.original_x = x;
+        this.y = y;
+        this.original_y = y;
+        this.w = w;
+        this.original_w = w;
+        this.h = h;
+        this.original_h = h;
+        this.typeof = typeof;
+        this.platformSpriteImages = platformSpriteImages;
+
+        halfWidth = w / 2;
+        halfHeight = h / 2;
+
+        this.isPlayerOnPlatform = false;
+        this.isPlatformDestroyed = false;
+        this.timePlayerLandedOnPlatform = -1;
+        this.timePlayerLeftThePlatform = -1;
+        this.countOfItemsOnPlatform = 0;
+    }
+
     @Override
     public int compareTo(PlatformBaseClass o) {
-        if(countOfItemsOnPlatform < o.countOfItemsOnPlatform)
+        if (countOfItemsOnPlatform < o.countOfItemsOnPlatform)
             return -1;
-        else if(countOfItemsOnPlatform > o.countOfItemsOnPlatform)
+        else if (countOfItemsOnPlatform > o.countOfItemsOnPlatform)
             return 1;
         return 0;
     }
 
     public void display() throws PlatformDimensionException {
-        pApplet.fill(0, 0, 255);
-        pApplet.text(typeof, x, y);
+        if (DEBUG_MODE) {
+            pApplet.fill(0, 0, 255);
+            pApplet.text(typeof, x, y);
+            pApplet.rect(x, y, w, h);
+        }
     }
 
     public float getW() {
@@ -95,7 +123,7 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
     }
 
     public void setPlayerOnPlatform(boolean playerOnPlatform) {
-        if(!this.isPlayerOnPlatform && playerOnPlatform) {
+        if (!this.isPlayerOnPlatform && playerOnPlatform) {
             //For telling the platform the player is on top,
             //no need to tell always, it will be set to false when he lands on another platform
             timePlayerLandedOnPlatform = pApplet.millis();
@@ -125,6 +153,7 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
     public void incrementCountOfItemsOnPlatform() {
         this.countOfItemsOnPlatform += 1;
     }
+
     public void incrementCountOfEnemiesOnPlatform() {
         this.countOfItemsOnPlatform += 1.5;
     }

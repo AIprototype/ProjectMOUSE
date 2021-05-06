@@ -84,7 +84,10 @@ abstract public class CharacterBaseClass {
         }
 
         //Mechanics for wall climbing, only for WallSeparationPlatform
-        if (platformBeingUsed != null && platformBeingUsed instanceof WallSeparationPlatform) {
+        if (platformBeingUsed != null &&
+                platformBeingUsed instanceof WallSeparationPlatform &&
+                (collisionSide.trim().equalsIgnoreCase("left")
+                        || collisionSide.trim().equalsIgnoreCase("right"))) {
             if (up && (isHittingLeft || isHittingRight) && !isOnGround) {
                 //wall climb jump
                 vy = jumpForce;
@@ -162,13 +165,13 @@ abstract public class CharacterBaseClass {
         if (x < 0) {
             vx *= bounce;
             x = 0;
-            facingRight = !facingRight;
+            facingRight = false;
         }
         //right
         if (x >= gameWorld.getW() - w) {
             vx *= bounce;
             x = gameWorld.getW() - w;
-            facingRight = !facingRight;
+            facingRight = true;
         }
         //top
         if (y < 0) {
@@ -211,7 +214,8 @@ abstract public class CharacterBaseClass {
     }
 
     public void setPlatformBeingUsed(PlatformBaseClass platform) {
-        this.platformBeingUsed = platform;
+        if (platform != null)
+            this.platformBeingUsed = platform;
     }
 
     public PlatformBaseClass getPlatformBeingUsed() {
@@ -219,7 +223,6 @@ abstract public class CharacterBaseClass {
     }
 
     public void resetCharacterLocation(PlatformBaseClass platform) {
-        this.platformBeingUsed = platform;
         this.x = platform.getX();
         this.y = platform.getY() - this.getH() - 15;
         this.vx = 0;
