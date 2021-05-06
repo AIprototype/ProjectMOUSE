@@ -13,6 +13,7 @@ public class UnstablePlatform extends PlatformBaseClass {
 
     public UnstablePlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
         super(platformSpriteImages, pApplet, x, y, w, h, typeof);
+        this.countOfItemsOnPlatform = INITIAL_COST_UNSTABLE_PLATFORM;
     }
 
     @Override

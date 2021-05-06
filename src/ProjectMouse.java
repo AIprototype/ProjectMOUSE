@@ -10,6 +10,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 import static constants.Constants.*;
 
@@ -17,7 +18,7 @@ public class ProjectMouse extends PApplet {
 
     boolean left, right, up, down, space;
     PlayerMouseCharacter player;
-    ArrayList<PlatformBaseClass> platformArray;
+    PriorityQueue<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
     ArrayList<ZombieMouseCharacter> enemyArray;
     int frames;
@@ -207,7 +208,7 @@ public class ProjectMouse extends PApplet {
         }
     }
 
-    void rectangleCollision(PlayerMouseCharacter r1, ArrayList<PlatformBaseClass> platformList) {
+    void rectangleCollision(PlayerMouseCharacter r1, PriorityQueue<PlatformBaseClass> platformList) {
         //Disable if the player cannot pass through platforms,
         //if enabled, the player can pass from below the platform
 //        if (r1.getVy() < 0) {

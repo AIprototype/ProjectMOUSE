@@ -18,6 +18,7 @@ public class GroundToxicPlatform extends StandardPlatform {
         this.current_anim_pos = 0;
         this.anim_speed = 5;
         this.max_anim_cycle_length = acid_bubbling_sprites.length - 1;
+        this.countOfItemsOnPlatform = INITIAL_COST_TOXIC_PLATFORM;
     }
 
     @Override

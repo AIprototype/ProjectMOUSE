@@ -12,6 +12,7 @@ public class WallSeparationPlatform extends PlatformBaseClass {
         //Height from ground can be calculated using,
         //(MAX_Y_GRID - (int)y/PLATFORM_HEIGHT) * PLATFORM_HEIGHT
         super(platformSpriteImages, pApplet, x, y, 2 * PLATFORM_WIDTH, (CAM_MAX_Y_GRID - (int)y/PLATFORM_HEIGHT) * PLATFORM_HEIGHT, typeof);
+        this.countOfItemsOnPlatform = INITIAL_COST_STANDARD_PLATFORM;
     }
 
     @Override

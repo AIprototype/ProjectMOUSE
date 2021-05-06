@@ -4,17 +4,18 @@ import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-abstract public class PlatformBaseClass {
-    float w, h, x, y;
-    final float original_w, original_h, original_x, original_y;
-    String typeof;
-    float halfWidth, halfHeight;
-    PApplet pApplet;
-    boolean isPlayerOnPlatform;
-    boolean isPlatformDestroyed;
-    int timePlayerLandedOnPlatform;
-    int timePlayerLeftThePlatform;
-    PImage[] platformSpriteImages;
+abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass> {
+    protected float w, h, x, y;
+    protected final float original_w, original_h, original_x, original_y;
+    protected String typeof;
+    protected float halfWidth, halfHeight;
+    protected PApplet pApplet;
+    protected boolean isPlayerOnPlatform;
+    protected boolean isPlatformDestroyed;
+    protected int timePlayerLandedOnPlatform;
+    protected int timePlayerLeftThePlatform;
+    protected PImage[] platformSpriteImages;
+    protected int countOfItemsOnPlatform;
 
     PlatformBaseClass(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
         this.pApplet = pApplet;
@@ -36,6 +37,16 @@ abstract public class PlatformBaseClass {
         this.isPlatformDestroyed = false;
         this.timePlayerLandedOnPlatform = -1;
         this.timePlayerLeftThePlatform = -1;
+        this.countOfItemsOnPlatform = 0;
+    }
+
+    @Override
+    public int compareTo(PlatformBaseClass o) {
+        if(countOfItemsOnPlatform < o.countOfItemsOnPlatform)
+            return -1;
+        else if(countOfItemsOnPlatform > o.countOfItemsOnPlatform)
+            return 1;
+        return 0;
     }
 
     public void display() throws PlatformDimensionException {
@@ -105,5 +116,17 @@ abstract public class PlatformBaseClass {
 
     void setPlatformDestroyed(boolean platformDestroyed) {
         isPlatformDestroyed = platformDestroyed;
+    }
+
+    public int getCountOfItemsOnPlatform() {
+        return countOfItemsOnPlatform;
+    }
+
+    public void incrementCountOfItemsOnPlatform() {
+        this.countOfItemsOnPlatform += 1;
+    }
+
+    public void setCountOfItemsOnPlatform(int countOfItemsOnPlatform) {
+        this.countOfItemsOnPlatform = countOfItemsOnPlatform;
     }
 }

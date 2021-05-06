@@ -39,6 +39,14 @@ final public class Constants {
     public static final int ACID_BUBBLE_WIDTH = PLATFORM_WIDTH * 2;
     public static final int ACID_BUBBLE_HEIGHT = PLATFORM_HEIGHT * 2;
 
+    public static final int MONSTER_BEHIND_DOOR_WIDTH = 100;
+    public static final int MONSTER_BEHIND_DOOR_HEIGHT = 115;
+
     public static final int ENERGY_BOLT_WIDTH = 45;
     public static final int ENERGY_BOLT_HEIGHT = 20;
+
+    public static final int INITIAL_COST_STANDARD_PLATFORM = 0; //the first goto choice to place items
+    public static final int INITIAL_COST_UNSTABLE_PLATFORM = 1; //to make sure unstable platform gets filled only after standard platforms are filled
+    public static final int INITIAL_COST_TOXIC_PLATFORM = 10; //the least preferred choice, hence a very high cost
+    public static final int INITIAL_COST_PLAYER_START_PLATFORM = 3; //the least preferred choice, hence a very high cost
 }
