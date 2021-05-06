@@ -221,17 +221,20 @@ public class GameEngine {
 
             //Creating a wall climb platform
             PlatformBaseClass temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
-                    58 * PLATFORM_WIDTH, 11 * PLATFORM_HEIGHT,
+                    58 * PLATFORM_WIDTH, 15 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe16");
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 4,
+                    PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 3,
                     "safe17", temp_platform));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    56 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
-                    6 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    56 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
+                    8 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe18"));
+            platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                    PLATFORM_WIDTH * 65, PLATFORM_HEIGHT * 5,
+                    "safe19", null));
 
             //Ground death platform
             platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
