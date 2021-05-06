@@ -17,6 +17,7 @@ public class WallSeparationPlatform extends PlatformBaseClass {
 
     @Override
     public void display() throws PlatformDimensionException {
+        super.display();
         if (!isPlatformDestroyed) {
             //the y given here should be a multiple of PLATFORM_HEIGHT
             if(y%PLATFORM_HEIGHT != 0){

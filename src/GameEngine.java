@@ -163,76 +163,83 @@ public class GameEngine {
         platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                 5 * PLATFORM_WIDTH, 15 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe1"));
         platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                 10 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe2"));
         platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                 13 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
                 5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe3"));
         platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                 9 * PLATFORM_WIDTH, 6 * PLATFORM_HEIGHT,
                 4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe4"));
         platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                 4 * PLATFORM_WIDTH, 3 * PLATFORM_HEIGHT,
                 4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe5"));
         platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                 21 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
                 5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe6"));
         platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                 PLATFORM_WIDTH * 29, PLATFORM_HEIGHT * 5,
-                "safe"));
+                "safe7"));
         platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                 PLATFORM_WIDTH * 31, PLATFORM_HEIGHT * 17,
-                "safe"));
+                "safe8"));
         platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                 PLATFORM_WIDTH * 36, PLATFORM_HEIGHT * 14,
-                "safe"));
+                "safe9"));
         platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                 38 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
                 2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe10"));
         platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                 44 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
-                "safe"));
+                "safe11"));
         platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                 49 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe12"));
         platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                 45 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe13"));
         platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                 49 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe"));
+                "safe14"));
         platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                 44 * PLATFORM_WIDTH, 3 * PLATFORM_HEIGHT,
                 3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
-                "safe"));
+                "safe15"));
+        platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                55 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
+                3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
+                "safe16"));
         platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
                 PLATFORM_WIDTH, (float) (19.5 * PLATFORM_HEIGHT),
                 GAME_MAX_X_GRID * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
-                "death", acid_test_tube_breakage_sprites));
+                "death0", acid_test_tube_breakage_sprites));
         //Shuffle for randomness
         Collections.shuffle(platforms);
         platformArray.addAll(platforms);
         return platformArray;
     }
 
-    private PlatformBaseClass getPlatformToPlaceItem(boolean anyPlatform, boolean standardOnly) {
+    private PlatformBaseClass getPlatformToPlaceItem(boolean anyPlatform, boolean standardOnly, boolean itemPlacement, boolean enemyPlacement) {
         PlatformBaseClass platformToReturn = null;
         if (anyPlatform) {
             PlatformBaseClass platformToPlace = platformArray.poll(); //priority queue, always gives me platform with the least number of items
             if (platformToPlace != null) {
-                platformToPlace.incrementCountOfItemsOnPlatform(); //increment the count cost
+                if(itemPlacement)
+                    platformToPlace.incrementCountOfItemsOnPlatform(); //increment the count cost
+                else
+                    platformToPlace.incrementCountOfEnemiesOnPlatform(); //increment by number of enemies on platform
                 platformArray.offer(platformToPlace); //adding it back to the queue with modified costs
             }
             platformToReturn = platformToPlace;
@@ -250,7 +257,10 @@ public class GameEngine {
             }
             //while loop broken, because we found a standard platform with relatively lower item count
             platformArray.addAll(polledPlatforms);
-            platformToPlace.incrementCountOfItemsOnPlatform();
+            if(itemPlacement)
+                platformToPlace.incrementCountOfItemsOnPlatform(); //increment the count cost
+            else
+                platformToPlace.incrementCountOfEnemiesOnPlatform(); //increment by number of enemies on platform
             platformToReturn = platformToPlace;
         }
         return platformToReturn;
@@ -264,10 +274,9 @@ public class GameEngine {
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
         //console pc
         ArrayList<ConsolePc> consolePcList = new ArrayList<>();
-        consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false), consolePcSprites));
-        consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false), consolePcSprites));
-        consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false), consolePcSprites));
-        consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false), consolePcSprites));
+        for(int i=0; i<4; ++i) {
+            consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false, true, false), consolePcSprites));
+        }
         collectableArray.addAll(consolePcList);
 
         //Cloning container for every console PC
@@ -279,46 +288,21 @@ public class GameEngine {
                     pc));
         }
         //Adding a monster behind door game item
-        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true)));
+        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false)));
         return collectableArray;
     }
 
     public ArrayList<ZombieMouseCharacter> createLevelOneEnemies() throws Exception {
-        if (platformArray.size() > 0) {
+        //Normal enemies
+        for(int i=0; i<5; ++i) {
             enemyArray.add(new ZombieMouseCharacter(
-                    getPlatformToPlaceItem(true, false),
+                    getPlatformToPlaceItem(true, false, false, true),
                     ENEMY_WIDTH,
                     ENEMY_HEIGHT,
                     pApplet,
                     null,
                     enemyWalkRight,
                     enemyWalkLeft, enemyDeathLeft, enemyDeathRight));
-            enemyArray.add(new ZombieMouseCharacter(
-                    getPlatformToPlaceItem(true, false),
-                    ENEMY_WIDTH,
-                    ENEMY_HEIGHT,
-                    pApplet,
-                    null,
-                    enemyWalkRight,
-                    enemyWalkLeft, enemyDeathLeft, enemyDeathRight));
-            enemyArray.add(new ZombieMouseCharacter(
-                    getPlatformToPlaceItem(true, false),
-                    ENEMY_WIDTH,
-                    ENEMY_HEIGHT,
-                    pApplet,
-                    null,
-                    enemyWalkRight,
-                    enemyWalkLeft, enemyDeathLeft, enemyDeathRight));
-//            for (PlatformBaseClass platform : platformArray) {
-//                enemyArray.add(new ZombieMouseCharacter(
-//                        platform,
-//                        PLAYER_WIDTH,
-//                        PLATFORM_HEIGHT,
-//                        pApplet,
-//                        null));
-//            }
-        } else {
-            throw new Exception("Platforms not created !!");
         }
         return enemyArray;
     }

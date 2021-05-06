@@ -15,6 +15,7 @@ public class StandardPlatform extends PlatformBaseClass {
 
     @Override
     public void display() throws PlatformDimensionException {
+        super.display();
         if(w/PLATFORM_WIDTH < 2){
             throw new PlatformDimensionException("StandardPlatforms: \nWidth = (N * PLATFORM_WIDTH) \nHeight = (PLATFORM_HEIGHT)");
         }

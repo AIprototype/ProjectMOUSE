@@ -18,6 +18,7 @@ public class UnstablePlatform extends PlatformBaseClass {
 
     @Override
     public void display() throws PlatformDimensionException {
+        super.display();
         if(w/PLATFORM_WIDTH < 2){
             throw new PlatformDimensionException("UnstablePlatform: \nWidth = (N * PLATFORM_WIDTH) \nHeight = (PLATFORM_HEIGHT)");
         }

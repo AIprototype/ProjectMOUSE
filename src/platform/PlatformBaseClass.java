@@ -51,7 +51,7 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
 
     public void display() throws PlatformDimensionException {
         pApplet.fill(0, 0, 255);
-        pApplet.rect(x, y, w, h);
+        pApplet.text(typeof, x, y);
     }
 
     public float getW() {
@@ -124,6 +124,9 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
 
     public void incrementCountOfItemsOnPlatform() {
         this.countOfItemsOnPlatform += 1;
+    }
+    public void incrementCountOfEnemiesOnPlatform() {
+        this.countOfItemsOnPlatform += 1.5;
     }
 
     public void setCountOfItemsOnPlatform(int countOfItemsOnPlatform) {

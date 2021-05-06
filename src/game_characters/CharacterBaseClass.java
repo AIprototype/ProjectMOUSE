@@ -2,6 +2,7 @@ package game_characters;
 
 import camera_classes.FrameObject;
 import platform.PlatformBaseClass;
+import platform.WallSeparationPlatform;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -11,11 +12,12 @@ import static constants.Constants.*;
 abstract public class CharacterBaseClass {
     float w, h, x, y, vx, vy, acc_x, acc_y, speedLimit;
     float friction, bounce, gravity;
-    boolean isOnGround;
+    boolean isOnGround, isHittingRight, isHittingLeft;
     float jumpForce;
     float halfWidth, halfHeight;
     String collisionSide;
     PApplet pApplet;
+    PlatformBaseClass platformBeingUsed;
 
     //Image variables
     int currentFrame;
@@ -36,6 +38,8 @@ abstract public class CharacterBaseClass {
         this.acc_y = 0;
         this.speedLimit = PLAYER_SPEED_LIMIT;
         this.isOnGround = false;
+        this.isHittingRight = false;
+        this.isHittingLeft = false;
         this.jumpForce = PLAYER_JUMP_FORCE;
 
         //environment values
@@ -47,6 +51,7 @@ abstract public class CharacterBaseClass {
 
         this.collisionSide = "";
         this.pApplet = pApplet;
+        this.platformBeingUsed = null;
 
         this.mouseSpriteImages = mouseSpriteImages;
         currentFrame = 0;
@@ -76,6 +81,23 @@ abstract public class CharacterBaseClass {
             isOnGround = false;
             friction = 1;
             //gravity = 0.15f;
+        }
+
+        //Mechanics for wall climbing, only for WallSeparationPlatform
+        if (platformBeingUsed != null && platformBeingUsed instanceof WallSeparationPlatform) {
+            if (up && (isHittingLeft || isHittingRight) && !isOnGround) {
+                //wall climb jump
+                vy = jumpForce;
+                if (isHittingLeft) {
+                    isHittingLeft = false;
+                    facingRight = !facingRight;
+                    acc_x = 0.5f;
+                } else {
+                    isHittingRight = false;
+                    facingRight = !facingRight;
+                    acc_x = -0.5f;
+                }
+            }
         }
 
         if (down && !up) {
@@ -110,6 +132,9 @@ abstract public class CharacterBaseClass {
         }
         if (vx < -speedLimit) {
             vx = -speedLimit;
+        }
+        if (PApplet.abs(vx) < 0.2f) {
+            vx = 0;
         }
         //when gravity makes it fall down, so higher the character stronger the fall
         if (vy > 3 * speedLimit) {
@@ -174,8 +199,10 @@ abstract public class CharacterBaseClass {
             vy = 0;
         } else if (collisionSide.trim().equalsIgnoreCase("right") && vx >= 0) {
             vx = 0;
+            isHittingRight = true;
         } else if (collisionSide.trim().equalsIgnoreCase("left") && vx <= 0) {
             vx = 0;
+            isHittingLeft = true;
         }
 
         if (!collisionSide.trim().equalsIgnoreCase("bottom") && vy > 0) {
@@ -183,7 +210,16 @@ abstract public class CharacterBaseClass {
         }
     }
 
+    public void setPlatformBeingUsed(PlatformBaseClass platform) {
+        this.platformBeingUsed = platform;
+    }
+
+    public PlatformBaseClass getPlatformBeingUsed() {
+        return platformBeingUsed;
+    }
+
     public void resetCharacterLocation(PlatformBaseClass platform) {
+        this.platformBeingUsed = platform;
         this.x = platform.getX();
         this.y = platform.getY() - this.getH() - 15;
         this.vx = 0;

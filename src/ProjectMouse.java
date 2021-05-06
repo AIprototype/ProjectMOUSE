@@ -229,6 +229,7 @@ public class ProjectMouse extends PApplet {
                     if (abs(dy) < combinedHalfHeights) {
                         //Collision detected
                         //determine the overlap on each axis
+                        r1.setPlatformBeingUsed(r2); //collision detected with a platform
                         float overlapX = combinedHalfWidths - abs(dx);
                         float overlapY = combinedHalfHeights - abs(dy);
                         //collision happened on the axis with the smallest overlap
@@ -257,9 +258,11 @@ public class ProjectMouse extends PApplet {
                         }
                     } else {
                         //collision failed on the y axis
+                        r1.setPlatformBeingUsed(null);
                     }
                 } else {
                     //collision failed on the x axis
+                    r1.setPlatformBeingUsed(null);
                 }
             }
             r1.setCollisionSide(nonNoneCollision);
