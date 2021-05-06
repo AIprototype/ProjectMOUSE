@@ -233,7 +233,7 @@ public class GameEngine {
                     8 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe18"));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 65, PLATFORM_HEIGHT * 5,
+                    PLATFORM_WIDTH * 67, PLATFORM_HEIGHT * 5,
                     "safe19", null));
 
             //Ground death platform
