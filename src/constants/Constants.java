@@ -24,7 +24,7 @@ final public class Constants {
     public static final int BG_IMAGE_MAX_Y_GRID = 22;
 
     public static final int GAME_MAX_X_GRID = 2*BG_IMAGE_MAX_X_GRID;
-    public static final int GAME_MAX_Y_GRID = 24;
+    public static final int GAME_MAX_Y_GRID = 30;
 
     public static final int TIME_FOR_UNSTABLE_TO_DESTROY = 1500;
     public static final int TIME_FOR_UNSTABLE_TO_RECONSTRUCT = 1500;
