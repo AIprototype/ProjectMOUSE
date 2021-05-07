@@ -29,6 +29,8 @@ public class GameEngine {
     PImage[] acid_bubbling_sprites;
     PImage[] acid_test_tube_breakage_sprites;
     PImage[] monster_behind_sprites;
+    PImage[] electricity_generator_sprites;
+    PImage[] electric_sparks_sprites;
     PriorityQueue<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
     ArrayList<ZombieMouseCharacter> enemyArray;
@@ -55,8 +57,10 @@ public class GameEngine {
         this.acid_bubbling_sprites = new PImage[7];
         this.acid_test_tube_breakage_sprites = new PImage[20];
         this.monster_behind_sprites = new PImage[15];
+        this.electricity_generator_sprites = new PImage[15];
+        this.electric_sparks_sprites = new PImage[6];
         this.pApplet = pApplet;
-        for (int i = 0; i < 3; ++i) {
+        for (int i = 0; i < standardPlatformImages.length; ++i) {
             PImage std_img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
             PImage uns_img = pApplet.loadImage("unstable_platform" + PApplet.nf(i + 1, 4) + ".png");
             std_img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
@@ -64,88 +68,102 @@ public class GameEngine {
             standardPlatformImages[i] = std_img;
             unstablePlatformImages[i] = uns_img;
         }
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < wallSeparationPlatformImages.length; ++i) {
             String fileName = "wall_platform" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(PLATFORM_WIDTH, PLATFORM_HEIGHT);
             wallSeparationPlatformImages[i] = img;
         }
         //for enemy walk left
-        for (int i = 0; i < 12; ++i) {
+        for (int i = 0; i < enemyWalkLeft.length; ++i) {
             String fileName = "enemy_left_walk/black_rat_walk" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(ENEMY_WIDTH, ENEMY_HEIGHT);
             enemyWalkLeft[i] = img;
         }
         //for enemy walk right
-        for (int i = 0; i < 12; ++i) {
+        for (int i = 0; i < enemyWalkRight.length; ++i) {
             String fileName = "enemy_right_walk/enemy_right_walk" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(ENEMY_WIDTH, ENEMY_HEIGHT);
             enemyWalkRight[i] = img;
         }
         //enemy death left
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < enemyDeathLeft.length; ++i) {
             String fileName = "black_mouse_death_left/black_mouse_death" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(ENEMY_WIDTH, ENEMY_HEIGHT);
             enemyDeathLeft[i] = img;
         }
         //enemy death right
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < enemyDeathRight.length; ++i) {
             String fileName = "black_mouse_death_right/black_mouse_death" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(ENEMY_WIDTH, ENEMY_HEIGHT);
             enemyDeathRight[i] = img;
         }
         //for energy bolt red
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < energyBoltRed.length; ++i) {
             String fileName = "energy_bolt_red/bolt" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize((int) (ENERGY_BOLT_WIDTH * 1.5), (int) (ENERGY_BOLT_HEIGHT * 1.5));
             energyBoltRed[i] = img;
         }
         //for console pc sprites
-        for (int i = 0; i < 5; ++i) {
+        for (int i = 0; i < consolePcSprites.length; ++i) {
             String fileName = "console_pc/console_" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(CONSOLE_PC_WIDTH, CONSOLE_PC_HEIGHT);
             consolePcSprites[i] = img;
         }
         //for cloning containers normal
-        for (int i = 0; i < 11; ++i) {
+        for (int i = 0; i < cloning_container_normal.length; ++i) {
             String fileName = "cloning_containers/blue_lab_tube_chamber_on_" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(CLONING_CONTAINER_WIDTH, CLONING_CONTAINER_HEIGHT);
             cloning_container_normal[i] = img;
         }
         //for cloning containers destroyed
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < cloning_container_destroyed.length; ++i) {
             String fileName = "cloning_containers/blue_lab_tube_chamber_broken_" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(CLONING_CONTAINER_WIDTH, CLONING_CONTAINER_HEIGHT);
             cloning_container_destroyed[i] = img;
         }
         //for acid bubbling anim
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < acid_bubbling_sprites.length; ++i) {
             String fileName = "red_acid_bubling/bubble_" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(ACID_BUBBLE_WIDTH, ACID_BUBBLE_HEIGHT);
             acid_bubbling_sprites[i] = img;
         }
         //for test tube acid breakage
-        for (int i = 0; i < 20; ++i) {
+        for (int i = 0; i < acid_test_tube_breakage_sprites.length; ++i) {
             String fileName = "red_test_tube_acid/__red_spill_bubbling_" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(ACID_BUBBLE_WIDTH, ACID_BUBBLE_HEIGHT);
             acid_test_tube_breakage_sprites[i] = img;
         }
         //for monster behind sprites
-        for (int i = 0; i < 15; ++i) {
+        for (int i = 0; i < monster_behind_sprites.length; ++i) {
             String fileName = "monster_behind_door/__monster_behind_door_door_opning_closing_" + PApplet.nf(i + 1, 4) + ".png";
             PImage img = pApplet.loadImage(fileName);
             img.resize(MONSTER_BEHIND_DOOR_WIDTH, MONSTER_BEHIND_DOOR_HEIGHT);
             monster_behind_sprites[i] = img;
+        }
+        //for electricity generator sprites
+        for (int i = 0; i < electricity_generator_sprites.length; ++i) {
+            String fileName = "electricity_generator/__electricity_bomb_about_to_explode_" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(ELECTRICITY_GENERATOR_WIDTH, ELECTRICITY_GENERATOR_HEIGHT);
+            electricity_generator_sprites[i] = img;
+        }
+        //for electric sparks sprites
+        for (int i = 0; i < electric_sparks_sprites.length; ++i) {
+            String fileName = "electric_sparks/top_sparks_" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(ELECTRICITY_SPARK_WIDTH, ELECTRICITY_SPARK_HEIGHT);
+            electric_sparks_sprites[i] = img;
         }
     }
 
@@ -235,6 +253,12 @@ public class GameEngine {
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 67, PLATFORM_HEIGHT * 5,
                     "safe19", null));
+
+            //alternate path (If no wall climb used)
+            platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
+                    54 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "semi-death20", electricity_generator_sprites, electric_sparks_sprites));
 
             //Ground death platform
             platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,

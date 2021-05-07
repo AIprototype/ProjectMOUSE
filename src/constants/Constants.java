@@ -51,4 +51,10 @@ final public class Constants {
     public static final int INITIAL_COST_UNSTABLE_PLATFORM = 1; //to make sure unstable platform gets filled only after standard platforms are filled
     public static final int INITIAL_COST_TOXIC_PLATFORM = 10; //the least preferred choice, hence a very high cost
     public static final int INITIAL_COST_PLAYER_START_PLATFORM = 3; //the least preferred choice, hence a very high cost
+
+    public static final int ELECTRICITY_GENERATOR_WIDTH = 55;
+    public static final int ELECTRICITY_GENERATOR_HEIGHT = 55;
+
+    public static final int ELECTRICITY_SPARK_WIDTH = 85;
+    public static final int ELECTRICITY_SPARK_HEIGHT = 55;
 }
