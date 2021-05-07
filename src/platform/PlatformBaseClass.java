@@ -17,7 +17,7 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
     protected int timePlayerLandedOnPlatform;
     protected int timePlayerLeftThePlatform;
     protected PImage[] platformSpriteImages;
-    protected int countOfItemsOnPlatform;
+    protected float countOfItemsOnPlatform;
 
     PlatformBaseClass(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
         this.pApplet = pApplet;
@@ -146,7 +146,7 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
         isPlatformDestroyed = platformDestroyed;
     }
 
-    public int getCountOfItemsOnPlatform() {
+    public float getCountOfItemsOnPlatform() {
         return countOfItemsOnPlatform;
     }
 

@@ -18,13 +18,13 @@ final public class Constants {
     public static final float PLAYER_GRAVITY = 0.3f;
 
     public static final int CAM_MAX_X_GRID = 22;
-    public static final int CAM_MAX_Y_GRID = 20; // increase to show more black space above
+    public static final int CAM_MAX_Y_GRID = 22; // increase to show more black space above
 
     public static final int BG_IMAGE_MAX_X_GRID = 45;
-    public static final int BG_IMAGE_MAX_Y_GRID = 20;
+    public static final int BG_IMAGE_MAX_Y_GRID = 22;
 
     public static final int GAME_MAX_X_GRID = 2*BG_IMAGE_MAX_X_GRID;
-    public static final int GAME_MAX_Y_GRID = 20;
+    public static final int GAME_MAX_Y_GRID = 24;
 
     public static final int TIME_FOR_UNSTABLE_TO_DESTROY = 1500;
     public static final int TIME_FOR_UNSTABLE_TO_RECONSTRUCT = 1500;
@@ -51,6 +51,7 @@ final public class Constants {
     public static final int INITIAL_COST_UNSTABLE_PLATFORM = 1; //to make sure unstable platform gets filled only after standard platforms are filled
     public static final int INITIAL_COST_TOXIC_PLATFORM = 10; //the least preferred choice, hence a very high cost
     public static final int INITIAL_COST_PLAYER_START_PLATFORM = 3; //the least preferred choice, hence a very high cost
+    public static final int INITIAL_COST_WALL_PLATFORM = 2; //the least preferred choice, hence a very high cost
 
     public static final int ELECTRICITY_GENERATOR_WIDTH = 55;
     public static final int ELECTRICITY_GENERATOR_HEIGHT = 55;
