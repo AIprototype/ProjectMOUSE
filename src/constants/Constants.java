@@ -1,7 +1,7 @@
 package constants;
 
 final public class Constants {
-    public static final boolean DEBUG_MODE = false;
+    public static final boolean DEBUG_MODE = true;
 
     public static final int PLATFORM_WIDTH = 55;
     public static final int PLATFORM_HEIGHT = 35;

@@ -244,14 +244,14 @@ public class GameEngine {
                     "safe16");
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 10,
+                    PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 6,
                     "safe17", temp_platform));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     56 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
                     8 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe18"));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 67, PLATFORM_HEIGHT * 12,
+                    PLATFORM_WIDTH * 67, PLATFORM_HEIGHT * 8,
                     "safe19", null));
 
             //alternate electric path (If no wall climb used)
@@ -259,6 +259,22 @@ public class GameEngine {
                     54 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "semi-death20", electricity_generator_sprites, electric_sparks_sprites));
+
+            //higher level platforms
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    2 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
+                    6 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe21"));
+
+            //reference wall
+            temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
+                    10 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                    5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe22");
+            platforms.add(temp_platform);
+            platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                    PLATFORM_WIDTH * 13, PLATFORM_HEIGHT * 3,
+                    "safe23", temp_platform));
 
             //Ground death platform
             platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
@@ -312,7 +328,7 @@ public class GameEngine {
 
     public ArrayList<InGameItemsBaseClass> createLevelOneCollectables() {
         //halloween collectible
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 3 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 8 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 33, PLATFORM_HEIGHT * 13));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
