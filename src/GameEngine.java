@@ -31,6 +31,7 @@ public class GameEngine {
     PImage[] monster_behind_sprites;
     PImage[] electricity_generator_sprites;
     PImage[] electric_sparks_sprites;
+    PImage[] door_opening_sprites;
     PriorityQueue<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
     ArrayList<ZombieMouseCharacter> enemyArray;
@@ -59,6 +60,7 @@ public class GameEngine {
         this.monster_behind_sprites = new PImage[15];
         this.electricity_generator_sprites = new PImage[15];
         this.electric_sparks_sprites = new PImage[6];
+        this.door_opening_sprites = new PImage[8];
         this.pApplet = pApplet;
         for (int i = 0; i < standardPlatformImages.length; ++i) {
             PImage std_img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
@@ -165,6 +167,13 @@ public class GameEngine {
             img.resize(ELECTRICITY_SPARK_WIDTH, ELECTRICITY_SPARK_HEIGHT);
             electric_sparks_sprites[i] = img;
         }
+        //for door opening sprites
+        for (int i = 0; i < door_opening_sprites.length; ++i) {
+            String fileName = "door_open_close/lab_door_" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(MONSTER_BEHIND_DOOR_WIDTH, MONSTER_BEHIND_DOOR_HEIGHT);
+            door_opening_sprites[i] = img;
+        }
     }
 
     public PriorityQueue<PlatformBaseClass> createLevelOnePlatforms() {
@@ -172,7 +181,7 @@ public class GameEngine {
         StandardPlatform starterPlatform = new StandardPlatform(standardPlatformImages, pApplet,
                 2 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
                 2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe");
+                "safe", INITIAL_COST_STANDARD_PLATFORM);
         starterPlatform.setCountOfItemsOnPlatform(INITIAL_COST_PLAYER_START_PLATFORM);
         //place player on the starting platform
         player.resetCharacterLocation(starterPlatform);
@@ -182,27 +191,27 @@ public class GameEngine {
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     5 * PLATFORM_WIDTH, 25 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe1"));
+                    "safe1", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     10 * PLATFORM_WIDTH, 23 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe2"));
+                    "safe2", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     13 * PLATFORM_WIDTH, 20 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe3"));
+                    "safe3", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     9 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe4"));
+                    "safe4", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     4 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe5"));
+                    "safe5", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     21 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe6"));
+                    "safe6", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 29, PLATFORM_HEIGHT * 15,
                     "safe7", null));
@@ -215,66 +224,89 @@ public class GameEngine {
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     38 * PLATFORM_WIDTH, 20 * PLATFORM_HEIGHT,
                     2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe10"));
+                    "safe10", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     44 * PLATFORM_WIDTH, 23 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe11"));
+                    "safe11", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     49 * PLATFORM_WIDTH, 20 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe12"));
+                    "safe12", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     45 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe13"));
+                    "safe13", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     49 * PLATFORM_WIDTH, 14 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe14"));
+                    "safe14", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     44 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe15"));
+                    "safe15", INITIAL_COST_STANDARD_PLATFORM));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    48 * PLATFORM_WIDTH, 9 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe16", INITIAL_COST_UNSTABLE_PLATFORM));
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    43 * PLATFORM_WIDTH, 7 * PLATFORM_HEIGHT,
+                    2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe17", INITIAL_COST_STANDARD_PLATFORM));
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    35 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
+                    4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe18", INITIAL_COST_STANDARD_PLATFORM));
 
             //Creating a wall climb platform
             PlatformBaseClass temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
                     58 * PLATFORM_WIDTH, 25 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe16");
+                    "safe19", (INITIAL_COST_STANDARD_PLATFORM + 1));
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 6,
-                    "safe17", temp_platform));
+                    "safe20", temp_platform));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     56 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
                     8 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe18"));
+                    "safe21", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 67, PLATFORM_HEIGHT * 8,
-                    "safe19", null));
+                    "safe22", null));
 
             //alternate electric path (If no wall climb used)
             platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
                     54 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "semi-death20", electricity_generator_sprites, electric_sparks_sprites));
+                    "semi-death23", electricity_generator_sprites, electric_sparks_sprites));
 
             //higher level platforms
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     2 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
                     6 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe21"));
+                    "safe24", INITIAL_COST_STANDARD_PLATFORM));
 
             //reference wall
             temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
                     10 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe22");
+                    "safe25", (INITIAL_COST_STANDARD_PLATFORM + 1));
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 13, PLATFORM_HEIGHT * 3,
-                    "safe23", temp_platform));
+                    "safe26", temp_platform));
+
+            //continuing from safe22, wall platform
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    69 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
+                    5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe27", INITIAL_COST_STANDARD_PLATFORM));
+            //winning platform
+            platforms.add(new ExitPlatform(standardPlatformImages, pApplet,
+                    70 * PLATFORM_WIDTH, 23 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe28", INITIAL_COST_STANDARD_PLATFORM + 2, door_opening_sprites));
 
             //Ground death platform
             platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,

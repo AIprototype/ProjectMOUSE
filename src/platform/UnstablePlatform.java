@@ -11,9 +11,9 @@ public class UnstablePlatform extends PlatformBaseClass {
     float instabilityRevVel_x = -4f;
     boolean isCurrentInstabilityVelFwd = false;
 
-    public UnstablePlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
+    public UnstablePlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost) {
         super(platformSpriteImages, pApplet, x, y, w, h, typeof);
-        this.countOfItemsOnPlatform = INITIAL_COST_UNSTABLE_PLATFORM;
+        this.countOfItemsOnPlatform = initialPlatformCost;
     }
 
     @Override

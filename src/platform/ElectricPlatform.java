@@ -21,7 +21,7 @@ public class ElectricPlatform extends UnstablePlatform {
     int sparks_max_anim_cycle_length;
 
     public ElectricPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, PImage[] electricity_generator_sprites, PImage[] electric_sparks_sprites) {
-        super(platformSpriteImages, pApplet, x, y, w, h, typeof);
+        super(platformSpriteImages, pApplet, x, y, w, h, typeof, INITIAL_COST_UNSTABLE_PLATFORM);
         this.electric_sparks_sprites = electric_sparks_sprites;
         this.electricity_generator_sprites = electricity_generator_sprites;
 

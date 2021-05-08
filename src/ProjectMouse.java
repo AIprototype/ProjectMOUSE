@@ -238,6 +238,7 @@ public class ProjectMouse extends PApplet {
                                 //move the rectangle back to cover up the overlap
                                 //before calling its display to prevent drawing
                                 //object inside each other
+                                r2.setPlayerOnPlatform(false);
                                 r1.setY(r1.getY() + overlapY);
                                 nonNoneCollision = "top";
                             } else {
@@ -249,19 +250,23 @@ public class ProjectMouse extends PApplet {
                             }
                         } else {
                             if (dx > 0) {
+                                r2.setPlayerOnPlatform(false);
                                 r1.setX(r1.getX() + overlapX);
                                 nonNoneCollision = "left";
                             } else {
+                                r2.setPlayerOnPlatform(false);
                                 r1.setX(r1.getX() - overlapX);
                                 nonNoneCollision = "right";
                             }
                         }
                     } else {
                         //collision failed on the y axis
+                        r2.setPlayerOnPlatform(false);
                         r1.setPlatformBeingUsed(null);
                     }
                 } else {
                     //collision failed on the x axis
+                    r2.setPlayerOnPlatform(false);
                     r1.setPlatformBeingUsed(null);
                 }
             }

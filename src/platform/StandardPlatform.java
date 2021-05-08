@@ -4,13 +4,12 @@ import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
 
-import static constants.Constants.INITIAL_COST_STANDARD_PLATFORM;
 import static constants.Constants.PLATFORM_WIDTH;
 
 public class StandardPlatform extends PlatformBaseClass {
-    public StandardPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
+    public StandardPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost) {
         super(platformSpriteImages, pApplet, x, y, w, h, typeof);
-        this.countOfItemsOnPlatform = INITIAL_COST_STANDARD_PLATFORM;
+        this.countOfItemsOnPlatform = initialPlatformCost;
     }
 
     @Override

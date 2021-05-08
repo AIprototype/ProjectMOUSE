@@ -13,7 +13,7 @@ public class GroundToxicPlatform extends StandardPlatform {
     int max_anim_cycle_length;
 
     public GroundToxicPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, PImage[] acid_bubbling_sprites) {
-        super(platformSpriteImages, pApplet, x, y, w, h, typeof);
+        super(platformSpriteImages, pApplet, x, y, w, h, typeof, INITIAL_COST_STANDARD_PLATFORM);
         this.acid_bubbling_sprites = acid_bubbling_sprites;
         this.current_anim_pos = 0;
         this.anim_speed = 5;
