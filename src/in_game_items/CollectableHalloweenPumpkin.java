@@ -16,6 +16,7 @@ public class CollectableHalloweenPumpkin extends InGameItemsBaseClass {
     PImage pumpkin_light;
     PImage pumpkin_dark;
     PImage pumpkin_no_face;
+    boolean isCollected;
 
     public CollectableHalloweenPumpkin(PApplet pApplet, float x, float y) {
         super(pApplet, x, y, COLLECTABLE_WIDTH, COLLECTABLE_HEIGHT);
@@ -27,6 +28,7 @@ public class CollectableHalloweenPumpkin extends InGameItemsBaseClass {
         pumpkin_dark.resize(COLLECTABLE_WIDTH, COLLECTABLE_HEIGHT);
         pumpkinBg = pApplet.loadImage("pumpkin_glow.png");
         pumpkinBg.resize(2 * COLLECTABLE_WIDTH, 2 * COLLECTABLE_HEIGHT);
+        this.isCollected = false;
     }
 
     void animateCollectable() {
@@ -41,14 +43,24 @@ public class CollectableHalloweenPumpkin extends InGameItemsBaseClass {
         }
     }
 
+    public void setPumpkinIsCollected(boolean isCollected) {
+        this.isCollected = isCollected;
+    }
+
+    public boolean isCollected() {
+        return isCollected;
+    }
+
     @Override
     public void display() {
-        animateCollectable();
-        pApplet.image(pumpkinBg, x - COLLECTABLE_WIDTH/2, y - COLLECTABLE_HEIGHT/2);
-        if (pApplet.frameCount % 13 == 0) {
-            pApplet.image(pumpkin_dark, x, y);
-        } else {
-            pApplet.image(pumpkin_light, x, y);
+        if (!isCollected) {
+            animateCollectable();
+            pApplet.image(pumpkinBg, x - COLLECTABLE_WIDTH / 2, y - COLLECTABLE_HEIGHT / 2);
+            if (pApplet.frameCount % 13 == 0) {
+                pApplet.image(pumpkin_dark, x, y);
+            } else {
+                pApplet.image(pumpkin_light, x, y);
+            }
         }
     }
 }

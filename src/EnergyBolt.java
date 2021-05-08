@@ -7,14 +7,15 @@ import static constants.Constants.ENERGY_BOLT_HEIGHT;
 import static constants.Constants.ENERGY_BOLT_WIDTH;
 
 public class EnergyBolt {
-    float w, h, x, y;
-    float halfWidth, halfHeight;
-    float vx, vy;
-    boolean inMotion;
-    CharacterBaseClass firedBy;
-    PApplet pApplet;
-    PImage[] energyBolt;
-    boolean isFacingRight;
+    protected float w, h, x, y;
+    protected float halfWidth, halfHeight;
+    protected float vx, vy;
+    protected boolean inMotion;
+    protected CharacterBaseClass firedBy;
+    protected PApplet pApplet;
+    protected PImage[] energyBolt;
+    protected boolean isFacingRight;
+    protected boolean isDeactivated;
 
     private int imagePosToDisplay;
     float leftBound, rightBound, lowerBound, upperBound;
@@ -37,11 +38,20 @@ public class EnergyBolt {
         this.pApplet = pApplet;
         this.energyBolt = energyBolt;
         this.isFacingRight = false;
+        this.isDeactivated = false;
+    }
+
+    public boolean isDeactivated() {
+        return isDeactivated;
+    }
+
+    public boolean isInMotion() {
+        return inMotion;
     }
 
     public void fire(CharacterBaseClass firedBy) {
         this.firedBy = firedBy;
-        if (!inMotion) {
+        if (!inMotion && !isDeactivated) {
             y = firedBy.getY() - firedBy.getH() / 4; //to adjust from where the shot is coming from
             inMotion = true;
             if (firedBy.isFacingRight()) {
@@ -55,6 +65,8 @@ public class EnergyBolt {
             }
         }
     }
+
+
 
     void reset() {
         this.x = 0;
@@ -76,6 +88,8 @@ public class EnergyBolt {
             lowerBound = Math.max(camera.getH(), firedBy.getY() + firedBy.getHalfHeight() + camera.getH() / 2);
             if (x < leftBound || x > rightBound || y < upperBound || y > lowerBound) {
                 reset();
+                //energy bolt missed all items
+                isDeactivated = true;
                 System.out.println("Reset !!");
             }
         }
@@ -87,7 +101,7 @@ public class EnergyBolt {
                 //pApplet.fill(255, 0, 0);
                 //pApplet.rect(x, y, w, h);
                 pApplet.push();
-                pApplet.scale(-1, 1); // You had it right!
+                pApplet.scale(-1, 1);
                 pApplet.image(energyBolt[imagePosToDisplay], -x - firedBy.getW(), y);
                 pApplet.pop();
             } else {

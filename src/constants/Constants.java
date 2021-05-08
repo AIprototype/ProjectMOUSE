@@ -1,7 +1,7 @@
 package constants;
 
 final public class Constants {
-    public static final boolean DEBUG_MODE = true;
+    public static final boolean DEBUG_MODE = false;
     public static final int LOADING_SPRITE_WIDTH = 80;
     public static final int LOADING_SPRITE_HEIGHT = 80;
 
@@ -63,6 +63,20 @@ final public class Constants {
 
     public static final int HALLOWEEN_COLLECTIBLE_POINTS = 15;
     public static final int ENEMY_DESTROYED_USING_BOLTS_POINTS = 25;
-    public static final int POINTS_LOST_PER_MINUTE = 1;
+    public static final int POINTS_LOST_PER_MINUTE = -1;
     public static final int POINTS_GAINED_DESTROYING_CLONING_CONTAINERS = 30;
+    public static final int POINTS_LOST_DUE_TO_MISSED_ENERGY_BOLTS = -5;
+
+    public static float HEALTH_REDUCED_BY_ELECTRIC_SPARK_PLATFORM = -15;
+    public static float HEALTH_REDUCED_BY_ENEMY_TOUCH = -10;
+    public static float HEALTH_REDUCED_BY_GROUND_TOXIC = -65;
+
+    public static final int TROPHY_WIDTH = 25;
+    public static final int TROPHY_HEIGHT = 30;
+
+    public static final int HEART_WIDTH = 35;
+    public static final int HEART_HEIGHT = 30;
+
+    public static final float BRONZE_MAX_SCORE = 135;
+    public static final float SILVER_MAX_SCORE = 265;
 }

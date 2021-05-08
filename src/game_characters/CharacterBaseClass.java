@@ -1,6 +1,7 @@
 package game_characters;
 
 import camera_classes.FrameObject;
+import platform.ElectricPlatform;
 import platform.PlatformBaseClass;
 import platform.WallSeparationPlatform;
 import processing.core.PApplet;

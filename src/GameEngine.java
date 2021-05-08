@@ -33,14 +33,19 @@ public class GameEngine {
     PImage[] electricity_generator_sprites;
     PImage[] electric_sparks_sprites;
     PImage[] door_opening_sprites;
+    PImage bronze_trophy, silver_trophy, gold_trophy, health_icon;
     PriorityQueue<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
+    ArrayList<CollectableHalloweenPumpkin> halloweenCollectibleList;
+    ArrayList<CloningContainers> cloningContainerCollectibleList;
     ArrayList<ZombieMouseCharacter> enemyArray;
     ArrayList<EnergyBolt> playerEnergyBoltList;
 
     public GameEngine(PApplet pApplet, PlayerMouseCharacter player) {
         //loading platform sprites
         this.player = player;
+        this.halloweenCollectibleList = new ArrayList<>();
+        this.cloningContainerCollectibleList = new ArrayList<>();
         this.platformArray = new PriorityQueue<>();
         this.collectableArray = new ArrayList<>();
         this.enemyArray = new ArrayList<>();
@@ -175,6 +180,30 @@ public class GameEngine {
             img.resize(MONSTER_BEHIND_DOOR_WIDTH, MONSTER_BEHIND_DOOR_HEIGHT);
             door_opening_sprites[i] = img;
         }
+
+        //bronze trophy
+        String fileName = "bronze_trophy.png";
+        PImage img = pApplet.loadImage(fileName);
+        img.resize(TROPHY_WIDTH, TROPHY_HEIGHT);
+        bronze_trophy = img;
+
+        //silver trophy
+        fileName = "silver_trophy.png";
+        img = pApplet.loadImage(fileName);
+        img.resize(TROPHY_WIDTH, TROPHY_HEIGHT);
+        silver_trophy = img;
+
+        //gold trophy
+        fileName = "gold_trophy.png";
+        img = pApplet.loadImage(fileName);
+        img.resize(TROPHY_WIDTH, TROPHY_HEIGHT);
+        gold_trophy = img;
+
+        //heart sprite
+        fileName = "face_on_heart.png";
+        img = pApplet.loadImage(fileName);
+        img.resize(HEART_WIDTH, HEART_HEIGHT);
+        health_icon = img;
     }
 
     public void updatePlayer(PlayerMouseCharacter player) {
@@ -182,6 +211,7 @@ public class GameEngine {
     }
 
     public PriorityQueue<PlatformBaseClass> createLevelOnePlatforms() {
+        platformArray.clear();
         ArrayList<PlatformBaseClass> platforms = new ArrayList<>();
         startingPlatform = new StandardPlatform(standardPlatformImages, pApplet,
                 2 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
@@ -379,7 +409,11 @@ public class GameEngine {
     }
 
     public ArrayList<InGameItemsBaseClass> createLevelOneCollectables() {
-        //halloween collectible
+        //clearing any previous values
+        collectableArray.clear();
+        halloweenCollectibleList.clear();
+        cloningContainerCollectibleList.clear();
+
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 14 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 4 - COLLECTABLE_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 10 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 33, PLATFORM_HEIGHT * 13));
@@ -387,6 +421,11 @@ public class GameEngine {
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 73 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 23 - COLLECTABLE_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 69 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 25 - COLLECTABLE_HEIGHT));
+        for (InGameItemsBaseClass item : collectableArray) {
+            if (item instanceof CollectableHalloweenPumpkin) {
+                halloweenCollectibleList.add((CollectableHalloweenPumpkin) item);
+            }
+        }
         //console pc
         ArrayList<ConsolePc> consolePcList = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
@@ -396,11 +435,13 @@ public class GameEngine {
 
         //Cloning container for every console PC
         for (ConsolePc pc : consolePcList) {
-            collectableArray.add(new CloningContainers(pApplet,
+            CloningContainers ccn = new CloningContainers(pApplet,
                     pc.getPlatformToPlace(),
                     cloning_container_normal,
                     cloning_container_destroyed,
-                    pc));
+                    pc);
+            collectableArray.add(ccn);
+            cloningContainerCollectibleList.add(ccn);
         }
         //Adding a monster behind door game item
         collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false)));
@@ -408,6 +449,8 @@ public class GameEngine {
     }
 
     public ArrayList<ZombieMouseCharacter> createLevelOneEnemies() throws Exception {
+        //clearing previous values
+        enemyArray.clear();
         //Normal enemies
         for (int i = 0; i < 5; ++i) {
             enemyArray.add(new ZombieMouseCharacter(
@@ -423,30 +466,46 @@ public class GameEngine {
     }
 
     public ArrayList<EnergyBolt> createLevelOnePlayerEnergyBolts() {
-        for (int i = 0; i < 2; ++i) {
+        playerEnergyBoltList.clear();
+        for (int i = 0; i < 3; ++i) {
             playerEnergyBoltList.add(new EnergyBolt(pApplet, energyBoltRed));
         }
         return playerEnergyBoltList;
     }
 
-    public PriorityQueue<PlatformBaseClass> getPlatformArray() {
-        player.resetCharacterLocation(startingPlatform);
-        return platformArray;
-    }
-
-    public ArrayList<InGameItemsBaseClass> getCollectableArray() {
-        return collectableArray;
-    }
-
-    public ArrayList<ZombieMouseCharacter> getEnemyArray() {
-        return enemyArray;
-    }
-
-    public ArrayList<EnergyBolt> getPlayerEnergyBoltList() {
-        return playerEnergyBoltList;
-    }
-
     public Timer getEnergyBoltTimerForLevelOne() {
         return new Timer(pApplet, 200);
+    }
+
+    public PApplet getpApplet() {
+        return pApplet;
+    }
+
+    public PImage getBronze_trophy() {
+        return bronze_trophy;
+    }
+
+    public PImage getSilver_trophy() {
+        return silver_trophy;
+    }
+
+    public PImage getGold_trophy() {
+        return gold_trophy;
+    }
+
+    public PImage getHealth_icon() {
+        return health_icon;
+    }
+
+    public ArrayList<CollectableHalloweenPumpkin> getHalloweenCollectibleList() {
+        return halloweenCollectibleList;
+    }
+
+    public ArrayList<CloningContainers> getCloningContainerCollectibleList() {
+        return cloningContainerCollectibleList;
+    }
+
+    public PImage[] getEnergyBoltRed() {
+        return energyBoltRed;
     }
 }

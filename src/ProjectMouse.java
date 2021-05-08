@@ -4,12 +4,14 @@ import custom_exceptions.PlatformDimensionException;
 import game_characters.PlayerMouseCharacter;
 import game_characters.ZombieMouseCharacter;
 import in_game_items.CloningContainers;
+import in_game_items.CollectableHalloweenPumpkin;
 import in_game_items.InGameItemsBaseClass;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
 import status_pages.LoadingPage;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -32,7 +34,6 @@ public class ProjectMouse extends PApplet {
 
     Timer firingTimer;
     ArrayList<EnergyBolt> energyBoltList;
-    int posOfNextBulletToFire;
 
     //For loading Page
     LoadingPage loadingPage;
@@ -96,7 +97,6 @@ public class ProjectMouse extends PApplet {
         firingTimer.start();
         //initialise energy bolts
         energyBoltList = gameEngine.createLevelOnePlayerEnergyBolts();
-        posOfNextBulletToFire = 0;
         //set loading to false
         isLoading = false;
     }
@@ -133,17 +133,16 @@ public class ProjectMouse extends PApplet {
         //(Already initialised in setup, no change occurs here)
         //get level 1 platforms
         gameEngine.updatePlayer(player);
-        platformArray = gameEngine.getPlatformArray();
+        platformArray = gameEngine.createLevelOnePlatforms();
         //get level 1 collectables
-        collectableArray = gameEngine.getCollectableArray();
+        collectableArray = gameEngine.createLevelOneCollectables();
         //get level 1 enemies
-        enemyArray = gameEngine.getEnemyArray();
+        enemyArray = gameEngine.createLevelOneEnemies();
         //initialise firing timer
         firingTimer = gameEngine.getEnergyBoltTimerForLevelOne();
         firingTimer.start();
         //initialise energy bolts
-        energyBoltList = gameEngine.getPlayerEnergyBoltList();
-        posOfNextBulletToFire = 0;
+        energyBoltList = gameEngine.createLevelOnePlayerEnergyBolts();
         //set loading to false
         isLoading = false;
     }
@@ -157,108 +156,133 @@ public class ProjectMouse extends PApplet {
 //            text("Loading...", width / 2 - 50, height / 2);
             loadingPage.display();
         } else {
-            player.update(left, right, up, down, gameWorld);
-
-            //bullets
-            if (space) {
-                if(firingTimer.complete()) {
-                    System.out.println("Firing");
-                    energyBoltList.get(posOfNextBulletToFire).fire(player);
-                    posOfNextBulletToFire = (posOfNextBulletToFire + 1) % energyBoltList.size();
-                    firingTimer.start();
-                }
+            if (player.getPlayerHealth() > 0) {
+                inGameDrawingAndMechanism();
+            } else {
+                thread("resetGame");
             }
-            for(EnergyBolt bolt : energyBoltList) {
-                bolt.update(camera);
-                //bolt enemy collision
-                for(ZombieMouseCharacter enemy : enemyArray) {
-                    if(!enemy.isDead() && enemyEnergyBoltCollision(bolt, enemy)) {
-                        enemy.deathAnimation();
-                        bolt.reset();
-                    }
-                }
-                //bolt cloning container collision
-                for(InGameItemsBaseClass item : collectableArray) {
-                    if(item instanceof CloningContainers &&
-                            !((CloningContainers)item).isDestroyed() &&
-                            cloningContainerEnergyBoltCollision(bolt, ((CloningContainers)item))) {
-                        ((CloningContainers)item).setDestroyed(true);
-                        bolt.reset();
-                    }
-                }
-            }
-
-            //Move the camera
-            camera.setX(floor(player.getX() + player.getHalfWidth() - (camera.getW() / 2)));
-            camera.setY(floor(player.getY() + player.getHalfHeight() - (camera.getH() / 2)));
-            //keeping camera within  game world boundaries
-            if (camera.getX() < gameWorld.getX()) {
-                camera.setX(gameWorld.getX());
-            }
-            if (camera.getY() < gameWorld.getY()) {
-                camera.setY(gameWorld.getY());
-            }
-            if ((camera.getX() + camera.getW()) > (gameWorld.getX() + gameWorld.getW())) {
-                camera.setX(gameWorld.getX() + gameWorld.getW() - camera.getW());
-            }
-            if ((camera.getY() + camera.getH()) > gameWorld.getH()) {
-                camera.setY(gameWorld.getH() - camera.getH());
-            }
-
-            //push stores the original state
-            pushMatrix();
-            translate(-camera.getX(), -camera.getY());
-            backImage.display();
-
-            rectangleCollision(player, platformArray);
-            //player.display();
-
-            //display platforms
-            for (PlatformBaseClass platform : platformArray) {
-                try {
-                    platform.display();
-                } catch (PlatformDimensionException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-
-            //display collectables
-            for (InGameItemsBaseClass collectable : collectableArray) {
-                collectable.display();
-            }
-
-            //display enemies
-            for (ZombieMouseCharacter enemy : enemyArray) {
-                enemy.update(left, right, up, down, gameWorld);
-                enemy.display();
-            }
-
-            //Player - Zombie collisions
-            for (ZombieMouseCharacter enemy : enemyArray) {
-                String collisionSide = playerZombieCollision(player, enemy);
-                if (collisionSide.trim().equalsIgnoreCase("top")) {
-                    enemy.deathAnimation();
-                } else {
-                    //enemy dies, but player looses lot of health
-                }
-            }
-
-            //display energy bolts
-            for(EnergyBolt bolt : energyBoltList) {
-                bolt.display();
-            }
-
-            //for showing player on top of everything
-            player.display();
-
-            //the push and pop isolates the translation done
-            //pops out the original stored state
-            popMatrix();
-
-            //for getting details on screen
-            //doesnt move with the screen as it is after popMatrix()
-            displayPositionData();
         }
+    }
+
+    void inGameDrawingAndMechanism() {
+        player.update(left, right, up, down, gameWorld);
+
+        //bullets
+        if (space) {
+            if (firingTimer.complete()) {
+                for (EnergyBolt bolt : energyBoltList) {
+                    if(!bolt.isDeactivated() && !bolt.isInMotion()) {
+                        System.out.println("Firing");
+                        bolt.fire(player);
+                        firingTimer.start();
+                        break;
+                    }
+                }
+            }
+        }
+        for (EnergyBolt bolt : energyBoltList) {
+            bolt.update(camera);
+            //bolt enemy collision
+            for (ZombieMouseCharacter enemy : enemyArray) {
+                if (!enemy.isDead() && enemyEnergyBoltCollision(bolt, enemy)) {
+                    enemy.deathAnimation();
+                    bolt.reset();
+                    player.addPointsGainedByPlayer(ENEMY_DESTROYED_USING_BOLTS_POINTS);
+                }
+            }
+            //bolt cloning container collision
+            for (CloningContainers item : gameEngine.getCloningContainerCollectibleList()) {
+                if (!item.isDestroyed() &&
+                        cloningContainerEnergyBoltCollision(bolt, item)) {
+                    item.setDestroyed(true);
+                    bolt.reset();
+                    player.addPointsGainedByPlayer(POINTS_GAINED_DESTROYING_CLONING_CONTAINERS);
+                    player.incrementCountOfCloningContainersDestroyed();
+                }
+            }
+        }
+
+        //Move the camera
+        camera.setX(floor(player.getX() + player.getHalfWidth() - (camera.getW() / 2)));
+        camera.setY(floor(player.getY() + player.getHalfHeight() - (camera.getH() / 2)));
+        //keeping camera within  game world boundaries
+        if (camera.getX() < gameWorld.getX()) {
+            camera.setX(gameWorld.getX());
+        }
+        if (camera.getY() < gameWorld.getY()) {
+            camera.setY(gameWorld.getY());
+        }
+        if ((camera.getX() + camera.getW()) > (gameWorld.getX() + gameWorld.getW())) {
+            camera.setX(gameWorld.getX() + gameWorld.getW() - camera.getW());
+        }
+        if ((camera.getY() + camera.getH()) > gameWorld.getH()) {
+            camera.setY(gameWorld.getH() - camera.getH());
+        }
+
+        //push stores the original state
+        pushMatrix();
+        translate(-camera.getX(), -camera.getY());
+        backImage.display();
+
+        rectangleCollision(player, platformArray);
+        //player.display();
+
+        //display platforms
+        for (PlatformBaseClass platform : platformArray) {
+            try {
+                platform.display();
+            } catch (PlatformDimensionException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        //display collectables
+        for (InGameItemsBaseClass collectable : collectableArray) {
+            collectable.display();
+        }
+
+        //display enemies
+        for (ZombieMouseCharacter enemy : enemyArray) {
+            enemy.update(left, right, up, down, gameWorld);
+            enemy.display();
+        }
+
+        //Player - Zombie collisions
+        for (ZombieMouseCharacter enemy : enemyArray) {
+            String collisionSide = playerZombieCollision(player, enemy);
+            if (collisionSide.trim().equalsIgnoreCase("top")) {
+                enemy.deathAnimation();
+            } else if (collisionSide.trim().equalsIgnoreCase("right") || collisionSide.trim().equalsIgnoreCase("left")) {
+                //enemy dies, but player looses lot of health
+                enemy.deathAnimation();
+                player.addToPlayerHealth(HEALTH_REDUCED_BY_ENEMY_TOUCH);
+            }
+        }
+
+        //player - Halloween Collectible collisions
+        for (CollectableHalloweenPumpkin pumpkin : gameEngine.getHalloweenCollectibleList()) {
+            if (!pumpkin.isCollected() && playerHalloweenCollectibleCollision(player, pumpkin)) {
+                player.addPointsGainedByPlayer(HALLOWEEN_COLLECTIBLE_POINTS);
+                player.incrementCountOfHalloweenCollectiblesCollected();
+            }
+        }
+
+        //display energy bolts
+        for (EnergyBolt bolt : energyBoltList) {
+            bolt.display();
+        }
+
+        //for showing player on top of everything
+        player.display();
+
+        //the push and pop isolates the translation done
+        //pops out the original stored state
+        popMatrix();
+
+        //for getting details on screen
+        //doesnt move with the screen as it is after popMatrix()
+        displayPositionData();
+        displayPlayerDetails();
     }
 
     void rectangleCollision(PlayerMouseCharacter r1, PriorityQueue<PlatformBaseClass> platformList) {
@@ -393,6 +417,22 @@ public class ProjectMouse extends PApplet {
         return false;
     }
 
+    boolean playerHalloweenCollectibleCollision(PlayerMouseCharacter r1, CollectableHalloweenPumpkin r2) {
+        float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
+        float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
+        float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();
+        float combinedHalfHeights = r1.getHalfHeight() + r2.getHalfHeight();
+        if (abs(dx) < combinedHalfWidths) {
+            //collision on x-axis
+            if (abs(dy) < combinedHalfHeights) {
+                //collision on y-axis
+                r2.setPumpkinIsCollected(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
     void displayPositionData() {
         fill(255);
         textSize(15);
@@ -400,7 +440,53 @@ public class ProjectMouse extends PApplet {
                 + "  vy:" + player.getVy()
                 + "  \ncollision side:" + player.getCollisionSide()
                 + "  \nFPS: " + frameRate;
-        text(s, 20, 20);
+        text(s, width - 180, 20);
+    }
+
+    void displayPlayerDetails() {
+        //display health
+        image(gameEngine.getHealth_icon(), 10, 10);
+        fill(0, 0, 0);
+        textSize(20);
+        String text = new DecimalFormat("#").format(player.getPlayerHealth());
+        float textWidth = textWidth(text);
+        float ascent = textAscent();
+        float descent = textDescent();
+        float textHeight = ascent - descent;
+        text(text, 10 + HEART_WIDTH + 5, 10 + HEART_HEIGHT / 2 + textHeight / 2);
+
+        //display the points
+        if (player.getPointsGainedByPlayer() < BRONZE_MAX_SCORE) {
+            image(gameEngine.getBronze_trophy(), 10, 10 + TROPHY_HEIGHT + 5);
+        } else if (player.getPointsGainedByPlayer() < SILVER_MAX_SCORE && player.getPointsGainedByPlayer() >= BRONZE_MAX_SCORE) {
+            image(gameEngine.getSilver_trophy(), 10, 10 + TROPHY_HEIGHT + 5);
+        } else {
+            image(gameEngine.getGold_trophy(), 10, 10 + TROPHY_HEIGHT + 5);
+        }
+        fill(0, 0, 0);
+        textSize(18);
+        text = String.valueOf(player.getPointsGainedByPlayer());
+        textWidth = textWidth(text);
+        ascent = textAscent();
+        descent = textDescent();
+        textHeight = ascent - descent;
+        text(text, 10 + TROPHY_WIDTH + 5, 10 + TROPHY_HEIGHT / 2 + textHeight / 2 + HEART_HEIGHT + 5);
+
+        //display remaining energy bolts
+        int countEnergyBolts = 0;
+        for (EnergyBolt bolt : energyBoltList) {
+            if (!bolt.isDeactivated())
+                ++countEnergyBolts;
+        }
+        image(gameEngine.getEnergyBoltRed()[0], 10, 10 + HEART_HEIGHT + ENERGY_BOLT_HEIGHT + 10);
+        fill(0, 0, 0);
+        textSize(18);
+        text = " x" + String.valueOf(countEnergyBolts);
+        textWidth = textWidth(text);
+        ascent = textAscent();
+        descent = textDescent();
+        textHeight = ascent - descent;
+        text(text, 10 + ENERGY_BOLT_WIDTH + 10, 10 + TROPHY_HEIGHT / 2 + textHeight / 2 + HEART_HEIGHT + ENERGY_BOLT_HEIGHT + 10);
     }
 
     @Override
