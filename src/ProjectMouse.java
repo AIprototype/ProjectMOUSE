@@ -8,6 +8,7 @@ import in_game_items.InGameItemsBaseClass;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
+import status_pages.LoadingPage;
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
@@ -33,6 +34,9 @@ public class ProjectMouse extends PApplet {
     ArrayList<EnergyBolt> energyBoltList;
     int posOfNextBulletToFire;
 
+    //For loading Page
+    LoadingPage loadingPage;
+
     public static void main(String[] args) {
         PApplet.main("ProjectMouse");
         System.out.println("Welcome to Project MOUSE !!");
@@ -46,10 +50,11 @@ public class ProjectMouse extends PApplet {
 
     @Override
     public void setup() {
-        thread("resetGame");
+        loadingPage = new LoadingPage("Loading", "Please wait", this);
+        thread("gameSetup");
     }
 
-    public void resetGame() throws Exception {
+    public void gameSetup() throws Exception {
         //called in thread
         isLoading = true;
 
@@ -96,13 +101,61 @@ public class ProjectMouse extends PApplet {
         isLoading = false;
     }
 
+    public void resetGame() throws Exception {
+        //called in thread
+        isLoading = true;
+
+        left = false;
+        right = false;
+        up = false;
+        down = false;
+        space = false;
+
+        //background image & camera
+        bgImage = loadImage("background.png");
+        backImage = new ImageObject(this, PLATFORM_WIDTH * BG_IMAGE_MAX_X_GRID, PLATFORM_HEIGHT * BG_IMAGE_MAX_Y_GRID, 0, 0, bgImage);
+        gameWorld = new FrameObject(0, 0, PLATFORM_WIDTH * GAME_MAX_X_GRID, PLATFORM_HEIGHT * GAME_MAX_Y_GRID);
+        camera = new FrameObject(0, 0, width, height);
+        camera.setX((gameWorld.getX() + gameWorld.getW() / 2) - camera.getW() / 2);
+        camera.setY((gameWorld.getY() + gameWorld.getH() / 2) - camera.getH() / 2);
+
+        //mouse images
+        frames = 6;
+        mouseSpriteImages = new PImage[frames];
+        for (int i = 0; i < frames; ++i) {
+            PImage img = loadImage("mouse" + nf(i + 1, 4) + ".png");
+            img.resize(PLAYER_WIDTH, PLAYER_HEIGHT);
+            mouseSpriteImages[i] = img;
+        }
+
+        player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
+
+        //(Already initialised in setup, no change occurs here)
+        //get level 1 platforms
+        gameEngine.updatePlayer(player);
+        platformArray = gameEngine.getPlatformArray();
+        //get level 1 collectables
+        collectableArray = gameEngine.getCollectableArray();
+        //get level 1 enemies
+        enemyArray = gameEngine.getEnemyArray();
+        //initialise firing timer
+        firingTimer = gameEngine.getEnergyBoltTimerForLevelOne();
+        firingTimer.start();
+        //initialise energy bolts
+        energyBoltList = gameEngine.getPlayerEnergyBoltList();
+        posOfNextBulletToFire = 0;
+        //set loading to false
+        isLoading = false;
+    }
+
     @Override
     public void draw() {
         background(0);
         if (isLoading) {
-            background(0);
-            textSize(25);
-            text("Loading...", width / 2 - 50, height / 2);
+//            background(0);
+//            textSize(25);
+//            text("Loading...", width / 2 - 50, height / 2);
+            loadingPage.display();
         } else {
             player.update(left, right, up, down, gameWorld);
 

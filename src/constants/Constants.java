@@ -2,6 +2,8 @@ package constants;
 
 final public class Constants {
     public static final boolean DEBUG_MODE = true;
+    public static final int LOADING_SPRITE_WIDTH = 80;
+    public static final int LOADING_SPRITE_HEIGHT = 80;
 
     public static final int PLATFORM_WIDTH = 55;
     public static final int PLATFORM_HEIGHT = 35;
@@ -26,7 +28,7 @@ final public class Constants {
     public static final int GAME_MAX_X_GRID = 2*BG_IMAGE_MAX_X_GRID;
     public static final int GAME_MAX_Y_GRID = 31;
 
-    public static final int TIME_FOR_UNSTABLE_TO_DESTROY = 1500;
+    public static final int TIME_FOR_UNSTABLE_TO_DESTROY = 800;
     public static final int TIME_FOR_UNSTABLE_TO_RECONSTRUCT = 1500;
 
     public static final int COLLECTABLE_WIDTH = 45;
@@ -58,4 +60,9 @@ final public class Constants {
 
     public static final int ELECTRICITY_SPARK_WIDTH = 85;
     public static final int ELECTRICITY_SPARK_HEIGHT = 55;
+
+    public static final int HALLOWEEN_COLLECTIBLE_POINTS = 15;
+    public static final int ENEMY_DESTROYED_USING_BOLTS_POINTS = 25;
+    public static final int POINTS_LOST_PER_MINUTE = 1;
+    public static final int POINTS_GAINED_DESTROYING_CLONING_CONTAINERS = 30;
 }

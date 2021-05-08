@@ -14,7 +14,8 @@ import static constants.Constants.*;
 public class GameEngine {
     //Platform sprite images
     PApplet pApplet;
-    final PlayerMouseCharacter player;
+    PlayerMouseCharacter player;
+    StandardPlatform startingPlatform;
     PImage[] standardPlatformImages;
     PImage[] unstablePlatformImages;
     PImage[] wallSeparationPlatformImages;
@@ -176,16 +177,20 @@ public class GameEngine {
         }
     }
 
+    public void updatePlayer(PlayerMouseCharacter player) {
+        this.player = player;
+    }
+
     public PriorityQueue<PlatformBaseClass> createLevelOnePlatforms() {
         ArrayList<PlatformBaseClass> platforms = new ArrayList<>();
-        StandardPlatform starterPlatform = new StandardPlatform(standardPlatformImages, pApplet,
+        startingPlatform = new StandardPlatform(standardPlatformImages, pApplet,
                 2 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
                 2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                 "safe", INITIAL_COST_STANDARD_PLATFORM);
-        starterPlatform.setCountOfItemsOnPlatform(INITIAL_COST_PLAYER_START_PLATFORM);
+        startingPlatform.setCountOfItemsOnPlatform(INITIAL_COST_PLAYER_START_PLATFORM);
         //place player on the starting platform
-        player.resetCharacterLocation(starterPlatform);
-        platforms.add(starterPlatform);
+        player.resetCharacterLocation(startingPlatform);
+        platforms.add(startingPlatform);
         //rest of the platforms
         try {
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
@@ -260,7 +265,7 @@ public class GameEngine {
 
             //Creating a wall climb platform
             PlatformBaseClass temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
-                    58 * PLATFORM_WIDTH, 26 * PLATFORM_HEIGHT,
+                    58 * PLATFORM_WIDTH, 25 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe19", (INITIAL_COST_STANDARD_PLATFORM + 1));
             platforms.add(temp_platform);
@@ -300,17 +305,32 @@ public class GameEngine {
             //continuing from safe22, wall platform
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     69 * PLATFORM_WIDTH, 9 * PLATFORM_HEIGHT,
-                    5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    9 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe27", INITIAL_COST_STANDARD_PLATFORM));
+            temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
+                    78 * PLATFORM_WIDTH, 25 * PLATFORM_HEIGHT,
+                    5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe28", INITIAL_COST_STANDARD_PLATFORM);
+            platforms.add(temp_platform);
+            platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                    78 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 9,
+                    "safe29", temp_platform));
+            platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
+                    73 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 23,
+                    "safe30", null));
+            platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
+                    69 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
+                    4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe31", electricity_generator_sprites, electric_sparks_sprites));
             //winning platform
             platforms.add(new ExitPlatform(standardPlatformImages, pApplet,
-                    70 * PLATFORM_WIDTH, 23 * PLATFORM_HEIGHT,
-                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe28", INITIAL_COST_STANDARD_PLATFORM + 2, door_opening_sprites));
+                    72 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
+                    4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe32", INITIAL_COST_STANDARD_PLATFORM + 2, door_opening_sprites, true));
 
             //Ground death platform
             platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
-                    PLATFORM_WIDTH, (float) (30.5 * PLATFORM_HEIGHT),
+                    PLATFORM_WIDTH, (float) (30 * PLATFORM_HEIGHT),
                     GAME_MAX_X_GRID * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
                     "death0", acid_test_tube_breakage_sprites));
             //Shuffle for randomness
@@ -365,6 +385,8 @@ public class GameEngine {
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 33, PLATFORM_HEIGHT * 13));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 73 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 23 - COLLECTABLE_HEIGHT));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 69 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 25 - COLLECTABLE_HEIGHT));
         //console pc
         ArrayList<ConsolePc> consolePcList = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
@@ -404,6 +426,23 @@ public class GameEngine {
         for (int i = 0; i < 2; ++i) {
             playerEnergyBoltList.add(new EnergyBolt(pApplet, energyBoltRed));
         }
+        return playerEnergyBoltList;
+    }
+
+    public PriorityQueue<PlatformBaseClass> getPlatformArray() {
+        player.resetCharacterLocation(startingPlatform);
+        return platformArray;
+    }
+
+    public ArrayList<InGameItemsBaseClass> getCollectableArray() {
+        return collectableArray;
+    }
+
+    public ArrayList<ZombieMouseCharacter> getEnemyArray() {
+        return enemyArray;
+    }
+
+    public ArrayList<EnergyBolt> getPlayerEnergyBoltList() {
         return playerEnergyBoltList;
     }
 
