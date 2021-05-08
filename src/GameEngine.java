@@ -189,117 +189,117 @@ public class GameEngine {
         //rest of the platforms
         try {
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    5 * PLATFORM_WIDTH, 25 * PLATFORM_HEIGHT,
+                    5 * PLATFORM_WIDTH, 26 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe1", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    10 * PLATFORM_WIDTH, 23 * PLATFORM_HEIGHT,
+                    10 * PLATFORM_WIDTH, 24 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe2", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    13 * PLATFORM_WIDTH, 20 * PLATFORM_HEIGHT,
+                    13 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe3", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    9 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
+                    9 * PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe4", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    4 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
+                    4 * PLATFORM_WIDTH, 14 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe5", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    21 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
+                    21 * PLATFORM_WIDTH, 19 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe6", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 29, PLATFORM_HEIGHT * 15,
+                    PLATFORM_WIDTH * 29, PLATFORM_HEIGHT * 16,
                     "safe7", null));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 31, PLATFORM_HEIGHT * 27,
+                    PLATFORM_WIDTH * 31, PLATFORM_HEIGHT * 28,
                     "safe8", null));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 36, PLATFORM_HEIGHT * 24,
+                    PLATFORM_WIDTH * 36, PLATFORM_HEIGHT * 25,
                     "safe9", null));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    38 * PLATFORM_WIDTH, 20 * PLATFORM_HEIGHT,
+                    38 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
                     2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe10", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    44 * PLATFORM_WIDTH, 23 * PLATFORM_HEIGHT,
+                    44 * PLATFORM_WIDTH, 24 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe11", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    49 * PLATFORM_WIDTH, 20 * PLATFORM_HEIGHT,
+                    49 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe12", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    45 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
+                    45 * PLATFORM_WIDTH, 19 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe13", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    49 * PLATFORM_WIDTH, 14 * PLATFORM_HEIGHT,
+                    49 * PLATFORM_WIDTH, 15 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe14", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    44 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
+                    44 * PLATFORM_WIDTH, 14 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe15", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    48 * PLATFORM_WIDTH, 9 * PLATFORM_HEIGHT,
+                    48 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe16", INITIAL_COST_UNSTABLE_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    43 * PLATFORM_WIDTH, 7 * PLATFORM_HEIGHT,
+                    43 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
                     2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe17", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    35 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
+                    35 * PLATFORM_WIDTH, 5 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe18", INITIAL_COST_STANDARD_PLATFORM));
 
             //Creating a wall climb platform
             PlatformBaseClass temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
-                    58 * PLATFORM_WIDTH, 25 * PLATFORM_HEIGHT,
+                    58 * PLATFORM_WIDTH, 26 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe19", (INITIAL_COST_STANDARD_PLATFORM + 1));
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 6,
+                    PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 7,
                     "safe20", temp_platform));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    56 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
+                    56 * PLATFORM_WIDTH, 29 * PLATFORM_HEIGHT,
                     8 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe21", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 67, PLATFORM_HEIGHT * 8,
+                    PLATFORM_WIDTH * 67, PLATFORM_HEIGHT * 9,
                     "safe22", null));
 
             //alternate electric path (If no wall climb used)
             platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
-                    54 * PLATFORM_WIDTH, 16 * PLATFORM_HEIGHT,
+                    54 * PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "semi-death23", electricity_generator_sprites, electric_sparks_sprites));
 
             //higher level platforms
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    2 * PLATFORM_WIDTH, 4 * PLATFORM_HEIGHT,
+                    2 * PLATFORM_WIDTH, 5 * PLATFORM_HEIGHT,
                     6 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe24", INITIAL_COST_STANDARD_PLATFORM));
 
             //reference wall
             temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
-                    10 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
+                    10 * PLATFORM_WIDTH, 11 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe25", (INITIAL_COST_STANDARD_PLATFORM + 1));
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
-                    PLATFORM_WIDTH * 13, PLATFORM_HEIGHT * 3,
+                    PLATFORM_WIDTH * 13, PLATFORM_HEIGHT * 4,
                     "safe26", temp_platform));
 
             //continuing from safe22, wall platform
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
-                    69 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
+                    69 * PLATFORM_WIDTH, 9 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe27", INITIAL_COST_STANDARD_PLATFORM));
             //winning platform
@@ -310,7 +310,7 @@ public class GameEngine {
 
             //Ground death platform
             platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
-                    PLATFORM_WIDTH, (float) (29.5 * PLATFORM_HEIGHT),
+                    PLATFORM_WIDTH, (float) (30.5 * PLATFORM_HEIGHT),
                     GAME_MAX_X_GRID * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
                     "death0", acid_test_tube_breakage_sprites));
             //Shuffle for randomness
@@ -360,7 +360,8 @@ public class GameEngine {
 
     public ArrayList<InGameItemsBaseClass> createLevelOneCollectables() {
         //halloween collectible
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 8 * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 14 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 4 - COLLECTABLE_HEIGHT));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 10 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 33, PLATFORM_HEIGHT * 13));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
         collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
