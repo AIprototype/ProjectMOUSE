@@ -15,6 +15,11 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
     PImage[] enemyDeathRightSprites;
     int deathAnimationCount = 0;
 
+    int walk_right_current_pos;
+    int walk_left_current_pos;
+    int right_walk_anim_speed;
+    int left_walk_anim_speed;
+
     public ZombieMouseCharacter(PlatformBaseClass platform, int characterWidth, int characterHeight, PApplet pApplet,
                                 PImage[] mouseSpriteImages, PImage[] walkingRightSprites, PImage[] walkingLeftSprites,
                                 PImage[] enemyDeathLeftSprites, PImage[] enemyDeathRightSprites) {
@@ -37,6 +42,11 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
         this.walkingRightSprites = walkingRightSprites;
         this.enemyDeathLeftSprites = enemyDeathLeftSprites;
         this.enemyDeathRightSprites = enemyDeathRightSprites;
+
+        this.walk_right_current_pos = 0;
+        this.walk_left_current_pos = 0;
+        this.right_walk_anim_speed = 8;
+        this.left_walk_anim_speed = 8;
     }
 
     @Override
@@ -70,9 +80,9 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
     public void display() {
         if (!isDead) {
             if (facingRight) {
-                pApplet.image(walkingRightSprites[pApplet.frameCount % walkingLeftSprites.length], x, y);
+                pApplet.image(walkingRightSprites[walk_right_current_pos], x, y);
             } else {
-                pApplet.image(walkingLeftSprites[pApplet.frameCount % walkingLeftSprites.length], x, y);
+                pApplet.image(walkingLeftSprites[walk_left_current_pos], x, y);
             }
         } else if (deathAnimationCount < 3) {
             //slowly incrementing the image to be shown in each frame, 3 because size of death animation is 4
@@ -92,6 +102,23 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
 //            } else {
 //                pApplet.image(enemyDeathLeftSprites[3], x, y);
 //            }
+        }
+
+        //updating walking anim
+        if (pApplet.frameCount % right_walk_anim_speed == 0) {
+            if (walk_right_current_pos == walkingRightSprites.length - 1) {
+                walk_right_current_pos = 0;
+            } else {
+                ++walk_right_current_pos;
+            }
+        }
+
+        if (pApplet.frameCount % left_walk_anim_speed == 0) {
+            if (walk_left_current_pos == walkingLeftSprites.length - 1) {
+                walk_left_current_pos = 0;
+            } else {
+                ++walk_left_current_pos;
+            }
         }
     }
 
