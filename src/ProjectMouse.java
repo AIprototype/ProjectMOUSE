@@ -31,6 +31,7 @@ public class ProjectMouse extends PApplet {
     PImage bgImage;
     GameEngine gameEngine;
     boolean isLoading;
+    boolean didPlayerGiveApprovalToContinue;
 
     Timer firingTimer;
     ArrayList<EnergyBolt> energyBoltList;
@@ -55,9 +56,15 @@ public class ProjectMouse extends PApplet {
         thread("gameSetup");
     }
 
+    private void setLoadingState() {
+        loadingPage.resetLoadingPage();
+        isLoading = true;
+        didPlayerGiveApprovalToContinue = false;
+    }
+
     public void gameSetup() throws Exception {
         //called in thread
-        isLoading = true;
+        setLoadingState();
 
         left = false;
         right = false;
@@ -103,7 +110,7 @@ public class ProjectMouse extends PApplet {
 
     public void resetGame() throws Exception {
         //called in thread
-        isLoading = true;
+        setLoadingState();
 
         left = false;
         right = false;
@@ -150,12 +157,12 @@ public class ProjectMouse extends PApplet {
     @Override
     public void draw() {
         background(0);
-        if (isLoading) {
-//            background(0);
-//            textSize(25);
-//            text("Loading...", width / 2 - 50, height / 2);
+        if (isLoading && !didPlayerGiveApprovalToContinue) {
             loadingPage.display();
-        } else {
+        } else if(!isLoading && !didPlayerGiveApprovalToContinue) {
+            loadingPage.changeLoadingToPressEnter();
+            loadingPage.display();
+        } else if (!isLoading) {
             if (player.getPlayerHealth() > 0) {
                 inGameDrawingAndMechanism();
             } else {
@@ -171,7 +178,7 @@ public class ProjectMouse extends PApplet {
         if (space) {
             if (firingTimer.complete()) {
                 for (EnergyBolt bolt : energyBoltList) {
-                    if(!bolt.isDeactivated() && !bolt.isInMotion()) {
+                    if (!bolt.isDeactivated() && !bolt.isInMotion()) {
                         System.out.println("Firing");
                         bolt.fire(player);
                         firingTimer.start();
@@ -281,7 +288,8 @@ public class ProjectMouse extends PApplet {
 
         //for getting details on screen
         //doesnt move with the screen as it is after popMatrix()
-        displayPositionData();
+        if(DEBUG_MODE)
+            displayPositionData();
         displayPlayerDetails();
     }
 
@@ -523,6 +531,10 @@ public class ProjectMouse extends PApplet {
         }
         if (key == ' ') {
             space = false;
+        }
+        if (key == ENTER) {
+            if (!isLoading)
+                didPlayerGiveApprovalToContinue = true;
         }
     }
 }

@@ -1,7 +1,7 @@
 package constants;
 
 final public class Constants {
-    public static final boolean DEBUG_MODE = false;
+    public static final boolean DEBUG_MODE = true;
     public static final int LOADING_SPRITE_WIDTH = 80;
     public static final int LOADING_SPRITE_HEIGHT = 80;
 
@@ -12,6 +12,9 @@ final public class Constants {
 
     public static final int ENEMY_WIDTH = 80;
     public static final int ENEMY_HEIGHT = 35;
+
+    public static final int SMART_ENEMY_WIDTH = 65;
+    public static final int SMART_ENEMY_HEIGHT = 80;
 
     public static final float PLAYER_JUMP_FORCE = -10f;
     public static final float PLAYER_SPEED_LIMIT = 6f;
@@ -77,6 +80,9 @@ final public class Constants {
     public static final int HEART_WIDTH = 35;
     public static final int HEART_HEIGHT = 30;
 
-    public static final float BRONZE_MAX_SCORE = 135;
-    public static final float SILVER_MAX_SCORE = 265;
+    public static final float BRONZE_MAX_SCORE = 155;
+    public static final float SILVER_MAX_SCORE = 300;
+
+    public static final String LOADING_STRING = "Loading..";
+    public static final String PRESS_ENTER_STRING = "Press Enter to continue..";
 }

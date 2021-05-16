@@ -18,7 +18,7 @@ public class LoadingPage extends StatusPageBaseClass {
     int loading_hints_max_pos;
     ArrayList<String> loading_hints;
     int curr_time;
-    int max_time_to_show_hint = 1500;
+    int max_time_to_show_hint = 5500;
 
     public LoadingPage(String title, String message, PApplet pApplet) {
         super(title, message, pApplet, 25, 18);
@@ -45,7 +45,23 @@ public class LoadingPage extends StatusPageBaseClass {
         this.messageWidth = pApplet.textWidth(message);
         messageAscent = pApplet.textAscent();
         messageDescent = pApplet.textDescent();
-        messageHeight = titleAscent + titleDescent;
+        messageHeight = messageAscent + messageDescent;
+
+        pApplet.textSize(titleTexSize);
+        this.titleWidth = pApplet.textWidth(title);
+        titleAscent = pApplet.textAscent();
+        titleDescent = pApplet.textDescent();
+        titleHeight = titleAscent + titleDescent;
+    }
+
+    public void changeLoadingToPressEnter() {
+        title = PRESS_ENTER_STRING;
+        recalculateMessageParams();
+    }
+
+    public void resetLoadingPage() {
+        title = LOADING_STRING;
+        recalculateMessageParams();
     }
 
     @Override

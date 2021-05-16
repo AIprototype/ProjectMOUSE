@@ -1,4 +1,5 @@
 import game_characters.PlayerMouseCharacter;
+import game_characters.SmartZombieCharacter;
 import game_characters.ZombieMouseCharacter;
 import in_game_items.*;
 import platform.*;
@@ -33,6 +34,8 @@ public class GameEngine {
     PImage[] electricity_generator_sprites;
     PImage[] electric_sparks_sprites;
     PImage[] door_opening_sprites;
+    PImage[] right_smart_enemy_sprites;
+    PImage[] left_smart_enemy_sprites;
     PImage bronze_trophy, silver_trophy, gold_trophy, health_icon;
     PriorityQueue<PlatformBaseClass> platformArray;
     ArrayList<InGameItemsBaseClass> collectableArray;
@@ -67,6 +70,8 @@ public class GameEngine {
         this.electricity_generator_sprites = new PImage[15];
         this.electric_sparks_sprites = new PImage[6];
         this.door_opening_sprites = new PImage[8];
+        this.right_smart_enemy_sprites = new PImage[3];
+        this.left_smart_enemy_sprites = new PImage[3];
         this.pApplet = pApplet;
         for (int i = 0; i < standardPlatformImages.length; ++i) {
             PImage std_img = pApplet.loadImage("platform" + PApplet.nf(i + 1, 4) + ".png");
@@ -179,6 +184,20 @@ public class GameEngine {
             PImage img = pApplet.loadImage(fileName);
             img.resize(MONSTER_BEHIND_DOOR_WIDTH, MONSTER_BEHIND_DOOR_HEIGHT);
             door_opening_sprites[i] = img;
+        }
+        //for right smart enemy sprites
+        for (int i = 0; i < right_smart_enemy_sprites.length; ++i) {
+            String fileName = "smart_enemy/right_smart_enemy" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(SMART_ENEMY_WIDTH, SMART_ENEMY_HEIGHT);
+            right_smart_enemy_sprites[i] = img;
+        }
+        //for left smart enemy sprites
+        for (int i = 0; i < left_smart_enemy_sprites.length; ++i) {
+            String fileName = "smart_enemy/left_smart_enemy" + PApplet.nf(i + 1, 4) + ".png";
+            PImage img = pApplet.loadImage(fileName);
+            img.resize(SMART_ENEMY_WIDTH, SMART_ENEMY_HEIGHT);
+            left_smart_enemy_sprites[i] = img;
         }
 
         //bronze trophy
@@ -345,18 +364,38 @@ public class GameEngine {
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     78 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 9,
                     "safe29", temp_platform));
+            platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
+                    87 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "semi-death30", electricity_generator_sprites, electric_sparks_sprites));
+            platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
+                    85 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
+                    5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe31", INITIAL_COST_STANDARD_PLATFORM));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    80 * PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
+                    3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe32", INITIAL_COST_STANDARD_PLATFORM));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    86 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
+                    4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe33", INITIAL_COST_STANDARD_PLATFORM));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     73 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 23,
-                    "safe30", null));
+                    "safe34", null));
             platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
                     69 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe31", electricity_generator_sprites, electric_sparks_sprites));
+                    "safe35", electricity_generator_sprites, electric_sparks_sprites));
+            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
+                    86 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
+                    6 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe33", INITIAL_COST_STANDARD_PLATFORM));
             //winning platform
             platforms.add(new ExitPlatform(standardPlatformImages, pApplet,
                     72 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe32", INITIAL_COST_STANDARD_PLATFORM + 2, door_opening_sprites, true));
+                    "safe36", INITIAL_COST_STANDARD_PLATFORM + 2, door_opening_sprites, true));
 
             //Ground death platform
             platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
@@ -452,15 +491,26 @@ public class GameEngine {
         //clearing previous values
         enemyArray.clear();
         //Normal enemies
-        for (int i = 0; i < 5; ++i) {
-            enemyArray.add(new ZombieMouseCharacter(
-                    getPlatformToPlaceItem(true, false, false, true),
-                    ENEMY_WIDTH,
-                    ENEMY_HEIGHT,
-                    pApplet,
-                    null,
-                    enemyWalkRight,
-                    enemyWalkLeft, enemyDeathLeft, enemyDeathRight));
+        for (int i = 0; i < 8; ++i) {
+            if (i % 2 == 0) {
+                enemyArray.add(new ZombieMouseCharacter(
+                        getPlatformToPlaceItem(true, false, false, true),
+                        ENEMY_WIDTH,
+                        ENEMY_HEIGHT,
+                        pApplet,
+                        null,
+                        enemyWalkRight,
+                        enemyWalkLeft, enemyDeathLeft, enemyDeathRight));
+            } else {
+                enemyArray.add(new SmartZombieCharacter(
+                        getPlatformToPlaceItem(true, false, false, true),
+                        SMART_ENEMY_WIDTH,
+                        SMART_ENEMY_HEIGHT,
+                        pApplet,
+                        null,
+                        right_smart_enemy_sprites,
+                        left_smart_enemy_sprites, enemyDeathLeft, enemyDeathRight));
+            }
         }
         return enemyArray;
     }
