@@ -388,8 +388,8 @@ public class GameEngine {
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe35", electricity_generator_sprites, electric_sparks_sprites));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    81 * PLATFORM_WIDTH, 29 * PLATFORM_HEIGHT,
-                    6 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    78 * PLATFORM_WIDTH, 29 * PLATFORM_HEIGHT,
+                    9 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe33", INITIAL_COST_STANDARD_PLATFORM));
             //winning platform
             platforms.add(new ExitPlatform(standardPlatformImages, pApplet,
@@ -483,6 +483,7 @@ public class GameEngine {
             cloningContainerCollectibleList.add(ccn);
         }
         //Adding a monster behind door game item
+        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player));
         collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player));
         collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player));
         return collectableArray;

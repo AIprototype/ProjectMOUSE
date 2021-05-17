@@ -19,6 +19,7 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
     PlatformBaseClass platformToPlace;
     PlayerMouseCharacter player;
     ArrayList<String> monsterChatList;
+
     public MonsterBehindDoor(PApplet pApplet, PImage[] monster_behind_door_sprites, PlatformBaseClass platformToPlace, PlayerMouseCharacter playerMouseCharacter) {
         super(pApplet,
                 pApplet.random(platformToPlace.getX(), platformToPlace.getX() + (platformToPlace.getW() - MONSTER_BEHIND_DOOR_WIDTH)),
@@ -34,9 +35,9 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
         monsterChatList = new StringConstants().getMonsterChatList();
     }
 
-    private static int countLines(String str){
+    private static int countLines(String str) {
         String[] lines = str.split("\r\n|\r|\n");
-        return  lines.length;
+        return lines.length;
     }
 
     private void displayChatBubble(String message, float textSize) {
@@ -46,12 +47,13 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
         float titleDescent = pApplet.textDescent();
         float titleHeight = titleAscent + titleDescent;
 
-        pApplet.fill(255, 255, 255);
+        pApplet.fill(255, 255, 255, 191);
+        pApplet.stroke(0, 0, 0, 191);
         pApplet.ellipse(x + 5, y + 10, 5, 5);
         pApplet.ellipse(x - 5, y + 5, 10, 10);
         pApplet.ellipse(x - 15, y - 5, 15, 15);
         pApplet.ellipse(x - 20, y - 50, titleWidth + 15, 3 * titleHeight * countLines(message));
-        pApplet.fill(0, 0, 0);
+        pApplet.fill(0, 0, 0, 255);
         pApplet.text(message, x - 20 - (titleWidth) / 2, (y - 45));
     }
 
@@ -61,8 +63,8 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
             pApplet.image(monster_behind_door_sprites[current_anim_pos], x, y + 27);
         }
 
-        if(player.getPlatformBeingUsed() != null && player.getPlatformBeingUsed().equals(platformToPlace)) {
-            displayChatBubble(monsterChatList.get(0),15);
+        if (player.getPlatformBeingUsed() != null && player.getPlatformBeingUsed().equals(platformToPlace)) {
+            displayChatBubble(monsterChatList.get(0), 15);
         } else {
             Collections.shuffle(monsterChatList);
         }
