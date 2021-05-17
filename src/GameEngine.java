@@ -387,10 +387,10 @@ public class GameEngine {
                     69 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
                     "safe35", electricity_generator_sprites, electric_sparks_sprites));
-            platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
-                    78 * PLATFORM_WIDTH, 29 * PLATFORM_HEIGHT,
-                    9 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe33", INITIAL_COST_STANDARD_PLATFORM));
+            platforms.add(new StandardMovingPlatforms(standardPlatformImages, pApplet,
+                    77 * PLATFORM_WIDTH, 29 * PLATFORM_HEIGHT,
+                    5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
+                    "safe36", INITIAL_COST_MOVING_PLATFORM));
             //winning platform
             platforms.add(new ExitPlatform(standardPlatformImages, pApplet,
                     72 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,

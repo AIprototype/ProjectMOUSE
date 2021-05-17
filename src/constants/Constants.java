@@ -57,6 +57,7 @@ final public class Constants {
     public static final int INITIAL_COST_TOXIC_PLATFORM = 10; //the least preferred choice, hence a very high cost
     public static final int INITIAL_COST_PLAYER_START_PLATFORM = 3; //the least preferred choice, hence a very high cost
     public static final int INITIAL_COST_WALL_PLATFORM = 2; //the least preferred choice, hence a very high cost
+    public static final int INITIAL_COST_MOVING_PLATFORM = 70; //the least preferred choice, hence a very high cost
 
     public static final int ELECTRICITY_GENERATOR_WIDTH = 55;
     public static final int ELECTRICITY_GENERATOR_HEIGHT = 55;

@@ -1,9 +1,6 @@
 package game_characters;
 
-import platform.ElectricPlatform;
-import platform.ExitPlatform;
-import platform.GroundToxicPlatform;
-import platform.PlatformBaseClass;
+import platform.*;
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -78,6 +75,10 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
             } else if (platform instanceof GroundToxicPlatform) {
                 playerHealth += HEALTH_REDUCED_BY_GROUND_TOXIC;
                 curr_time = pApplet.millis();
+            } else if (platform instanceof StandardMovingPlatforms) {
+                if (pApplet.frameCount % ((StandardMovingPlatforms) platform).getVelFrameUpdateInterval() == 0) {
+                    x += ((StandardMovingPlatforms) platform).getCurrentVelInUse();
+                }
             }
         }
     }
