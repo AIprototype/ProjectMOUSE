@@ -24,7 +24,7 @@ public class StringConstants {
         monsterChatList = new ArrayList<>();
         monsterChatList.add("Did you pick out your clothes in the dark?");
         monsterChatList.add("Gaaahhh, that bugs the snot out of me!");
-        monsterChatList.add("A hero never loses.\n A hero never dies.");
+        monsterChatList.add("A hero never loses. A hero never dies.");
         monsterChatList.add("IT'S WAY TOO HOT HERE");
         monsterChatList.add("I get this uncontrollable\n urge to eat you");
         monsterChatList.add("I CAN'T FEEL MY TOES..");
@@ -36,6 +36,8 @@ public class StringConstants {
         monsterChatList.add("Don't try this at home kids…");
         monsterChatList.add("Glad to be alive through CS4303");
         monsterChatList.add("The red stuff boiling below is candy, trust me.");
+        monsterChatList.add("You look different...");
+        monsterChatList.add("I wonder, how many bolts you got?");
     }
 
     public ArrayList<String> getLoadingHints() {

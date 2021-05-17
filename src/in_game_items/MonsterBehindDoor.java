@@ -47,12 +47,12 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
         float titleHeight = titleAscent + titleDescent;
 
         pApplet.fill(255, 255, 255);
-        pApplet.ellipse(x + 5, y - 5, 5, 5);
-        pApplet.ellipse(x - 5, y - 10, 10, 10);
-        pApplet.ellipse(x - 15, y - 20, 15, 15);
-        pApplet.ellipse(x - 20, y - 65, titleWidth + 15, 3 * titleHeight * countLines(message));
+        pApplet.ellipse(x + 5, y + 10, 5, 5);
+        pApplet.ellipse(x - 5, y + 5, 10, 10);
+        pApplet.ellipse(x - 15, y - 5, 15, 15);
+        pApplet.ellipse(x - 20, y - 50, titleWidth + 15, 3 * titleHeight * countLines(message));
         pApplet.fill(0, 0, 0);
-        pApplet.text(message, x - 20 - (titleWidth) / 2, (y - 60));
+        pApplet.text(message, x - 20 - (titleWidth) / 2, (y - 45));
     }
 
     @Override

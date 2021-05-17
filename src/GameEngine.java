@@ -484,6 +484,7 @@ public class GameEngine {
         }
         //Adding a monster behind door game item
         collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player));
+        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player));
         return collectableArray;
     }
 
