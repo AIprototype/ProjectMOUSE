@@ -85,4 +85,5 @@ final public class Constants {
 
     public static final String LOADING_STRING = "Loading..";
     public static final String PRESS_ENTER_STRING = "Press Enter to continue..";
+    public static final String PRESS_ENTER_TO_PROCEED_STRING = "Press Enter to proceed";
 }
