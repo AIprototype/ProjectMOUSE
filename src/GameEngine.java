@@ -46,9 +46,11 @@ public class GameEngine {
     ArrayList<EnergyBolt> playerEnergyBoltList;
     //Camera Handler Class
     CameraHandlerClass cameraHandlerClass;
+    int userSelectedGameMode;
 
-    public GameEngine(PApplet pApplet, PlayerMouseCharacter player) {
+    public GameEngine(PApplet pApplet, PlayerMouseCharacter player, int userSelectedGameMode) {
         //loading platform sprites
+        this.userSelectedGameMode = userSelectedGameMode;
         this.player = player;
         this.halloweenCollectibleList = new ArrayList<>();
         this.cloningContainerCollectibleList = new ArrayList<>();
@@ -396,7 +398,7 @@ public class GameEngine {
             platforms.add(new StandardMovingPlatforms(standardPlatformImages, pApplet,
                     77 * PLATFORM_WIDTH, 29 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe36", INITIAL_COST_MOVING_PLATFORM, cameraHandlerClass));
+                    "safe36", INITIAL_COST_MOVING_PLATFORM, cameraHandlerClass, userSelectedGameMode));
             //winning platform
             platforms.add(new ExitPlatform(standardPlatformImages, pApplet,
                     72 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
@@ -499,7 +501,11 @@ public class GameEngine {
         //clearing previous values
         enemyArray.clear();
         //Normal enemies
-        for (int i = 0; i < 7; ++i) {
+        int numOfEnemies = 7;
+        if (userSelectedGameMode == EXTREME_DIFFICULTY_MODE) {
+            numOfEnemies *= 2;
+        }
+        for (int i = 0; i < numOfEnemies; ++i) {
             if (i % 2 == 0) {
                 enemyArray.add(new ZombieMouseCharacter(
                         getPlatformToPlaceItem(true, false, false, true),
@@ -525,7 +531,11 @@ public class GameEngine {
 
     public ArrayList<EnergyBolt> createLevelOnePlayerEnergyBolts() {
         playerEnergyBoltList.clear();
-        for (int i = 0; i < 3; ++i) {
+        int numOfBolts = 3;
+        if(userSelectedGameMode == EXTREME_DIFFICULTY_MODE) {
+            numOfBolts = 2;
+        }
+        for (int i = 0; i < numOfBolts; ++i) {
             playerEnergyBoltList.add(new EnergyBolt(pApplet, energyBoltRed));
         }
         return playerEnergyBoltList;

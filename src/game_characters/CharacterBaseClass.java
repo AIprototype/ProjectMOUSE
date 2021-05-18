@@ -1,7 +1,6 @@
 package game_characters;
 
 import camera_classes.FrameObject;
-import platform.ElectricPlatform;
 import platform.PlatformBaseClass;
 import platform.WallSeparationPlatform;
 import processing.core.PApplet;
@@ -27,8 +26,9 @@ abstract public class CharacterBaseClass {
     int frameOffset;
     PImage[] mouseSpriteImages;
     boolean isDead;
+    int userSelectedGameMode;
 
-    CharacterBaseClass(int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages) {
+    CharacterBaseClass(int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages, int userSelectedGameMode) {
         this.w = characterWidth;
         this.h = characterHeight;
         this.x = 60;
@@ -60,6 +60,8 @@ abstract public class CharacterBaseClass {
         frameSequence = 3; //number of frames in each animation sequence
         frameOffset = 0;
         isDead = false;
+
+        this.userSelectedGameMode = userSelectedGameMode;
     }
 
     public void update(boolean left, boolean right, boolean up, boolean down, FrameObject gameWorld) {
@@ -137,7 +139,7 @@ abstract public class CharacterBaseClass {
         if (vx < -speedLimit) {
             vx = -speedLimit;
         }
-        if (PApplet.abs(vx) < 0.2f) {
+        if (PApplet.abs(vx) < 0.2f && (userSelectedGameMode == NORMAL_MODE_OPTION_ID || userSelectedGameMode == BOUNCY_MODE_OPTION_ID)) {
             vx = 0;
         }
         //when gravity makes it fall down, so higher the character stronger the fall

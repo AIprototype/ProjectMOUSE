@@ -3,10 +3,10 @@ package status_pages.models;
 public class MainMenuOptionsModel {
     String optionName;
     float optionNameWidth, optionNameHeight;
-    String optionId;
+    int optionId;
     boolean isSelected;
 
-    public MainMenuOptionsModel(String optionName, float optionNameWidth, float optionNameHeight, String optionId, boolean isSelected) {
+    public MainMenuOptionsModel(String optionName, float optionNameWidth, float optionNameHeight, int optionId, boolean isSelected) {
         this.optionName = optionName;
         this.optionNameWidth = optionNameWidth;
         this.optionNameHeight = optionNameHeight;
@@ -38,11 +38,11 @@ public class MainMenuOptionsModel {
         this.optionNameHeight = optionNameHeight;
     }
 
-    public String getOptionId() {
+    public int getOptionId() {
         return optionId;
     }
 
-    public void setOptionId(String optionId) {
+    public void setOptionId(int optionId) {
         this.optionId = optionId;
     }
 

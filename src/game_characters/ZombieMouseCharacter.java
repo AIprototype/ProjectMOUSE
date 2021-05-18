@@ -28,7 +28,7 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
     public ZombieMouseCharacter(PlatformBaseClass platform, int characterWidth, int characterHeight, PApplet pApplet,
                                 PImage[] mouseSpriteImages, PImage[] walkingRightSprites, PImage[] walkingLeftSprites,
                                 PImage[] enemyDeathLeftSprites, PImage[] enemyDeathRightSprites, CameraHandlerClass cameraHandlerClass) {
-        super(characterWidth, characterHeight, pApplet, mouseSpriteImages);
+        super(characterWidth, characterHeight, pApplet, mouseSpriteImages, -1);
         platformWherePlaced = platform;
         x = platformWherePlaced.getX() + platformWherePlaced.getW() / 2 - halfWidth;
         y = platformWherePlaced.getY() - h - 100;

@@ -18,8 +18,8 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
     int curr_time;
     int timeAfterWhichPlatformHealthReductionTakesPlace;
 
-    public PlayerMouseCharacter(int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages) {
-        super(characterWidth, characterHeight, pApplet, mouseSpriteImages);
+    public PlayerMouseCharacter(int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages, int userSelectedGameMode) {
+        super(characterWidth, characterHeight, pApplet, mouseSpriteImages, userSelectedGameMode);
         this.facingRightImagePos = 3;
         this.facingLeftImagePos = 0;
         this.walkingAnimationSpeedFactor = 8;
@@ -31,6 +31,17 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
 
         this.curr_time = 0;
         this.timeAfterWhichPlatformHealthReductionTakesPlace = 1000;
+
+        if(userSelectedGameMode == NORMAL_MODE_OPTION_ID) {
+            this.friction = PLAYER_FRICTION;
+            this.bounce = PLAYER_BOUNCE;
+        } else if (userSelectedGameMode == BOUNCY_MODE_OPTION_ID) {
+            this.friction = PLAYER_FRICTION;
+            this.bounce = PLAYER_BOUNCE_BOUNCY_MODE;
+        } else if (userSelectedGameMode == SLIPPERY_MODE_OPTION_ID) {
+            this.friction = PLAYER_FRICTION_SLIPPERY_MODE;
+            this.bounce = PLAYER_BOUNCE;
+        }
     }
 
     public float getPlayerHealth() {

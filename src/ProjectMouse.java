@@ -7,11 +7,14 @@ import game_characters.ZombieMouseCharacter;
 import in_game_items.CloningContainers;
 import in_game_items.CollectableHalloweenPumpkin;
 import in_game_items.InGameItemsBaseClass;
+import platform.ExitPlatform;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
 import status_pages.LoadingPage;
+import status_pages.VictoryPage;
 import status_pages.WelcomePage;
+import status_pages.models.MainMenuOptionsModel;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,6 +38,7 @@ public class ProjectMouse extends PApplet {
     boolean isLoading;
     boolean didPlayerGiveApprovalToContinue;
     boolean didPlayerSelectOption;
+    boolean didPlayerPressEnterToGoToMainMenu;
 
     Timer firingTimer;
     ArrayList<EnergyBolt> energyBoltList;
@@ -42,10 +46,16 @@ public class ProjectMouse extends PApplet {
     LoadingPage loadingPage;
     //For welcome page
     WelcomePage welcomePage;
+    //For victory page
+    VictoryPage victoryPage;
+    //game selection options
+    ArrayList<MainMenuOptionsModel> mainMenuList;
     //For storing camera min and max x
     CameraHandlerClass cameraHandlerClass;
     //game current state (Note: loading is within GAME_STARTED_GAME_STATE)
     private static int CURRENT_GAME_STATE;
+    // to get which type of game mode he selected
+    private static int USER_SELECTED_GAME_MODE;
 
     public static void main(String[] args) {
         PApplet.main("ProjectMouse");
@@ -61,14 +71,18 @@ public class ProjectMouse extends PApplet {
     @Override
     public void setup() {
         loadingPage = new LoadingPage("Loading", "Please wait", this);
-        welcomePage = new WelcomePage(this, "ProjectMOUSE", new ArrayList<>(), "1.0");
+        welcomePage = new WelcomePage(this, "ProjectMOUSE", "1.0");
+        victoryPage = new VictoryPage(this, "Victory !!", "Total Score");
         CURRENT_GAME_STATE = WELCOME_GAME_STATE;
+        USER_SELECTED_GAME_MODE = -1;
     }
 
     private void setLoadingState() {
+        mainMenuList = welcomePage.getGameOptions();
         loadingPage.resetLoadingPage();
         isLoading = true;
         didPlayerGiveApprovalToContinue = false;
+        didPlayerPressEnterToGoToMainMenu = false;
     }
 
     public void gameSetup() throws Exception {
@@ -98,10 +112,10 @@ public class ProjectMouse extends PApplet {
             mouseSpriteImages[i] = img;
         }
 
-        player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
+        player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages, USER_SELECTED_GAME_MODE);
 
         //Initialise the GameEngine
-        gameEngine = new GameEngine(this, player);
+        gameEngine = new GameEngine(this, player, USER_SELECTED_GAME_MODE);
         //get level 1 platforms
         platformArray = gameEngine.createLevelOnePlatforms();
         //get level 1 collectables
@@ -146,7 +160,7 @@ public class ProjectMouse extends PApplet {
             mouseSpriteImages[i] = img;
         }
 
-        player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages);
+        player = new PlayerMouseCharacter(PLATFORM_WIDTH, PLATFORM_HEIGHT, this, mouseSpriteImages, USER_SELECTED_GAME_MODE);
 
         //(Already initialised in setup, no change occurs here)
         //get level 1 platforms
@@ -173,7 +187,7 @@ public class ProjectMouse extends PApplet {
         switch (CURRENT_GAME_STATE) {
             case WELCOME_GAME_STATE: {
                 welcomePage.display();
-                if(didPlayerSelectOption) {
+                if (didPlayerSelectOption) {
                     isLoading = true;
                     CURRENT_GAME_STATE = GAME_STARTED_GAME_STATE;
                     thread("gameSetup");
@@ -192,6 +206,13 @@ public class ProjectMouse extends PApplet {
                     } else {
                         thread("resetGame");
                     }
+                }
+                break;
+            }
+            case VICTORY_GAME_STATE: {
+                victoryPage.display();
+                if (didPlayerPressEnterToGoToMainMenu) {
+                    CURRENT_GAME_STATE = WELCOME_GAME_STATE;
                 }
                 break;
             }
@@ -560,19 +581,35 @@ public class ProjectMouse extends PApplet {
                 left = false;
             if (keyCode == RIGHT)
                 right = false;
-            if (keyCode == UP)
+            if (keyCode == UP) {
                 up = false;
-            if (keyCode == DOWN)
+                if (CURRENT_GAME_STATE == WELCOME_GAME_STATE) {
+                    welcomePage.moveUpAnOption();
+                }
+            }
+            if (keyCode == DOWN) {
                 down = false;
+                if (CURRENT_GAME_STATE == WELCOME_GAME_STATE) {
+                    welcomePage.moveDownAnOption();
+                }
+            }
         }
         if (key == ' ') {
             space = false;
         }
         if (key == ENTER) {
-            if (!isLoading)
-                didPlayerGiveApprovalToContinue = true;
-            if (CURRENT_GAME_STATE == WELCOME_GAME_STATE) {
+            if (!isLoading && CURRENT_GAME_STATE == GAME_STARTED_GAME_STATE) {
+                if (player.getPlatformBeingUsed() instanceof ExitPlatform) {
+                    victoryPage.setTotalScoreValue(String.valueOf(player.getPointsGainedByPlayer()));
+                    CURRENT_GAME_STATE = VICTORY_GAME_STATE;
+                } else {
+                    didPlayerGiveApprovalToContinue = true; //game has finished loading, press enter to continue
+                }
+            } else if (CURRENT_GAME_STATE == WELCOME_GAME_STATE) {
+                USER_SELECTED_GAME_MODE = welcomePage.getUserSelectedGameMode();
                 didPlayerSelectOption = true;
+            } else if (CURRENT_GAME_STATE == VICTORY_GAME_STATE) {
+                didPlayerPressEnterToGoToMainMenu = true;
             }
         }
     }
