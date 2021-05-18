@@ -19,6 +19,8 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
     PlatformBaseClass platformToPlace;
     PlayerMouseCharacter player;
     ArrayList<String> monsterChatList;
+    int currentChatPos;
+    int maxChatPos;
 
     public MonsterBehindDoor(PApplet pApplet, PImage[] monster_behind_door_sprites, PlatformBaseClass platformToPlace, PlayerMouseCharacter playerMouseCharacter) {
         super(pApplet,
@@ -33,6 +35,9 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
         this.max_anim_cycle_length = monster_behind_door_sprites.length - 1;
         this.player = playerMouseCharacter;
         monsterChatList = new StringConstants().getMonsterChatList();
+        Collections.shuffle(monsterChatList);
+        this.currentChatPos = 0;
+        this.maxChatPos = monsterChatList.size() - 1;
     }
 
     private static int countLines(String str) {
@@ -64,9 +69,15 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
         }
 
         if (player.getPlatformBeingUsed() != null && player.getPlatformBeingUsed().equals(platformToPlace)) {
-            displayChatBubble(monsterChatList.get(0), 15);
+            displayChatBubble(monsterChatList.get(currentChatPos), 15);
         } else {
-            Collections.shuffle(monsterChatList);
+            if (pApplet.frameCount % 60 == 0) {
+                if (currentChatPos < maxChatPos) {
+                    ++currentChatPos;
+                } else {
+                    currentChatPos = 0;
+                }
+            }
         }
 
         if (pApplet.frameCount % anim_speed == 0) {

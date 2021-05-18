@@ -1,5 +1,6 @@
 package platform;
 
+import camera_classes.CameraHandlerClass;
 import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -18,8 +19,10 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
     protected int timePlayerLeftThePlatform;
     protected PImage[] platformSpriteImages;
     protected float countOfItemsOnPlatform;
+    protected boolean isPlatformActive;
+    protected CameraHandlerClass cameraHandlerClass;
 
-    PlatformBaseClass(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
+    PlatformBaseClass(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, CameraHandlerClass cameraHandlerClass) {
         this.pApplet = pApplet;
         this.x = x;
         this.original_x = x;
@@ -40,6 +43,9 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
         this.timePlayerLandedOnPlatform = -1;
         this.timePlayerLeftThePlatform = -1;
         this.countOfItemsOnPlatform = 0;
+        this.isPlatformActive = false;
+
+        this.cameraHandlerClass = cameraHandlerClass;
     }
 
     protected void resetConstructor(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof) {
@@ -65,6 +71,13 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
         this.countOfItemsOnPlatform = 0;
     }
 
+    public void setPlatformAsDeactivatedIfNotInCameraRange() {
+        if(cameraHandlerClass != null)
+            isPlatformActive = x >= cameraHandlerClass.getMinX() && x <= cameraHandlerClass.getMaxX();
+        else
+            System.out.println("Null !!");
+    }
+
     @Override
     public int compareTo(PlatformBaseClass o) {
         if (countOfItemsOnPlatform < o.countOfItemsOnPlatform)
@@ -75,10 +88,12 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
     }
 
     public void display() throws PlatformDimensionException {
-        if (DEBUG_MODE) {
-            pApplet.fill(0, 0, 255);
-            pApplet.text(typeof, x, y);
-            pApplet.rect(x, y, w, h);
+        if(isPlatformActive) {
+            if (DEBUG_MODE) {
+                pApplet.fill(0, 0, 255);
+                pApplet.text(typeof, x, y);
+                pApplet.rect(x, y, w, h);
+            }
         }
     }
 
@@ -160,5 +175,9 @@ abstract public class PlatformBaseClass implements Comparable<PlatformBaseClass>
 
     public void setCountOfItemsOnPlatform(int countOfItemsOnPlatform) {
         this.countOfItemsOnPlatform = countOfItemsOnPlatform;
+    }
+
+    public boolean isPlatformActive() {
+        return isPlatformActive;
     }
 }

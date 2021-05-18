@@ -1,3 +1,4 @@
+import camera_classes.CameraHandlerClass;
 import game_characters.PlayerMouseCharacter;
 import game_characters.SmartZombieCharacter;
 import game_characters.ZombieMouseCharacter;
@@ -43,6 +44,8 @@ public class GameEngine {
     ArrayList<CloningContainers> cloningContainerCollectibleList;
     ArrayList<ZombieMouseCharacter> enemyArray;
     ArrayList<EnergyBolt> playerEnergyBoltList;
+    //Camera Handler Class
+    CameraHandlerClass cameraHandlerClass;
 
     public GameEngine(PApplet pApplet, PlayerMouseCharacter player) {
         //loading platform sprites
@@ -223,6 +226,9 @@ public class GameEngine {
         img = pApplet.loadImage(fileName);
         img.resize(HEART_WIDTH, HEART_HEIGHT);
         health_icon = img;
+
+        //for storing the minX and maxX of camera frame
+        cameraHandlerClass = new CameraHandlerClass(0, pApplet.width);
     }
 
     public void updatePlayer(PlayerMouseCharacter player) {
@@ -235,7 +241,7 @@ public class GameEngine {
         startingPlatform = new StandardPlatform(standardPlatformImages, pApplet,
                 2 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
                 2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                "safe", INITIAL_COST_STANDARD_PLATFORM);
+                "safe", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass);
         startingPlatform.setCountOfItemsOnPlatform(INITIAL_COST_PLAYER_START_PLATFORM);
         //place player on the starting platform
         player.resetCharacterLocation(startingPlatform);
@@ -245,163 +251,163 @@ public class GameEngine {
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     5 * PLATFORM_WIDTH, 26 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe1", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe1", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     10 * PLATFORM_WIDTH, 24 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe2", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe2", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     13 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe3", INITIAL_COST_UNSTABLE_PLATFORM));
+                    "safe3", INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     9 * PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe4", INITIAL_COST_UNSTABLE_PLATFORM));
+                    "safe4", INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     4 * PLATFORM_WIDTH, 14 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe5", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe5", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     21 * PLATFORM_WIDTH, 19 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe6", INITIAL_COST_UNSTABLE_PLATFORM));
+                    "safe6", INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 29, PLATFORM_HEIGHT * 16,
-                    "safe7", null));
+                    "safe7", null, cameraHandlerClass));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 31, PLATFORM_HEIGHT * 28,
-                    "safe8", null));
+                    "safe8", null, cameraHandlerClass));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 36, PLATFORM_HEIGHT * 25,
-                    "safe9", null));
+                    "safe9", null, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     38 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
                     2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe10", INITIAL_COST_UNSTABLE_PLATFORM));
+                    "safe10", INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     44 * PLATFORM_WIDTH, 24 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe11", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe11", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     49 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe12", INITIAL_COST_UNSTABLE_PLATFORM));
+                    "safe12", INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     45 * PLATFORM_WIDTH, 19 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe13", INITIAL_COST_UNSTABLE_PLATFORM));
+                    "safe13", INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     49 * PLATFORM_WIDTH, 15 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe14", INITIAL_COST_UNSTABLE_PLATFORM));
+                    "safe14", INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     44 * PLATFORM_WIDTH, 14 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe15", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe15", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     48 * PLATFORM_WIDTH, 10 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe16", INITIAL_COST_UNSTABLE_PLATFORM));
+                    "safe16", INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     43 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
                     2 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe17", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe17", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     35 * PLATFORM_WIDTH, 5 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe18", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe18", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
 
             //Creating a wall climb platform
             PlatformBaseClass temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
                     58 * PLATFORM_WIDTH, 25 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe19", (INITIAL_COST_STANDARD_PLATFORM + 1));
+                    "safe19", (INITIAL_COST_STANDARD_PLATFORM + 1), cameraHandlerClass);
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 60, PLATFORM_HEIGHT * 7,
-                    "safe20", temp_platform));
+                    "safe20", temp_platform, cameraHandlerClass));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     56 * PLATFORM_WIDTH, 29 * PLATFORM_HEIGHT,
                     8 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe21", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe21", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 67, PLATFORM_HEIGHT * 9,
-                    "safe22", null));
+                    "safe22", null, cameraHandlerClass));
 
             //alternate electric path (If no wall climb used)
             platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
                     54 * PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "semi-death23", electricity_generator_sprites, electric_sparks_sprites));
+                    "semi-death23", electricity_generator_sprites, electric_sparks_sprites, cameraHandlerClass));
 
             //higher level platforms
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     2 * PLATFORM_WIDTH, 5 * PLATFORM_HEIGHT,
                     6 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe24", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe24", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
 
             //reference wall
             temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
                     10 * PLATFORM_WIDTH, 11 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe25", (INITIAL_COST_STANDARD_PLATFORM + 1));
+                    "safe25", (INITIAL_COST_STANDARD_PLATFORM + 1), cameraHandlerClass);
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     PLATFORM_WIDTH * 13, PLATFORM_HEIGHT * 4,
-                    "safe26", temp_platform));
+                    "safe26", temp_platform, cameraHandlerClass));
 
             //continuing from safe22, wall platform
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     69 * PLATFORM_WIDTH, 9 * PLATFORM_HEIGHT,
                     9 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe27", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe27", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             temp_platform = new StandardPlatform(standardPlatformImages, pApplet,
                     78 * PLATFORM_WIDTH, 25 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe28", INITIAL_COST_STANDARD_PLATFORM);
+                    "safe28", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass);
             platforms.add(temp_platform);
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     78 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 9,
-                    "safe29", temp_platform));
+                    "safe29", temp_platform, cameraHandlerClass));
             platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
                     87 * PLATFORM_WIDTH, 8 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "semi-death30", electricity_generator_sprites, electric_sparks_sprites));
+                    "semi-death30", electricity_generator_sprites, electric_sparks_sprites, cameraHandlerClass));
             platforms.add(new StandardPlatform(standardPlatformImages, pApplet,
                     85 * PLATFORM_WIDTH, 13 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe31", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe31", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     80 * PLATFORM_WIDTH, 17 * PLATFORM_HEIGHT,
                     3 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe32", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe32", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new UnstablePlatform(unstablePlatformImages, pApplet,
                     86 * PLATFORM_WIDTH, 21 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe33", INITIAL_COST_STANDARD_PLATFORM));
+                    "safe33", INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass));
             platforms.add(new WallSeparationPlatform(wallSeparationPlatformImages, pApplet,
                     73 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 23,
-                    "safe34", null));
+                    "safe34", null, cameraHandlerClass));
             platforms.add(new ElectricPlatform(unstablePlatformImages, pApplet,
                     69 * PLATFORM_WIDTH, 28 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe35", electricity_generator_sprites, electric_sparks_sprites));
+                    "safe35", electricity_generator_sprites, electric_sparks_sprites, cameraHandlerClass));
             platforms.add(new StandardMovingPlatforms(standardPlatformImages, pApplet,
                     77 * PLATFORM_WIDTH, 29 * PLATFORM_HEIGHT,
                     5 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe36", INITIAL_COST_MOVING_PLATFORM));
+                    "safe36", INITIAL_COST_MOVING_PLATFORM, cameraHandlerClass));
             //winning platform
             platforms.add(new ExitPlatform(standardPlatformImages, pApplet,
                     72 * PLATFORM_WIDTH, 18 * PLATFORM_HEIGHT,
                     4 * PLATFORM_WIDTH, PLATFORM_HEIGHT,
-                    "safe36", INITIAL_COST_STANDARD_PLATFORM + 2, door_opening_sprites, true));
+                    "safe36", INITIAL_COST_STANDARD_PLATFORM + 2, door_opening_sprites, true, cameraHandlerClass));
 
             //Ground death platform
             platforms.add(new GroundToxicPlatform(standardPlatformImages, pApplet,
                     PLATFORM_WIDTH, (float) (30 * PLATFORM_HEIGHT),
                     GAME_MAX_X_GRID * PLATFORM_WIDTH, 2 * PLATFORM_HEIGHT,
-                    "death0", acid_test_tube_breakage_sprites));
+                    "death0", acid_test_tube_breakage_sprites, cameraHandlerClass));
             //Shuffle for randomness
             Collections.shuffle(platforms);
             platformArray.addAll(platforms);
@@ -493,7 +499,7 @@ public class GameEngine {
         //clearing previous values
         enemyArray.clear();
         //Normal enemies
-        for (int i = 0; i < 8; ++i) {
+        for (int i = 0; i < 7; ++i) {
             if (i % 2 == 0) {
                 enemyArray.add(new ZombieMouseCharacter(
                         getPlatformToPlaceItem(true, false, false, true),
@@ -559,5 +565,9 @@ public class GameEngine {
 
     public PImage[] getEnergyBoltRed() {
         return energyBoltRed;
+    }
+
+    public CameraHandlerClass getCameraHandlerClass() {
+        return cameraHandlerClass;
     }
 }

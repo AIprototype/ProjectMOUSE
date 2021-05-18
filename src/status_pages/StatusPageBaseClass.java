@@ -46,20 +46,6 @@ public abstract class StatusPageBaseClass {
         this.messageTextSize = messageTextSize;
     }
 
-    protected float getTextHeight(String string) {
-        float minY = Float.MAX_VALUE;
-        float maxY = Float.NEGATIVE_INFINITY;
-        pApplet.beginShape();
-        for (Character c : string.toCharArray()) {
-            PShape character = font.getShape(c); // create character vector
-            for (int i = 0; i < character.getVertexCount(); i++) {
-                minY = min(character.getVertex(i).y, minY);
-                maxY = max(character.getVertex(i).y, maxY);
-            }
-        }
-        return maxY - minY;
-    }
-
     public void display() {
         pApplet.background(0);
         pApplet.textSize(titleTexSize);

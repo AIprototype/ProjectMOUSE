@@ -1,5 +1,6 @@
 package platform;
 
+import camera_classes.CameraHandlerClass;
 import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -12,8 +13,8 @@ public class GroundToxicPlatform extends StandardPlatform {
     int anim_speed;
     int max_anim_cycle_length;
 
-    public GroundToxicPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, PImage[] acid_bubbling_sprites) {
-        super(platformSpriteImages, pApplet, x, y, w, h, typeof, INITIAL_COST_STANDARD_PLATFORM);
+    public GroundToxicPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, PImage[] acid_bubbling_sprites, CameraHandlerClass cameraHandlerClass) {
+        super(platformSpriteImages, pApplet, x, y, w, h, typeof, INITIAL_COST_STANDARD_PLATFORM, cameraHandlerClass);
         this.acid_bubbling_sprites = acid_bubbling_sprites;
         this.current_anim_pos = 0;
         this.anim_speed = 5;
@@ -23,6 +24,7 @@ public class GroundToxicPlatform extends StandardPlatform {
 
     @Override
     public void display() throws PlatformDimensionException {
+        isPlatformActive = true;
         super.display(); //normal platform display
 
         //show acid bubbles

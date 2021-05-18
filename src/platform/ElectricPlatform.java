@@ -1,5 +1,6 @@
 package platform;
 
+import camera_classes.CameraHandlerClass;
 import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -20,8 +21,8 @@ public class ElectricPlatform extends UnstablePlatform {
     int sparks_anim_speed;
     int sparks_max_anim_cycle_length;
 
-    public ElectricPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, PImage[] electricity_generator_sprites, PImage[] electric_sparks_sprites) {
-        super(platformSpriteImages, pApplet, x, y, w, h, typeof, INITIAL_COST_UNSTABLE_PLATFORM);
+    public ElectricPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, PImage[] electricity_generator_sprites, PImage[] electric_sparks_sprites, CameraHandlerClass cameraHandlerClass) {
+        super(platformSpriteImages, pApplet, x, y, w, h, typeof, INITIAL_COST_UNSTABLE_PLATFORM, cameraHandlerClass);
         this.electric_sparks_sprites = electric_sparks_sprites;
         this.electricity_generator_sprites = electricity_generator_sprites;
 

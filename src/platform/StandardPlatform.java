@@ -1,5 +1,6 @@
 package platform;
 
+import camera_classes.CameraHandlerClass;
 import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -7,8 +8,8 @@ import processing.core.PImage;
 import static constants.Constants.PLATFORM_WIDTH;
 
 public class StandardPlatform extends PlatformBaseClass {
-    public StandardPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost) {
-        super(platformSpriteImages, pApplet, x, y, w, h, typeof);
+    public StandardPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost, CameraHandlerClass cameraHandlerClass) {
+        super(platformSpriteImages, pApplet, x, y, w, h, typeof, cameraHandlerClass);
         this.countOfItemsOnPlatform = initialPlatformCost;
     }
 

@@ -1,5 +1,6 @@
 package platform;
 
+import camera_classes.CameraHandlerClass;
 import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -15,8 +16,8 @@ public class StandardMovingPlatforms extends StandardPlatform {
     float currentVelRevAdditionPos = 0;
     float velFrameUpdateInterval = 2;
 
-    public StandardMovingPlatforms(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost) {
-        super(platformSpriteImages, pApplet, x, y, w, h, typeof, initialPlatformCost);
+    public StandardMovingPlatforms(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost, CameraHandlerClass cameraHandlerClass) {
+        super(platformSpriteImages, pApplet, x, y, w, h, typeof, initialPlatformCost, cameraHandlerClass);
         initialPlatformCost = INITIAL_COST_MOVING_PLATFORM;
     }
 

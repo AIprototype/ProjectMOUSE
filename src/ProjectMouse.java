@@ -1,3 +1,4 @@
+import camera_classes.CameraHandlerClass;
 import camera_classes.FrameObject;
 import camera_classes.ImageObject;
 import custom_exceptions.PlatformDimensionException;
@@ -10,6 +11,7 @@ import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
 import status_pages.LoadingPage;
+import status_pages.WelcomePage;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -32,12 +34,18 @@ public class ProjectMouse extends PApplet {
     GameEngine gameEngine;
     boolean isLoading;
     boolean didPlayerGiveApprovalToContinue;
+    boolean didPlayerSelectOption;
 
     Timer firingTimer;
     ArrayList<EnergyBolt> energyBoltList;
-
     //For loading Page
     LoadingPage loadingPage;
+    //For welcome page
+    WelcomePage welcomePage;
+    //For storing camera min and max x
+    CameraHandlerClass cameraHandlerClass;
+    //game current state (Note: loading is within GAME_STARTED_GAME_STATE)
+    private static int CURRENT_GAME_STATE;
 
     public static void main(String[] args) {
         PApplet.main("ProjectMouse");
@@ -53,7 +61,8 @@ public class ProjectMouse extends PApplet {
     @Override
     public void setup() {
         loadingPage = new LoadingPage("Loading", "Please wait", this);
-        thread("gameSetup");
+        welcomePage = new WelcomePage(this, "ProjectMOUSE", new ArrayList<>(), "1.0");
+        CURRENT_GAME_STATE = WELCOME_GAME_STATE;
     }
 
     private void setLoadingState() {
@@ -104,6 +113,8 @@ public class ProjectMouse extends PApplet {
         firingTimer.start();
         //initialise energy bolts
         energyBoltList = gameEngine.createLevelOnePlayerEnergyBolts();
+        //getting camera handler object
+        cameraHandlerClass = gameEngine.getCameraHandlerClass();
         //set loading to false
         isLoading = false;
     }
@@ -150,6 +161,8 @@ public class ProjectMouse extends PApplet {
         firingTimer.start();
         //initialise energy bolts
         energyBoltList = gameEngine.createLevelOnePlayerEnergyBolts();
+        //getting camera handler object
+        cameraHandlerClass = gameEngine.getCameraHandlerClass();
         //set loading to false
         isLoading = false;
     }
@@ -157,21 +170,40 @@ public class ProjectMouse extends PApplet {
     @Override
     public void draw() {
         background(0);
-        if (isLoading && !didPlayerGiveApprovalToContinue) {
-            loadingPage.display();
-        } else if(!isLoading && !didPlayerGiveApprovalToContinue) {
-            loadingPage.changeLoadingToPressEnter();
-            loadingPage.display();
-        } else if (!isLoading) {
-            if (player.getPlayerHealth() > 0) {
-                inGameDrawingAndMechanism();
-            } else {
-                thread("resetGame");
+        switch (CURRENT_GAME_STATE) {
+            case WELCOME_GAME_STATE: {
+                welcomePage.display();
+                if(didPlayerSelectOption) {
+                    isLoading = true;
+                    CURRENT_GAME_STATE = GAME_STARTED_GAME_STATE;
+                    thread("gameSetup");
+                }
+                break;
+            }
+            case GAME_STARTED_GAME_STATE: {
+                if (isLoading && !didPlayerGiveApprovalToContinue) {
+                    loadingPage.display();
+                } else if (!isLoading && !didPlayerGiveApprovalToContinue) {
+                    loadingPage.changeLoadingToPressEnter();
+                    loadingPage.display();
+                } else if (!isLoading) {
+                    if (player.getPlayerHealth() > 0) {
+                        inGameDrawingAndMechanism();
+                    } else {
+                        thread("resetGame");
+                    }
+                }
+                break;
+            }
+            default: {
+                System.out.println("Error !!, un-identified state..");
+                break;
             }
         }
     }
 
     void inGameDrawingAndMechanism() {
+        cameraHandlerClass.setMinX(camera.getX());
         player.update(left, right, up, down, gameWorld);
 
         //bullets
@@ -237,6 +269,7 @@ public class ProjectMouse extends PApplet {
         //display platforms
         for (PlatformBaseClass platform : platformArray) {
             try {
+                platform.setPlatformAsDeactivatedIfNotInCameraRange();
                 platform.display();
             } catch (PlatformDimensionException e) {
                 System.out.println(e.getMessage());
@@ -288,7 +321,7 @@ public class ProjectMouse extends PApplet {
 
         //for getting details on screen
         //doesnt move with the screen as it is after popMatrix()
-        if(DEBUG_MODE)
+        if (DEBUG_MODE)
             displayPositionData();
         displayPlayerDetails();
     }
@@ -301,7 +334,7 @@ public class ProjectMouse extends PApplet {
 //        }
         String nonNoneCollision = "none";
         for (PlatformBaseClass r2 : platformList) {
-            if (!r2.isPlatformDestroyed() && !r1.isDead()) {
+            if (!r2.isPlatformDestroyed() && !r1.isDead() && r2.isPlatformActive()) {
                 float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
                 float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
 
@@ -447,6 +480,8 @@ public class ProjectMouse extends PApplet {
         String s = "\nvx:" + player.getVx()
                 + "  vy:" + player.getVy()
                 + "  \ncollision side:" + player.getCollisionSide()
+                + "  \ncamera minX:" + cameraHandlerClass.getMinX()
+                + "  \ncamera maxX:" + cameraHandlerClass.getMaxX()
                 + "  \nFPS: " + frameRate;
         text(s, width - 180, 20);
     }
@@ -535,6 +570,9 @@ public class ProjectMouse extends PApplet {
         if (key == ENTER) {
             if (!isLoading)
                 didPlayerGiveApprovalToContinue = true;
+            if (CURRENT_GAME_STATE == WELCOME_GAME_STATE) {
+                didPlayerSelectOption = true;
+            }
         }
     }
 }

@@ -1,11 +1,9 @@
 package platform;
 
+import camera_classes.CameraHandlerClass;
 import custom_exceptions.PlatformDimensionException;
 import processing.core.PApplet;
 import processing.core.PImage;
-
-import java.util.Arrays;
-import java.util.Collections;
 
 import static constants.Constants.*;
 
@@ -15,8 +13,8 @@ public class ExitPlatform extends StandardPlatform {
     int openingAnimCount;
     int closingAnimCount;
 
-    public ExitPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost, PImage[] door_opening_sprites, boolean exitAtRightEnd) {
-        super(platformSpriteImages, pApplet, x, y, w, h, typeof, initialPlatformCost);
+    public ExitPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost, PImage[] door_opening_sprites, boolean exitAtRightEnd, CameraHandlerClass cameraHandlerClass) {
+        super(platformSpriteImages, pApplet, x, y, w, h, typeof, initialPlatformCost, cameraHandlerClass);
 
         this.door_opening_sprites = door_opening_sprites;
 
