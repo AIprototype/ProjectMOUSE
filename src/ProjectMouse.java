@@ -38,7 +38,6 @@ public class ProjectMouse extends PApplet {
     boolean isLoading;
     boolean didPlayerGiveApprovalToContinue;
     boolean didPlayerSelectOption;
-    boolean didPlayerPressEnterToGoToMainMenu;
 
     Timer firingTimer;
     ArrayList<EnergyBolt> energyBoltList;
@@ -82,7 +81,6 @@ public class ProjectMouse extends PApplet {
         loadingPage.resetLoadingPage();
         isLoading = true;
         didPlayerGiveApprovalToContinue = false;
-        didPlayerPressEnterToGoToMainMenu = false;
     }
 
     public void gameSetup() throws Exception {
@@ -211,9 +209,6 @@ public class ProjectMouse extends PApplet {
             }
             case VICTORY_GAME_STATE: {
                 victoryPage.display();
-                if (didPlayerPressEnterToGoToMainMenu) {
-                    CURRENT_GAME_STATE = WELCOME_GAME_STATE;
-                }
                 break;
             }
             default: {
@@ -597,7 +592,7 @@ public class ProjectMouse extends PApplet {
         if (key == ' ') {
             space = false;
         }
-        if (key == ENTER) {
+        if (key == ENTER || key == RETURN) {
             if (!isLoading && CURRENT_GAME_STATE == GAME_STARTED_GAME_STATE) {
                 if (player.getPlatformBeingUsed() instanceof ExitPlatform) {
                     victoryPage.setTotalScoreValue(String.valueOf(player.getPointsGainedByPlayer()));
@@ -609,7 +604,8 @@ public class ProjectMouse extends PApplet {
                 USER_SELECTED_GAME_MODE = welcomePage.getUserSelectedGameMode();
                 didPlayerSelectOption = true;
             } else if (CURRENT_GAME_STATE == VICTORY_GAME_STATE) {
-                didPlayerPressEnterToGoToMainMenu = true;
+                didPlayerSelectOption = false;
+                CURRENT_GAME_STATE = WELCOME_GAME_STATE;
             }
         }
     }
