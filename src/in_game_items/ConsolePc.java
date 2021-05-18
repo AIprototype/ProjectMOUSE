@@ -1,5 +1,6 @@
 package in_game_items;
 
+import camera_classes.CameraHandlerClass;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -14,12 +15,12 @@ public class ConsolePc extends InGameItemsBaseClass {
     final int maxAnimPos = 4;
     final PlatformBaseClass platformToPlace;
 
-    public ConsolePc(PApplet pApplet, PlatformBaseClass platformToPlace, PImage[] console_pc_sprites) {
+    public ConsolePc(PApplet pApplet, PlatformBaseClass platformToPlace, PImage[] console_pc_sprites, CameraHandlerClass cameraHandlerClass) {
         super(pApplet,
                 pApplet.random(platformToPlace.getX(), platformToPlace.getX() + (platformToPlace.getW() - CONSOLE_PC_WIDTH)),
                 platformToPlace.getY() - CONSOLE_PC_HEIGHT,
                 CONSOLE_PC_WIDTH,
-                CONSOLE_PC_HEIGHT);
+                CONSOLE_PC_HEIGHT, cameraHandlerClass);
         this.platformToPlace = platformToPlace;
         this.console_pc_sprites = console_pc_sprites;
         this.animationSpeedFactor = 15;

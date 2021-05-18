@@ -1,15 +1,16 @@
 package in_game_items;
 
+import camera_classes.CameraHandlerClass;
 import processing.core.PApplet;
-import processing.core.PImage;
 
 public abstract class InGameItemsBaseClass {
     float x, y, w, h;
     float halfWidth, halfHeight;
     PApplet pApplet;
-    boolean hasPlayerCollectedItem;
+    boolean isInGameItemActive;
+    CameraHandlerClass cameraHandlerClass;
 
-    public InGameItemsBaseClass(PApplet pApplet, float x, float y, float w, float h) {
+    public InGameItemsBaseClass(PApplet pApplet, float x, float y, float w, float h, CameraHandlerClass cameraHandlerClass) {
         this.pApplet = pApplet;
         this.x = x;
         this.y = y;
@@ -17,6 +18,14 @@ public abstract class InGameItemsBaseClass {
         this.h = h;
         this.halfWidth = w/2;
         this.halfHeight = h/2;
+        this.cameraHandlerClass = cameraHandlerClass;
+    }
+
+    public void setInGameItemAsDeactivatedIfNotInCameraRange() {
+        if(cameraHandlerClass != null)
+            isInGameItemActive = x >= cameraHandlerClass.getMinX() && x <= cameraHandlerClass.getMaxX();
+        else
+            System.out.println("Null !!");
     }
 
     public void display() {
@@ -46,5 +55,9 @@ public abstract class InGameItemsBaseClass {
 
     public float getHalfHeight() {
         return halfHeight;
+    }
+
+    public boolean isInGameItemActive() {
+        return isInGameItemActive;
     }
 }

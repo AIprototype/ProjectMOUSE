@@ -1,5 +1,6 @@
 package in_game_items;
 
+import camera_classes.CameraHandlerClass;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -25,12 +26,12 @@ public class CloningContainers extends InGameItemsBaseClass {
                              PlatformBaseClass platformToPlace,
                              PImage[] cloning_container_normal,
                              PImage[] cloning_container_destroyed,
-                             ConsolePc pcAttachedWith) {
+                             ConsolePc pcAttachedWith, CameraHandlerClass cameraHandlerClass) {
         super(pApplet,
                 pcAttachedWith.getX(),
                 platformToPlace.getY() - CLONING_CONTAINER_HEIGHT,
                 CLONING_CONTAINER_WIDTH,
-                CLONING_CONTAINER_HEIGHT);
+                CLONING_CONTAINER_HEIGHT, cameraHandlerClass);
         //normal inits
         this.isDestroyed = false;
         this.platformToPlace = platformToPlace;

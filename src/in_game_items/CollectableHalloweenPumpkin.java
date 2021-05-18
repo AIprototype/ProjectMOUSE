@@ -1,9 +1,8 @@
 package in_game_items;
 
+import camera_classes.CameraHandlerClass;
 import processing.core.PApplet;
 import processing.core.PImage;
-
-import java.util.ArrayList;
 
 import static constants.Constants.COLLECTABLE_HEIGHT;
 import static constants.Constants.COLLECTABLE_WIDTH;
@@ -18,8 +17,8 @@ public class CollectableHalloweenPumpkin extends InGameItemsBaseClass {
     PImage pumpkin_no_face;
     boolean isCollected;
 
-    public CollectableHalloweenPumpkin(PApplet pApplet, float x, float y) {
-        super(pApplet, x, y, COLLECTABLE_WIDTH, COLLECTABLE_HEIGHT);
+    public CollectableHalloweenPumpkin(PApplet pApplet, float x, float y, CameraHandlerClass cameraHandlerClass) {
+        super(pApplet, x, y, COLLECTABLE_WIDTH, COLLECTABLE_HEIGHT, cameraHandlerClass);
         pumpkin_no_face = pApplet.loadImage("pumpkin_no_face.png");
         pumpkin_no_face.resize(COLLECTABLE_WIDTH, COLLECTABLE_HEIGHT);
         pumpkin_light = pApplet.loadImage("pumpkin_light.png");

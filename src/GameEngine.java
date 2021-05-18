@@ -459,13 +459,13 @@ public class GameEngine {
         halloweenCollectibleList.clear();
         cloningContainerCollectibleList.clear();
 
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 14 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 4 - COLLECTABLE_HEIGHT));
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 10 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 33, PLATFORM_HEIGHT * 13));
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT));
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT));
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 73 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 23 - COLLECTABLE_HEIGHT));
-        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 69 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 25 - COLLECTABLE_HEIGHT));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 14 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 4 - COLLECTABLE_HEIGHT, cameraHandlerClass));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 10 * PLATFORM_WIDTH, PLATFORM_HEIGHT, cameraHandlerClass));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 33, PLATFORM_HEIGHT * 13, cameraHandlerClass));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 43 * PLATFORM_WIDTH, PLATFORM_HEIGHT, cameraHandlerClass));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, PLATFORM_WIDTH * 34, PLATFORM_HEIGHT, cameraHandlerClass));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 73 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 23 - COLLECTABLE_HEIGHT, cameraHandlerClass));
+        collectableArray.add(new CollectableHalloweenPumpkin(pApplet, 69 * PLATFORM_WIDTH, PLATFORM_HEIGHT * 25 - COLLECTABLE_HEIGHT, cameraHandlerClass));
         for (InGameItemsBaseClass item : collectableArray) {
             if (item instanceof CollectableHalloweenPumpkin) {
                 halloweenCollectibleList.add((CollectableHalloweenPumpkin) item);
@@ -474,7 +474,7 @@ public class GameEngine {
         //console pc
         ArrayList<ConsolePc> consolePcList = new ArrayList<>();
         for (int i = 0; i < 4; ++i) {
-            consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false, true, false), consolePcSprites));
+            consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false, true, false), consolePcSprites, cameraHandlerClass));
         }
         collectableArray.addAll(consolePcList);
 
@@ -484,14 +484,14 @@ public class GameEngine {
                     pc.getPlatformToPlace(),
                     cloning_container_normal,
                     cloning_container_destroyed,
-                    pc);
+                    pc, cameraHandlerClass);
             collectableArray.add(ccn);
             cloningContainerCollectibleList.add(ccn);
         }
         //Adding a monster behind door game item
-        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player));
-        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player));
-        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player));
+        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player, cameraHandlerClass));
+        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player, cameraHandlerClass));
+        collectableArray.add(new MonsterBehindDoor(pApplet, monster_behind_sprites, getPlatformToPlaceItem(false, true, true, false), player, cameraHandlerClass));
         return collectableArray;
     }
 

@@ -231,7 +231,7 @@ public class ProjectMouse extends PApplet {
             }
             //bolt cloning container collision
             for (CloningContainers item : gameEngine.getCloningContainerCollectibleList()) {
-                if (!item.isDestroyed() &&
+                if (item.isInGameItemActive() && !item.isDestroyed() &&
                         cloningContainerEnergyBoltCollision(bolt, item)) {
                     item.setDestroyed(true);
                     bolt.reset();
@@ -278,6 +278,7 @@ public class ProjectMouse extends PApplet {
 
         //display collectables
         for (InGameItemsBaseClass collectable : collectableArray) {
+            collectable.setInGameItemAsDeactivatedIfNotInCameraRange();
             collectable.display();
         }
 
@@ -301,7 +302,7 @@ public class ProjectMouse extends PApplet {
 
         //player - Halloween Collectible collisions
         for (CollectableHalloweenPumpkin pumpkin : gameEngine.getHalloweenCollectibleList()) {
-            if (!pumpkin.isCollected() && playerHalloweenCollectibleCollision(player, pumpkin)) {
+            if (pumpkin.isInGameItemActive() && !pumpkin.isCollected() && playerHalloweenCollectibleCollision(player, pumpkin)) {
                 player.addPointsGainedByPlayer(HALLOWEEN_COLLECTIBLE_POINTS);
                 player.incrementCountOfHalloweenCollectiblesCollected();
             }

@@ -1,5 +1,6 @@
 package in_game_items;
 
+import camera_classes.CameraHandlerClass;
 import constants.StringConstants;
 import game_characters.PlayerMouseCharacter;
 import platform.PlatformBaseClass;
@@ -22,12 +23,12 @@ public class MonsterBehindDoor extends InGameItemsBaseClass {
     int currentChatPos;
     int maxChatPos;
 
-    public MonsterBehindDoor(PApplet pApplet, PImage[] monster_behind_door_sprites, PlatformBaseClass platformToPlace, PlayerMouseCharacter playerMouseCharacter) {
+    public MonsterBehindDoor(PApplet pApplet, PImage[] monster_behind_door_sprites, PlatformBaseClass platformToPlace, PlayerMouseCharacter playerMouseCharacter, CameraHandlerClass cameraHandlerClass) {
         super(pApplet,
                 pApplet.random(platformToPlace.getX(), platformToPlace.getX() + (platformToPlace.getW() - MONSTER_BEHIND_DOOR_WIDTH)),
                 platformToPlace.getY() - MONSTER_BEHIND_DOOR_HEIGHT,
                 MONSTER_BEHIND_DOOR_WIDTH,
-                MONSTER_BEHIND_DOOR_HEIGHT);
+                MONSTER_BEHIND_DOOR_HEIGHT, cameraHandlerClass);
         this.platformToPlace = platformToPlace;
         this.monster_behind_door_sprites = monster_behind_door_sprites;
         this.current_anim_pos = 0;
