@@ -58,14 +58,6 @@ public class WelcomePage {
         optionHeight = optionAscent + optionDescent;
         gameOptions.add(new MainMenuOptionsModel(option, optionWidth, optionHeight, BOUNCY_MODE_OPTION_ID, false));
 
-        option = "Slippery Mode";
-        pApplet.textSize(gameOptionTextSize);
-        optionWidth = pApplet.textWidth(option);
-        optionAscent = pApplet.textAscent();
-        optionDescent = pApplet.textDescent();
-        optionHeight = optionAscent + optionDescent;
-        gameOptions.add(new MainMenuOptionsModel(option, optionWidth, optionHeight, SLIPPERY_MODE_OPTION_ID, false));
-
         option = "!! WARNING !! Hard Mode !! WARNING !!";
         pApplet.textSize(gameOptionTextSize);
         optionWidth = pApplet.textWidth(option);

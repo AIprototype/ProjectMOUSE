@@ -67,12 +67,14 @@ abstract public class CharacterBaseClass {
     public void update(boolean left, boolean right, boolean up, boolean down, FrameObject gameWorld) {
         if (left && !right && isOnGround) {
             acc_x = -0.2f;
-            friction = 1;
+            if (userSelectedGameMode != SLIPPERY_MODE_OPTION_ID)
+                friction = 1;
             facingRight = false;
         }
         if (right && !left && isOnGround) {
             acc_x = 0.2f;
-            friction = 1;
+            if (userSelectedGameMode != SLIPPERY_MODE_OPTION_ID)
+                friction = 1;
             facingRight = true;
         }
         if (!left && !right) {
@@ -118,7 +120,8 @@ abstract public class CharacterBaseClass {
         //removing user acceleration needs to bring in a friction
         //friction = 1 means no friction
         if (!left && !right && !up && !down) {
-            friction = 0.96f;
+            if(userSelectedGameMode != SLIPPERY_MODE_OPTION_ID)
+                friction = 0.96f;
             //gravity = 0.3f;
         }
 

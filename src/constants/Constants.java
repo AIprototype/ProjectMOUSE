@@ -19,7 +19,7 @@ final public class Constants {
     public static final float PLAYER_JUMP_FORCE = -10f;
     public static final float PLAYER_SPEED_LIMIT = 6f;
     public static final float PLAYER_FRICTION = 0.99f;
-    public static final float PLAYER_FRICTION_SLIPPERY_MODE = 0.0f;
+    public static final float PLAYER_FRICTION_SLIPPERY_MODE = 0.98f;
     public static final float PLAYER_BOUNCE = -0.0f;
     public static final float PLAYER_BOUNCE_BOUNCY_MODE = -0.65f;
     public static final float PLAYER_GRAVITY = 0.3f;
