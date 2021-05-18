@@ -3,6 +3,8 @@ package status_pages;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import static constants.Constants.*;
+
 public class VictoryPage {
     String victoryTitle;
     float victoryTitleWidth, victoryTitleHeight, victoryTitleTextSize;
@@ -13,6 +15,9 @@ public class VictoryPage {
     PApplet pApplet;
     float x, y;
     PImage victoryLogo;
+    PImage bronzeTrophy;
+    PImage silverTrophy;
+    PImage goldTrophy;
 
     public VictoryPage(PApplet pApplet, String victoryTitle, String totalScoreText) {
         this.pApplet = pApplet;
@@ -25,6 +30,17 @@ public class VictoryPage {
         this.y = pApplet.height / 2;
         this.victoryLogo = pApplet.loadImage("victory.png");
         victoryLogo.resize(600, 100);
+
+        bronzeTrophy = pApplet.loadImage("bronze_trophy.png");
+        bronzeTrophy.resize(TROPHY_WIDTH * 3, TROPHY_HEIGHT * 3);
+
+        //silver trophy
+        silverTrophy = pApplet.loadImage("silver_trophy.png");
+        silverTrophy.resize(TROPHY_WIDTH * 3, TROPHY_HEIGHT * 3);
+
+        //gold trophy
+        goldTrophy = pApplet.loadImage("gold_trophy.png");
+        goldTrophy.resize(TROPHY_WIDTH * 3, TROPHY_HEIGHT * 3);
 
         calculateStringParams();
     }
@@ -54,14 +70,22 @@ public class VictoryPage {
 
     public void display() {
         pApplet.background(0);
-        pApplet.image(victoryLogo, x - victoryLogo.width/2, y - victoryLogo.height);
+        pApplet.image(victoryLogo, x - victoryLogo.width / 2, y - victoryLogo.height);
+
+        if (Integer.parseInt(totalScoreValue) < BRONZE_MAX_SCORE) {
+            pApplet.image(bronzeTrophy, x - bronzeTrophy.width / 2, y + 20);
+        } else if (Integer.parseInt(totalScoreValue) < SILVER_MAX_SCORE && Integer.parseInt(totalScoreValue) >= BRONZE_MAX_SCORE) {
+            pApplet.image(silverTrophy, x - silverTrophy.width / 2, y + 20);
+        } else {
+            pApplet.image(goldTrophy, x - goldTrophy.width / 2, y + 20);
+        }
 
         pApplet.textSize(totalScoreTextTextSize);
         pApplet.fill(255, 255, 255);
-        pApplet.text(totalScoreText, x - totalScoreTextWidth/2, y + (victoryTitleHeight + totalScoreTextHeight));
+        pApplet.text(totalScoreText, x - totalScoreTextWidth / 2, y + (victoryTitleHeight + totalScoreTextHeight + bronzeTrophy.height));
 
         pApplet.textSize(totalScoreValueTextSize);
         pApplet.fill(255, 255, 0);
-        pApplet.text(totalScoreValue, x - totalScoreValueWidth/2, y + (victoryTitleHeight + totalScoreTextHeight + totalScoreValueHeight));
+        pApplet.text(totalScoreValue, x - totalScoreValueWidth / 2, y + (victoryTitleHeight + totalScoreTextHeight + totalScoreValueHeight + bronzeTrophy.height));
     }
 }
