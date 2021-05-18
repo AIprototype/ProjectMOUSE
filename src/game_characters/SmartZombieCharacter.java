@@ -1,13 +1,14 @@
 package game_characters;
 
+import camera_classes.CameraHandlerClass;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class SmartZombieCharacter extends ZombieMouseCharacter {
     boolean isInjured;
-    public SmartZombieCharacter(PlatformBaseClass platform, int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages, PImage[] walkingRightSprites, PImage[] walkingLeftSprites, PImage[] enemyDeathLeftSprites, PImage[] enemyDeathRightSprites) {
-        super(platform, characterWidth, characterHeight, pApplet, mouseSpriteImages, walkingRightSprites, walkingLeftSprites, enemyDeathLeftSprites, enemyDeathRightSprites);
+    public SmartZombieCharacter(PlatformBaseClass platform, int characterWidth, int characterHeight, PApplet pApplet, PImage[] mouseSpriteImages, PImage[] walkingRightSprites, PImage[] walkingLeftSprites, PImage[] enemyDeathLeftSprites, PImage[] enemyDeathRightSprites, CameraHandlerClass cameraHandlerClass) {
+        super(platform, characterWidth, characterHeight, pApplet, mouseSpriteImages, walkingRightSprites, walkingLeftSprites, enemyDeathLeftSprites, enemyDeathRightSprites, cameraHandlerClass);
     }
 
     @Override

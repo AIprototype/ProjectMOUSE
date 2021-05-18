@@ -223,7 +223,7 @@ public class ProjectMouse extends PApplet {
             bolt.update(camera);
             //bolt enemy collision
             for (ZombieMouseCharacter enemy : enemyArray) {
-                if (!enemy.isDead() && enemyEnergyBoltCollision(bolt, enemy)) {
+                if (enemy.isZombieActive() && !enemy.isDead() && enemyEnergyBoltCollision(bolt, enemy)) {
                     enemy.deathAnimation();
                     bolt.reset();
                     player.addPointsGainedByPlayer(ENEMY_DESTROYED_USING_BOLTS_POINTS);
@@ -394,7 +394,7 @@ public class ProjectMouse extends PApplet {
 
     String playerZombieCollision(PlayerMouseCharacter r2, ZombieMouseCharacter r1) {
         String playerHitZombieSide = "";
-        if (!r2.isDead() && !r1.isDead()) {
+        if (!r2.isDead() && !r1.isDead() && r1.isZombieActive()) {
             float dx = (r1.getX() + r1.getW() / 2) - (r2.getX() + r2.getW() / 2);
             float dy = (r1.getY() + r1.getH() / 2) - (r2.getY() + r2.getH() / 2);
             float combinedHalfWidths = r1.getHalfWidth() + r2.getHalfWidth();

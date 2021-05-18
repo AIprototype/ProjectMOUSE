@@ -1,5 +1,6 @@
 package game_characters;
 
+import camera_classes.CameraHandlerClass;
 import camera_classes.FrameObject;
 import platform.PlatformBaseClass;
 import processing.core.PApplet;
@@ -20,9 +21,13 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
     int right_walk_anim_speed;
     int left_walk_anim_speed;
 
+    //for only adding collisions to enemies within cam range
+    protected boolean isZombieActive;
+    protected CameraHandlerClass cameraHandlerClass;
+
     public ZombieMouseCharacter(PlatformBaseClass platform, int characterWidth, int characterHeight, PApplet pApplet,
                                 PImage[] mouseSpriteImages, PImage[] walkingRightSprites, PImage[] walkingLeftSprites,
-                                PImage[] enemyDeathLeftSprites, PImage[] enemyDeathRightSprites) {
+                                PImage[] enemyDeathLeftSprites, PImage[] enemyDeathRightSprites, CameraHandlerClass cameraHandlerClass) {
         super(characterWidth, characterHeight, pApplet, mouseSpriteImages);
         platformWherePlaced = platform;
         x = platformWherePlaced.getX() + platformWherePlaced.getW() / 2 - halfWidth;
@@ -47,33 +52,44 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
         this.walk_left_current_pos = 0;
         this.right_walk_anim_speed = 8;
         this.left_walk_anim_speed = 8;
+
+        this.cameraHandlerClass = cameraHandlerClass;
     }
 
     @Override
     public void update(boolean left, boolean right, boolean up, boolean down, FrameObject gameWorld) {
-        vy += gravity;
-        if (vy > 3 * speedLimit) {
-            vy = 3 * speedLimit;
-        }
-        if (PApplet.abs(vy) < 0.2) {
-            vy = 0;
-        }
 
-        //move the character, updated method considering camera movements and extended game world
-        x = Math.max(0, Math.min(x + vx, gameWorld.getW() - w));
-        y = Math.max(0, Math.min(y + vy, gameWorld.getH() - h));
+        //check if active
+        if (cameraHandlerClass != null)
+            isZombieActive = x >= cameraHandlerClass.getMinX() && x <= cameraHandlerClass.getMaxX();
+        else
+            System.out.println("Null !!");
 
-        if (platformWherePlaced.isPlatformDestroyed()) {
-            ground = pApplet.height + h;
-        } else {
-            ground = platformWherePlaced.getY();
-        }
+        if (isZombieActive) {
+            vy += gravity;
+            if (vy > 3 * speedLimit) {
+                vy = 3 * speedLimit;
+            }
+            if (PApplet.abs(vy) < 0.2) {
+                vy = 0;
+            }
+
+            //move the character, updated method considering camera movements and extended game world
+            x = Math.max(0, Math.min(x + vx, gameWorld.getW() - w));
+            y = Math.max(0, Math.min(y + vy, gameWorld.getH() - h));
+
+            if (platformWherePlaced.isPlatformDestroyed()) {
+                ground = pApplet.height + h;
+            } else {
+                ground = platformWherePlaced.getY();
+            }
 
 //        if(isDead) {
 //            ground = pApplet.height + h;
 //        }
 
-        checkBoundaries();
+            checkBoundaries();
+        }
     }
 
     @Override
@@ -164,5 +180,9 @@ public class ZombieMouseCharacter extends CharacterBaseClass {
             }
             y = ground - h;
         }
+    }
+
+    public boolean isZombieActive() {
+        return isZombieActive;
     }
 }

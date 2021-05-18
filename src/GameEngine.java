@@ -508,7 +508,7 @@ public class GameEngine {
                         pApplet,
                         null,
                         enemyWalkRight,
-                        enemyWalkLeft, enemyDeathLeft, enemyDeathRight));
+                        enemyWalkLeft, enemyDeathLeft, enemyDeathRight, cameraHandlerClass));
             } else {
                 enemyArray.add(new SmartZombieCharacter(
                         getPlatformToPlaceItem(true, false, false, true),
@@ -517,7 +517,7 @@ public class GameEngine {
                         pApplet,
                         null,
                         right_smart_enemy_sprites,
-                        left_smart_enemy_sprites, enemyDeathLeft, enemyDeathRight));
+                        left_smart_enemy_sprites, enemyDeathLeft, enemyDeathRight, cameraHandlerClass));
             }
         }
         return enemyArray;
