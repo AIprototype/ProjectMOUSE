@@ -96,7 +96,7 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
         }
     }
 
-    private void displayExitChatBubble(String message, float textSize) {
+    private void displayChatBubble(String message, float textSize, boolean isExit) {
         pApplet.textSize(textSize);
         float titleWidth = pApplet.textWidth(message);
         float titleAscent = pApplet.textAscent();
@@ -137,7 +137,13 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
         }
 
         if (platformBeingUsed != null && platformBeingUsed instanceof ExitPlatform) {
-            displayExitChatBubble(PRESS_ENTER_TO_PROCEED_STRING, 15);
+            if(pointsGainedByPlayer >= SILVER_MAX_SCORE) {
+                ((ExitPlatform)platformBeingUsed).setExitEnabled(true);
+                displayChatBubble(PRESS_ENTER_TO_PROCEED_STRING, 15, true);
+            } else {
+                ((ExitPlatform)platformBeingUsed).setExitEnabled(false);
+                displayChatBubble(NEED_TO_COLLECT_MORE_POINTS, 15, false);
+            }
         }
 
         //changing animation speed depending on speed gained by character

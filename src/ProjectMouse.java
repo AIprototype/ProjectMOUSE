@@ -594,7 +594,7 @@ public class ProjectMouse extends PApplet {
         }
         if (key == ENTER || key == RETURN) {
             if (!isLoading && CURRENT_GAME_STATE == GAME_STARTED_GAME_STATE) {
-                if (player.getPlatformBeingUsed() instanceof ExitPlatform) {
+                if (player.getPlatformBeingUsed() instanceof ExitPlatform && ((ExitPlatform)player.getPlatformBeingUsed()).isExitEnabled()) {
                     victoryPage.setTotalScoreValue(String.valueOf(player.getPointsGainedByPlayer()));
                     CURRENT_GAME_STATE = VICTORY_GAME_STATE;
                 } else {

@@ -12,6 +12,7 @@ public class ExitPlatform extends StandardPlatform {
     PImage[] door_opening_sprites;
     int openingAnimCount;
     int closingAnimCount;
+    boolean isExitEnabled;
 
     public ExitPlatform(PImage[] platformSpriteImages, PApplet pApplet, float x, float y, float w, float h, String typeof, int initialPlatformCost, PImage[] door_opening_sprites, boolean exitAtRightEnd, CameraHandlerClass cameraHandlerClass) {
         super(platformSpriteImages, pApplet, x, y, w, h, typeof, initialPlatformCost, cameraHandlerClass);
@@ -22,6 +23,16 @@ public class ExitPlatform extends StandardPlatform {
         this.closingAnimCount = 0;
 
         this.exitAtRightEnd = exitAtRightEnd;
+
+        this.isExitEnabled = false;
+    }
+
+    public boolean isExitEnabled() {
+        return isExitEnabled;
+    }
+
+    public void setExitEnabled(boolean exitEnabled) {
+        isExitEnabled = exitEnabled;
     }
 
     @Override
