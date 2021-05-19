@@ -67,8 +67,9 @@ final public class Constants {
     public static final int ELECTRICITY_SPARK_WIDTH = 85;
     public static final int ELECTRICITY_SPARK_HEIGHT = 55;
 
-    public static final int HALLOWEEN_COLLECTIBLE_POINTS = 15;
+    public static final int HALLOWEEN_COLLECTIBLE_POINTS = 18;
     public static final int ENEMY_DESTROYED_USING_BOLTS_POINTS = 25;
+    public static final int ENEMY_DESTROYED_USING_STOMPING_POINTS = 10;
     public static final int POINTS_LOST_PER_MINUTE = -1;
     public static final int POINTS_GAINED_DESTROYING_CLONING_CONTAINERS = 30;
     public static final int POINTS_LOST_DUE_TO_MISSED_ENERGY_BOLTS = -5;
@@ -85,7 +86,7 @@ final public class Constants {
 
     public static final float BRONZE_MAX_SCORE = 155;
     public static final float SILVER_MAX_SCORE = 385;
-    public static final float GAME_END_SCORE = 350;
+    public static final float GAME_END_SCORE = 300;
 
     public static final String LOADING_STRING = "Loading..";
     public static final String PRESS_ENTER_STRING = "Press Enter to continue..";

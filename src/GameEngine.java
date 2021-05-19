@@ -475,7 +475,7 @@ public class GameEngine {
         }
         //console pc
         ArrayList<ConsolePc> consolePcList = new ArrayList<>();
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 5; ++i) {
             consolePcList.add(new ConsolePc(pApplet, getPlatformToPlaceItem(true, false, true, false), consolePcSprites, cameraHandlerClass));
         }
         collectableArray.addAll(consolePcList);

@@ -309,6 +309,8 @@ public class ProjectMouse extends PApplet {
             String collisionSide = playerZombieCollision(player, enemy);
             if (collisionSide.trim().equalsIgnoreCase("top")) {
                 enemy.deathAnimation();
+                player.addToPlayerHealth(HEALTH_REDUCED_BY_ENEMY_TOUCH);
+                player.addPointsGainedByPlayer(ENEMY_DESTROYED_USING_STOMPING_POINTS);
             } else if (collisionSide.trim().equalsIgnoreCase("right") || collisionSide.trim().equalsIgnoreCase("left")) {
                 //enemy dies, but player looses lot of health
                 enemy.deathAnimation();
