@@ -84,7 +84,8 @@ final public class Constants {
     public static final int HEART_HEIGHT = 30;
 
     public static final float BRONZE_MAX_SCORE = 155;
-    public static final float SILVER_MAX_SCORE = 370;
+    public static final float SILVER_MAX_SCORE = 385;
+    public static final float GAME_END_SCORE = 350;
 
     public static final String LOADING_STRING = "Loading..";
     public static final String PRESS_ENTER_STRING = "Press Enter to continue..";

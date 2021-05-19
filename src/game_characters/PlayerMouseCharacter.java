@@ -137,7 +137,7 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
         }
 
         if (platformBeingUsed != null && platformBeingUsed instanceof ExitPlatform) {
-            if(pointsGainedByPlayer >= SILVER_MAX_SCORE) {
+            if(pointsGainedByPlayer >= GAME_END_SCORE) {
                 ((ExitPlatform)platformBeingUsed).setExitEnabled(true);
                 displayChatBubble(PRESS_ENTER_TO_PROCEED_STRING, 15, true);
             } else {
