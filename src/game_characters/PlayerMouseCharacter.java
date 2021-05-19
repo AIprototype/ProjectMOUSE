@@ -27,7 +27,6 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
         this.pointsGainedByPlayer = 0;
         this.countOfHalloweenCollectiblesCollected = 0;
         this.countOfCloningContainersDestroyed = 0;
-        this.playerHealth = 100;
 
         this.curr_time = 0;
         this.timeAfterWhichPlatformHealthReductionTakesPlace = 1000;
@@ -35,12 +34,15 @@ public class PlayerMouseCharacter extends CharacterBaseClass {
         if(userSelectedGameMode == NORMAL_MODE_OPTION_ID) {
             this.friction = PLAYER_FRICTION;
             this.bounce = PLAYER_BOUNCE;
+            this.playerHealth = 100;
         } else if (userSelectedGameMode == BOUNCY_MODE_OPTION_ID) {
             this.friction = PLAYER_FRICTION;
             this.bounce = PLAYER_BOUNCE_BOUNCY_MODE;
-        } else if (userSelectedGameMode == SLIPPERY_MODE_OPTION_ID) {
-            this.friction = PLAYER_FRICTION_SLIPPERY_MODE;
+            this.playerHealth = 100;
+        } else if (userSelectedGameMode == EXTREME_DIFFICULTY_MODE) {
+            this.friction = PLAYER_FRICTION;
             this.bounce = PLAYER_BOUNCE;
+            this.playerHealth = 85;
         }
     }
 
